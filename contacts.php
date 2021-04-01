@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" href="css/base.css">
-    <title>BIblioteca facile!</title>
+    <title>Biblioteca facile!</title>
 
 </head>
 
