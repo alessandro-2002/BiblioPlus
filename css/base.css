@@ -15,3 +15,9 @@
 .books table, th, tr, td {
     border: 1px solid black;
 }
+
+.search{
+    text-align: center;
+    width: 50%;
+    margin: auto;
+}

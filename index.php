@@ -175,7 +175,7 @@
                         echo "<td>" . $book['ISBN'] . "</td>";
 
                         //title
-                        echo "<td>" . $book['title'] . "</td>";
+                        echo "<td><a href=\"book_detail.php?ISBN=" . $book['ISBN'] . "\">" . $book['title'] . "</a></td>";
 
                         //subtitle
                         echo "<td>" . $book['subtitle'] . "</td>";
