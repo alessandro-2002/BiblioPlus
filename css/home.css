@@ -1,0 +1,18 @@
+.books img {
+    height: 200px;
+    width: 200px;
+}
+
+.books table {
+    width: 100%;
+}
+
+.books table, th, tr, td {
+    border: 1px solid black;
+}
+
+.search {
+    text-align: center;
+    width: 50%;
+    margin: auto;
+}
