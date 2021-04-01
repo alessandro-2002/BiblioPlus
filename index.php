@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/home.css">
     <title>Biblioteca facile!</title>
 
 </head>
@@ -33,11 +34,13 @@
 
         //get books list
         //preparo query di base
-        $query = "SELECT ISBN, title, subtitle, cover, name AS publisher
+        $query = "SELECT ISBN, title, subtitle, cover, name AS publisher, publisher.idPublisher AS idPublisher
                 FROM book, publisher
                 WHERE book.idPublisher = publisher.idPublisher";
 
         //controllo get in caso di ricerca
+
+        //ricerca per isbn
         if (isset($_GET['ISBN']) && $_GET['ISBN'] != "") {
 
             //controllo se l'isbn contiene solo numeri 
@@ -54,13 +57,26 @@
                     <strong>Attenzione!</strong> L'ISBN inserito non è valido, ricorda che è costituito da soli numeri.
                     </div>";
             }
-        } else if (isset($_GET['title']) && $_GET['title'] != "") {
+        }
+
+        //ricerca per titolo
+        if (isset($_GET['title']) && $_GET['title'] != "") {
 
             //preparo aggiunta condizione
             $query = $query . ' AND title= :title';
 
             //array di valori da passare
             $values = array(':title' => $_GET['title']);
+        }
+
+        //ricerca per autore
+        if (isset($_GET['publisher']) && $_GET['publisher'] != "") {
+
+            //preparo aggiunta condizione
+            $query = $query . ' AND publisher.idPublisher= :publisher';
+
+            //array di valori da passare
+            $values = array(':publisher' => $_GET['publisher']);
         }
 
         /* esecuzione query */
@@ -195,7 +211,7 @@
                         echo "</td>";
 
                         //publisher
-                        echo "<td>" . $book['publisher'] . "</td>";
+                        echo "<td><a href=\"index.php?publisher=" . $book['idPublisher'] . "\">" . $book['publisher'] . "</a></td>";
 
                         echo "</tr>";
                     }
