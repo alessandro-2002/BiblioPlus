@@ -63,13 +63,13 @@
         if (isset($_GET['title']) && $_GET['title'] != "") {
 
             //preparo aggiunta condizione
-            $query = $query . ' AND title= :title';
+            $query = $query . ' AND title = :title';
 
             //array di valori da passare
             $values = array(':title' => $_GET['title']);
         }
 
-        //ricerca per autore
+        //ricerca per editore
         if (isset($_GET['publisher']) && $_GET['publisher'] != "") {
 
             //preparo aggiunta condizione

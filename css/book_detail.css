@@ -1,7 +1,6 @@
 .book .left {
     width: 50%;
     float: left;
-    text-align: center;
 }
 
 .book .right {
@@ -10,18 +9,19 @@
     float: right;
 }
 
-.book .left #cover{
+.book .left #cover {
     max-width: 75%;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
 }
 
-.book .right #details .property{
+.book .right #details .property {
     font-weight: bold;
     padding-right: 20px;
     padding-top: 5px;
-
 }
 
-.book .right #details .content{
+.book .right #details .content {
     padding-top: 5px;
-
 }

@@ -27,9 +27,9 @@
 
 
                 if ($fileName == "index.php") {
-                    echo '<a class="active" href="/">Home</a>';
+                    echo '<a class="active" href="/">Catalogo</a>';
                 } else {
-                    echo '<a href="/">Home</a>';
+                    echo '<a href="/">Catalogo</a>';
                 }
 
                 if ($fileName == "contacts.php") {

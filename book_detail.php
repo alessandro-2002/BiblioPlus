@@ -89,7 +89,6 @@ if (!isset($_GET['ISBN']) || $_GET['ISBN'] == "")
                 //fetch
                 $autori = $res->fetchAll();
             } catch (PDOException $e) {
-                echo $e;
 
                 //in caso di errore stampo con stile
                 echo "<div class=\"alert alert-danger\">
