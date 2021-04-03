@@ -1,0 +1,27 @@
+.book .left {
+    width: 50%;
+    float: left;
+    text-align: center;
+}
+
+.book .right {
+    width: 50%;
+    margin: auto;
+    float: right;
+}
+
+.book .left #cover{
+    max-width: 75%;
+}
+
+.book .right #details .property{
+    font-weight: bold;
+    padding-right: 20px;
+    padding-top: 5px;
+
+}
+
+.book .right #details .content{
+    padding-top: 5px;
+
+}
