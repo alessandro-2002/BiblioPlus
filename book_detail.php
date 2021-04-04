@@ -24,7 +24,7 @@ if (!isset($_GET['ISBN']) || $_GET['ISBN'] == "")
         //cerco dati libro da mostrare
         //preparo query di ricerca
         $ISBN = htmlspecialchars($_GET['ISBN']);
-        $query = "SELECT BOOK.ISBN, title, subtitle, language, year, cover, name AS publisher, publisher.idPublisher AS idPublisher, COUNT(copy.idCopy) AS copyNumber
+        $query = "SELECT book.ISBN, title, subtitle, language, year, cover, name AS publisher, publisher.idPublisher AS idPublisher, COUNT(copy.idCopy) AS copyNumber
                 FROM book  
                 INNER JOIN publisher ON book.idPublisher = publisher.idPublisher
                 /* join con copie NON in prestito */

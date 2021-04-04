@@ -25,6 +25,85 @@
 
             <form action="index.php" method="get">
                 <input type="text" placeholder="Titolo..." name="title" />
+
+                <br>
+
+                <select name=publisherId>
+                    <option value="" disabled selected>Editore...</option>
+
+                    <?php
+                    /* ricerca lista editori */
+
+                    //query 
+                    $query = "SELECT idPublisher, name
+                            FROM publisher";
+
+                    /* esecuzione query */
+                    try {
+                        //prepare query
+                        $res = $pdo->prepare($query);
+
+                        //secuzione 
+                        $res->execute();
+                    } catch (PDOException $e) {
+
+                        //in caso di errore stampo con stile
+                        echo "<div class=\"alert alert-danger\">
+                            <strong>Errore!</strong> Errore nella ricerca
+                            </div>";
+                    }
+
+                    //fetch
+                    $publishers = $res->fetchAll();
+
+                    //stampa options
+                    foreach ($publishers as $publisher) {
+                        echo '<option value="' . $publisher['idPublisher'] . '">' . $publisher['name'] . '</option>';
+                    }
+
+                    ?>
+
+                </select>
+
+                <br>
+
+                <select name=authorId>
+                    <option value="" disabled selected>Autore...</option>
+
+                    <?php
+                    /* ricerca lista autori */
+
+                    //query 
+                    $query = "SELECT idAuthor, name, surname
+                            FROM author
+                            ORDER BY surname";
+
+                    /* esecuzione query */
+                    try {
+                        //prepare query
+                        $res = $pdo->prepare($query);
+
+                        //secuzione 
+                        $res->execute();
+                    } catch (PDOException $e) {
+
+                        //in caso di errore stampo con stile
+                        echo "<div class=\"alert alert-danger\">
+                            <strong>Errore!</strong> Errore nella ricerca
+                            </div>";
+                    }
+
+                    //fetch
+                    $authors = $res->fetchAll();
+
+                    //stampa options
+                    foreach ($authors as $author) {
+                        echo '<option value="' . $author['idAuthor'] . '">'  . $author['surname'] . ' ' . $author['name'] .  '</option>';
+                    }
+
+                    ?>
+
+                </select>
                 <button type="submit">Submit</button>
             </form>
 
@@ -38,6 +117,10 @@
                 FROM book, publisher
                 WHERE book.idPublisher = publisher.idPublisher";
 
+
+        //array per eventuale passaggio di valori di ricerca
+        $values = array();
+
         //controllo get in caso di ricerca
 
         //ricerca per isbn
@@ -50,7 +133,7 @@
                 $query = $query . " AND ISBN = :ISBN";
 
                 //array di valori da passare
-                $values = array(':ISBN' => $_GET['ISBN']);
+                $values[':ISBN'] = $_GET['ISBN'];
             } else {
                 //se inserito errato stampo warning ma mostro comunque tutta la lista dei titoli
                 echo "<div class=\"alert alert-warning\">
@@ -66,17 +149,29 @@
             $query = $query . ' AND title = :title';
 
             //array di valori da passare
-            $values = array(':title' => $_GET['title']);
+            $values[':title'] = $_GET['title'];
         }
 
-        //ricerca per editore
-        if (isset($_GET['publisher']) && $_GET['publisher'] != "") {
+        //ricerca per editore con Id
+        if (isset($_GET['publisherId']) && $_GET['publisherId'] != "") {
 
             //preparo aggiunta condizione
             $query = $query . ' AND publisher.idPublisher= :publisher';
 
             //array di valori da passare
-            $values = array(':publisher' => $_GET['publisher']);
+            $values[':publisher'] = $_GET['publisherId'];
+        }
+
+        //ricerca per autore con Id
+        if (isset($_GET['authorId']) && $_GET['authorId'] != "") {
+
+            //preparo aggiunta condizione
+            $query = $query . ' AND book.ISBN IN (SELECT ISBN
+                                                FROM write_book
+                                                WHERE idAuthor = :author)';
+
+            //array di valori da passare
+            $values[':author'] = $_GET['authorId'];
         }
 
         /* esecuzione query */
@@ -91,7 +186,6 @@
                 $res->execute();
             }
         } catch (PDOException $e) {
-
             //in caso di errore stampo con stile
             echo "<div class=\"alert alert-danger\">
                     <strong>Errore!</strong> Errore nella ricerca
@@ -201,7 +295,7 @@
 
                         //stampo gli autori utilizzando l'index per capire se devo mettere la virgola (o se è l'ultimo)
                         foreach ($autori as $index => $autore) {
-                            echo $autore['name'] . " " . $autore['surname'];
+                            echo '<a href="index.php?authorId=' . $autore['idAuthor'] . '">' . $autore['name'] . " " . $autore['surname'] . '</a>';
 
                             if (count($autori) > $index + 1) {
                                 echo ", ";
@@ -211,7 +305,7 @@
                         echo "</td>";
 
                         //publisher
-                        echo "<td><a href=\"index.php?publisher=" . $book['idPublisher'] . "\">" . $book['publisher'] . "</a></td>";
+                        echo "<td><a href=\"index.php?publisherId=" . $book['idPublisher'] . "\">" . $book['publisher'] . "</a></td>";
 
                         echo "</tr>";
                     }
