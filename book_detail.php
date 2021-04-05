@@ -24,7 +24,7 @@ if (!isset($_GET['ISBN']) || $_GET['ISBN'] == "")
         //cerco dati libro da mostrare
         //preparo query di ricerca
         $ISBN = htmlspecialchars($_GET['ISBN']);
-        $query = "SELECT book.ISBN, title, subtitle, language, year, cover, name AS publisher, publisher.idPublisher AS idPublisher, COUNT(copy.idCopy) AS copyNumber
+        $query = "SELECT book.ISBN, title, subtitle, language, year, cover, name AS publisher, publisher.idPublisher, COUNT(copy.idCopy) AS copyNumber
                 FROM book  
                 INNER JOIN publisher ON book.idPublisher = publisher.idPublisher
                 /* join con copie NON in prestito */
@@ -153,8 +153,9 @@ if (!isset($_GET['ISBN']) || $_GET['ISBN'] == "")
                             <td class="content">
                                 <?php
                                 //stampo gli autori utilizzando l'index per capire se devo mettere la virgola (o se è l'ultimo)
+                                //aggiungo collegamento per ricerca nell'index
                                 foreach ($autori as $index => $autore) {
-                                    echo $autore['name'] . " " . $autore['surname'];
+                                    echo "<a href='index.php?authorId=" . $autore['idAuthor'] . "'>" . $autore['name'] . " " . $autore['surname'] . '</a>';
 
                                     if (count($autori) > $index + 1) {
                                         echo ", ";
@@ -189,7 +190,7 @@ if (!isset($_GET['ISBN']) || $_GET['ISBN'] == "")
                             </td>
                             <td class="content">
                                 <?php
-                                echo htmlspecialchars($book['publisher']);
+                                echo "<a href='index.php?publisherId=" . $book['idPublisher'] . "'>" . htmlspecialchars($book['publisher']) . "</a>";
                                 ?>
                             </td>
                         </tr>
