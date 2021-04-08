@@ -23,7 +23,7 @@ if (!isset($_GET['ISBN']) || $_GET['ISBN'] == "")
 
         //cerco dati libro da mostrare
         //preparo query di ricerca
-        $ISBN = htmlspecialchars($_GET['ISBN']);
+        $ISBN = htmlspecialchars($_GET['ISBN'], ENT_QUOTES);
         $query = "SELECT book.ISBN, title, subtitle, language, year, cover, name AS publisher, publisher.idPublisher, COUNT(copy.idCopy) AS copyNumber
                 FROM book  
                 INNER JOIN publisher ON book.idPublisher = publisher.idPublisher
@@ -132,7 +132,7 @@ if (!isset($_GET['ISBN']) || $_GET['ISBN'] == "")
                             </td>
                             <td class="content">
                                 <?php
-                                echo htmlspecialchars($book['title']);
+                                echo htmlspecialchars($book['title'], ENT_QUOTES);
                                 ?>
                             </td>
                         </tr>
@@ -142,7 +142,7 @@ if (!isset($_GET['ISBN']) || $_GET['ISBN'] == "")
                             </td>
                             <td class="content">
                                 <?php
-                                echo htmlspecialchars($book['subtitle']);
+                                echo htmlspecialchars($book['subtitle'], ENT_QUOTES);
                                 ?>
                             </td>
                         </tr>
@@ -170,7 +170,7 @@ if (!isset($_GET['ISBN']) || $_GET['ISBN'] == "")
                             </td>
                             <td class="content">
                                 <?php
-                                echo htmlspecialchars($book['language']);
+                                echo htmlspecialchars($book['language'], ENT_QUOTES);
                                 ?>
                             </td>
                         </tr>
@@ -180,7 +180,7 @@ if (!isset($_GET['ISBN']) || $_GET['ISBN'] == "")
                             </td>
                             <td class="content">
                                 <?php
-                                echo htmlspecialchars($book['year']);
+                                echo htmlspecialchars($book['year'], ENT_QUOTES);
                                 ?>
                             </td>
                         </tr>
@@ -190,7 +190,7 @@ if (!isset($_GET['ISBN']) || $_GET['ISBN'] == "")
                             </td>
                             <td class="content">
                                 <?php
-                                echo "<a href='index.php?publisherId=" . $book['idPublisher'] . "'>" . htmlspecialchars($book['publisher']) . "</a>";
+                                echo "<a href='index.php?publisherId=" . $book['idPublisher'] . "'>" . htmlspecialchars($book['publisher'], ENT_QUOTES) . "</a>";
                                 ?>
                             </td>
                         </tr>
@@ -200,7 +200,7 @@ if (!isset($_GET['ISBN']) || $_GET['ISBN'] == "")
                             </td>
                             <td class="content">
                                 <?php
-                                echo htmlspecialchars($book['copyNumber']);
+                                echo htmlspecialchars($book['copyNumber'], ENT_QUOTES);
                                 ?>
                             </td>
                         </tr>

@@ -19,29 +19,40 @@
         <!-- barra di ricerca -->
         <div class="search">
             <form action="index.php" method="get">
-                <input type="text" placeholder="ISBN..." name="ISBN" />
+                <input type="text" placeholder="ISBN..." name="ISBN" <?php
+                                                                        //controllo se si sta cercando per isbn e lo metto nella textbox
+                                                                        if (isset($_GET['ISBN']) && $_GET['ISBN'] != "") {
+                                                                            echo "value='" . htmlspecialchars($_GET['ISBN'], ENT_QUOTES) . "'";
+                                                                        }
+                                                                        ?> />
                 <button type="submit">Submit</button>
             </form>
 
             <form action="index.php" method="get">
-                <input type="text" placeholder="Titolo..." name="title" />
+                <input type="text" placeholder="Titolo..." name="title" <?php
+
+                                                                        //controllo se si sta cercando per titolo e lo metto nella textbox
+                                                                        if (isset($_GET['title']) && $_GET['title'] != "") {
+                                                                            echo "value='" . htmlspecialchars($_GET['title'], ENT_QUOTES) . "'";
+                                                                        }
+                                                                        ?> />
 
                 <br>
 
                 <select name=publisherId>
-                    <option value="" disabled selected>Editore...</option>
+                    <option value="" selected>Editore...</option>
 
                     <?php
                     /* ricerca lista editori */
 
                     //query 
-                    $query = "SELECT idPublisher, name
+                    $queryP = "SELECT idPublisher, name
                             FROM publisher";
 
                     /* esecuzione query */
                     try {
                         //prepare query
-                        $res = $pdo->prepare($query);
+                        $res = $pdo->prepare($queryP);
 
                         //secuzione 
                         $res->execute();
@@ -58,7 +69,13 @@
 
                     //stampa options
                     foreach ($publishers as $publisher) {
-                        echo '<option value="' . $publisher['idPublisher'] . '">' . $publisher['name'] . '</option>';
+                        echo '<option value="' . $publisher['idPublisher'] . '"';
+
+                        //se è in atto ricerca per editore lo seleziono
+                        if (isset($_GET['publisherId']) && $_GET['publisherId'] == $publisher['idPublisher']) {
+                            echo " selected ";
+                        }
+                        echo '>' . $publisher['name'] . '</option>';
                     }
 
                     ?>
@@ -68,20 +85,20 @@
                 <br>
 
                 <select name=authorId>
-                    <option value="" disabled selected>Autore...</option>
+                    <option value="" selected>Autore...</option>
 
                     <?php
                     /* ricerca lista autori */
 
                     //query 
-                    $query = "SELECT idAuthor, name, surname
+                    $queryA = "SELECT idAuthor, name, surname
                             FROM author
                             ORDER BY surname";
 
                     /* esecuzione query */
                     try {
                         //prepare query
-                        $res = $pdo->prepare($query);
+                        $res = $pdo->prepare($queryA);
 
                         //secuzione 
                         $res->execute();
@@ -98,7 +115,13 @@
 
                     //stampa options
                     foreach ($authors as $author) {
-                        echo '<option value="' . $author['idAuthor'] . '">'  . $author['surname'] . ' ' . $author['name'] .  '</option>';
+                        echo '<option value="' . $author['idAuthor'] . '"';
+
+                        //se è in atto ricerca per autore lo seleziono
+                        if (isset($_GET['authorId']) && $_GET['authorId'] == $author['idAuthor']) {
+                            echo " selected ";
+                        }
+                        echo '>'  . $author['surname'] . ' ' . $author['name'] .  '</option>';
                     }
 
                     ?>
@@ -108,7 +131,9 @@
             </form>
 
         </div>
+
         <br>
+
         <?php
 
         //get books list
@@ -144,7 +169,6 @@
 
         //ricerca per titolo
         if (isset($_GET['title']) && $_GET['title'] != "") {
-
             //preparo aggiunta condizione
             $query = $query . ' AND title = :title';
 
@@ -173,6 +197,7 @@
             //array di valori da passare
             $values[':author'] = $_GET['authorId'];
         }
+
 
         /* esecuzione query */
         try {
