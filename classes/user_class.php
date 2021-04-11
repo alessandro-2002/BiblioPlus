@@ -27,9 +27,6 @@ class User
     /* avatar dell'utente loggato */
     private $avatar;
 
-    /* isEnabled dell'utente loggato */
-    private $isEnabled;
-
     /* TRUE se autenticato, FALSE altrimenti */
     private $authenticated;
 
@@ -45,7 +42,6 @@ class User
         $this->expiration = NULL;
         $this->address = NULL;
         $this->avatar = NULL;
-        $this->isEnabled = NULL;
 
         /* inizializzo a non autenticato */
         $this->authenticated = FALSE;
@@ -92,11 +88,6 @@ class User
     public function getAvatar(): ?string
     {
         return $this->avatar;
-    }
-
-    public function getIsEnabled(): ?string
-    {
-        return $this->isEnabled;
     }
 
     public function isAuthenticated(): bool
@@ -183,6 +174,49 @@ class User
     }
 
 
+    /********************************************************** */
+
+    /* Funzioni di get vari */
+    //get dal db da id o mail
+
+
+    /* ritorna idUtente dall'email, NULL in caso non ci sia nessuna corrispondenza */
+    public function getIdFromMail(string $mail): ?int
+    {
+        /* Global pdo */
+        global $pdo;
+
+        // Inizializzo valore di ritorno con NULL (Nessun utente)
+        $id = NULL;
+
+        //query di ricerca
+        $query = 'SELECT idUser FROM user WHERE mail = :mail';
+
+        //array di valori da passare
+        $values = array(':mail' => $mail);
+
+        try {
+            //preparo query
+            $res = $pdo->prepare($query);
+
+            //eseguo query
+            $res->execute($values);
+        } catch (PDOException $e) {
+            //in caso di errore restituisco eccezione
+            throw new Exception('Database query error');
+        }
+
+        //fetch del valore di ritorno
+        $row = $res->fetch(PDO::FETCH_ASSOC);
+
+        //se è un array (c'è un valore) ritorno id
+        if (is_array($row)) {
+            $id = $row['idUser'];
+        }
+
+        return $id;
+    }
+
 
     /********************************************************** */
 
@@ -197,29 +231,29 @@ class User
 
         // Controlla se mail è valida o genera eccezione
         if (!$this->isMailValid($mail)) {
-            throw new Exception('Invalid mail');
+            throw new Exception('Mail invalida');
         }
 
         // Controlla se password è valida o genera eccezione
         if (!$this->isPasswordValid($password)) {
-            throw new Exception('Invalid password');
+            throw new Exception('Password non valida');
         }
 
         // Controlla se nome è valido o genera eccezione
         if (!$this->isNameValid($name)) {
-            throw new Exception('Invalid name');
+            throw new Exception('Nome invalido');
         }
 
         // Controlla se cognome è valido o genera eccezione
         if (!$this->isNameValid($surname)) {
-            throw new Exception('Invalid surname');
+            throw new Exception('Cognome invalido');
         }
-        /*
+
         // Controlla se la mail è già registrata
-        if (!is_null(getIdFromMail($mail))) {
-            throw new Exception('Mail already registered');
+        if (!is_null($this->getIdFromMail($mail))) {
+            throw new Exception('Mail già registrata');
         }
-*/
+
 
         /* aggiunta dell'account nel db */
 
@@ -252,5 +286,148 @@ class User
 
         //ritorno ultimo utente aggiunto
         return $pdo->lastInsertId();
+    }
+
+
+    /********************************************************** */
+
+    /* Funzioni sull'utente loggato */
+
+
+    /* Login con mail e password, ritorna true o false e imposta l'oggetto */
+    public function login(string $mail, string $password): bool
+    {
+        /* Global pdo */
+        global $pdo;
+
+
+        //query per prendere dati dalla mail se account è abilitato, solo id per registrazione della sessione
+        $query = 'SELECT idUser, password
+            FROM user
+            WHERE mail = :mail
+                AND isEnabled';
+
+        //array di valori
+        $values = array(':mail' => $mail);
+
+
+        try {
+            //preparo la query
+            $res = $pdo->prepare($query);
+
+            //eseguo la query
+            $res->execute($values);
+        } catch (PDOException $e) {
+            //in caso di eccezione ritorno l'eccezione 
+            throw new Exception('Database query error');
+        }
+
+        //fetch del risultato
+        $res = $res->fetch(PDO::FETCH_ASSOC);
+
+        //se c'è un risultato procedo verificando la password con password_verify
+        if (is_array($res)) {
+            if (password_verify($password, $res['password'])) {
+                //se l'autenticazione è andata a buon fine popolo gli altri campi utili alla registazione della sessione
+                $this->id = intval($res['idUser'], 10);
+                $this->mail = $mail;
+                $this->authenticated = TRUE;
+
+                //registra la sessione
+                $this->registerLoginSession();
+
+                //ritorna autenticazione effettuata con successo
+                return TRUE;
+            }
+        }
+
+        //se non è avvenuta correttamente, si ritorna insuccesso
+        return FALSE;
+    }
+
+
+    /* Registrazione della sessione */
+    //associa all'id dell'utente il codice di sessione
+    private function registerLoginSession()
+    {
+        /* Global pdo */
+        global $pdo;
+
+        //controllo se una sessione è già startata
+        if (session_status() == PHP_SESSION_ACTIVE) {
+            //query per aggiungere la nuova sessione se non esiste, altrimenti faccio replace sul session id già esistente
+            //il DBMS con la funzione di default imposta automaticamente l'expiration dopo 24 ore
+            $query = 'REPLACE INTO user_session (idSession, idUser) VALUES (:idSession, :idUser)';
+
+            //array di valori
+            $values = array(':idSession' => session_id(), ':idUser' => $this->id);
+
+
+            try {
+                //prepara la query
+                $res = $pdo->prepare($query);
+
+                //esegue la query
+                $res->execute($values);
+            } catch (PDOException $e) {
+                //in caso di eccezione ritorno l'eccezione 
+                throw new Exception('Database query error');
+            }
+        }
+    }
+
+    /* Login con sessione, ritorna True se andato a buon fine o false se fallito */
+    public function sessionLogin(): bool
+    {
+        /* Global pdo */
+        global $pdo;
+
+        //controlla se sessione è già startata
+        if (session_status() == PHP_SESSION_ACTIVE) {
+            //query per controllo della sessione nel DB dell'utente abilitato, se non scaduta
+            $query = "SELECT user.idUser, user.name, user.surname, user.mail, user.expiration, user.address, user.avatar, user_session.idSession
+                FROM user, user_session 
+                WHERE user.idUser = user_session.idUser
+                    AND idSession = :idSession 
+                    AND user_session.expiration > NOW() 
+                    AND user.isEnabled";
+
+            //array di valori
+            $values = array(':idSession' => session_id());
+
+
+            try {
+                //preparo query
+                $res = $pdo->prepare($query);
+
+                //eseguo query
+                $res->execute($values);
+            } catch (PDOException $e) {
+                //in caso di eccezione ritorno l'eccezione
+                var_dump($e);
+                throw new Exception('Database query error');
+            }
+
+            //fetch del risultato
+            $res = $res->fetch(PDO::FETCH_ASSOC);
+
+            //se esiste il risultato restituisco il login
+            if (is_array($res)) {
+                //autenticazione avvenuta con successo, popolo l'oggetto e ritorno true
+                $this->id = intval($res['idUser'], 10);
+                $this->name = $res['name'];
+                $this->surname = $res['surname'];
+                $this->mail = $res['mail'];
+                $this->expiration = $res['expiration'];
+                $this->address = $res['address'];
+                $this->avatar = $res['avatar'];
+                $this->authenticated = TRUE;
+
+                return TRUE;
+            }
+        }
+
+        //se non è avvenuta correttamente, si ritorna insuccesso
+        return FALSE;
     }
 }
