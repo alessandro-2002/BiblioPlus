@@ -288,6 +288,27 @@ class User
         return $pdo->lastInsertId();
     }
 
+    /* cancella mediante una query tutte le sessioni scadute dal db */
+    public function expireSession()
+    {
+
+        /* Global pdo */
+        global $pdo;
+
+        $query = "DELETE FROM user_session WHERE NOW() >= expiration";
+
+        try {
+
+            //preparo query
+            $res = $pdo->prepare($query);
+
+            //eseguo query
+            $res->execute();
+        } catch (PDOException $e) {
+            throw new Exception('Database query error');
+        }
+    }
+
 
     /********************************************************** */
 
@@ -350,6 +371,9 @@ class User
     //associa all'id dell'utente il codice di sessione
     private function registerLoginSession()
     {
+        //eliminazione sessioni vecchie
+        $this->expireSession();
+
         /* Global pdo */
         global $pdo;
 
@@ -379,6 +403,9 @@ class User
     /* Login con sessione, ritorna True se andato a buon fine o false se fallito */
     public function sessionLogin(): bool
     {
+        //eliminazione sessioni vecchie
+        $this->expireSession();
+        
         /* Global pdo */
         global $pdo;
 
