@@ -288,7 +288,9 @@ class User
         return $pdo->lastInsertId();
     }
 
-    /* cancella mediante una query tutte le sessioni scadute dal db */
+    /* cancella mediante una query tutte le sessioni scadute dal db con una semplice query */
+    //la funzione viene invocata ogni volta prima di lavorare con le sessioni (registrazione e login)
+    //il controllo viene comunque effettuato per ridondanza durante il sessionLogin, qui viene eseguita la pulizia dal DB per completezza
     public function expireSession()
     {
 
@@ -298,7 +300,6 @@ class User
         $query = "DELETE FROM user_session WHERE NOW() >= expiration";
 
         try {
-
             //preparo query
             $res = $pdo->prepare($query);
 
@@ -405,7 +406,7 @@ class User
     {
         //eliminazione sessioni vecchie
         $this->expireSession();
-        
+
         /* Global pdo */
         global $pdo;
 
