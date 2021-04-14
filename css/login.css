@@ -1,0 +1,98 @@
+html, body {
+    background: #ffffff;
+    font-family: lucida console;
+    width: 90%;
+    margin: auto;
+}
+
+#login {
+    border: 1px solid #0080ff;
+    width: 30%;
+    height: auto;
+    font-family: lucida console;
+    margin-top: 2%;
+}
+
+header {
+    font-size: 20px;
+    background: #71B8FF;
+    padding-top: 10px;
+    padding-bottom: 2px;
+    text-align: center;
+    border-bottom: 1px solid #0080ff;
+}
+
+#form {
+    text-align: center;
+}
+
+#txt {
+    border: 1px solid #000000;
+    margin-top: 3px;
+    margin-left: 10px;
+    width: 60%;
+}
+
+#button {
+    margin-top: 5px;
+    margin-bottom: 5px;
+    padding: 3px;
+    border: 1px solid #0080ff;
+    background: #ccc;
+    width: 100px;
+    color: #000000;
+}
+
+#button:hover {
+    margin-top: 5px;
+    padding: 3px;
+    border: 1px solid #0080ff;
+    background: #ededed;
+    width: 100px;
+    color: #444444;
+}
+
+#footer {
+    bottom: 1px;
+    z-index: 50%;
+    position: fixed;
+    width: 100%;
+}
+
+/* Private.php*/
+
+#topbar {
+    width: 100%;
+    border-bottom: 1px solid #0080ff;
+    background: #71b8ff;
+    padding-right: 16px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    margin-right: -20px;
+    margin-left: -8px;
+    margin-top: -8px;
+}
+
+#logout {
+    margin-left: 20px;
+    border: 1px solid #0080ff;
+    padding-top: 3px;
+    padding-bottom: 3px;
+    padding-left: 20px;
+    padding-right: 20px;
+    background: #ccc;
+    color: #000000;
+    text-decoration: none;
+}
+
+#logout:hover {
+    margin-left: 20px;
+    border: 1px solid #0080ff;
+    padding-top: 3px;
+    padding-bottom: 3px;
+    padding-left: 20px;
+    padding-right: 20px;
+    background: #ededed;
+    color: #444444;
+    text-decoration: none;
+}
