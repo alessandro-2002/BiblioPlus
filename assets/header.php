@@ -10,7 +10,7 @@
     <?php
     //require del login e del db
     require_once("db.php");
-    require_once("check_login.php");
+    require_once("user_check_login.php");
     ?>
 
     <header>
@@ -28,14 +28,22 @@
                 <?php
                 //controllo autenticazione dell'utente e in caso metto i dati
                 if ($account->isAuthenticated()) {
-                    echo "ciao " . $account->getName();
+                    //cover 
+                    echo "<img style='width:60px; heigth=60px;' src='avatars/";
+                    if ($account->getAvatar() != NULL) {
+                        echo $account->getAvatar();
+                    } else {
+                        echo "no-avatar.jpg";
+                    }
+                    echo "' />";
+                    echo "ciao " . $account->getName() . "<br>";
+                    echo "<a href='logout.php'>Logout</a>";
+                    //echo "<div class='logout' href='logout.php>Logout</div>";
                 } else {
-                ?>
-                    <a href="login.php">Accedi o registrati</a>
-                <?php
+
+                    echo '<a class="nav" href="login.php">Accedi o registrati</a>';
                 }
                 ?>
-                <!-- Benvenuto tizio! -->
             </div>
 
             <!-- div down per nav tra le pagine -->
@@ -46,19 +54,19 @@
 
                 //se sono nelle pagine di un nav evidenzio la casella                
                 if ($fileName == "index.php") {
-                    echo '<a class="active" href="/">Catalogo</a>';
+                    echo '<a class="nav active" href="/">Catalogo</a>';
                 } else {
-                    echo '<a href="/">Catalogo</a>';
+                    echo '<a class="nav" href="/">Catalogo</a>';
                 }
 
                 if ($fileName == "contacts.php") {
-                    echo '<a class="active" href="contacts.php">Contatti</a>';
+                    echo '<a class="nav active" href="contacts.php">Contatti</a>';
                 } else {
-                    echo '<a href="contacts.php">Contatti</a>';
+                    echo '<a class="nav" href="contacts.php">Contatti</a>';
                 }
                 ?>
 
-                <a href="admin">Admin</a>
+                <a class="nav" href="admin">Admin</a>
 
 
             </div>
