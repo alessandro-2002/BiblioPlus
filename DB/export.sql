@@ -262,7 +262,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES (1,'Alessandro','Toninelli','toninelli.alessandro02@gmail.com','asdfghjk','2021-07-06 14:38:45','Loc. Baibò 1, 25055 Pisogne (BS)',NULL,1),(5,'alessandro','toninelli','toninelli.alessandro00@gmail.com','$2y$10$UKW9VETeg.eoFpu4UIPL1OFsuVbonQrFhkE7wECGrvtvVXHK6Xnkq','2021-07-20 22:01:07',NULL,NULL,1);
+INSERT INTO `user` VALUES (1,'Alessandro','Toninelli','toninelli.alessandro02@gmail.com','asdfghjk','2021-07-06 14:38:45','Loc. Baibò 1, 25055 Pisogne (BS)',NULL,1),(5,'alessandro','toninelli','toninelli.alessandro00@gmail.com','$2y$10$UKW9VETeg.eoFpu4UIPL1OFsuVbonQrFhkE7wECGrvtvVXHK6Xnkq','2021-07-20 22:01:07',NULL,'5.jpeg',1);
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -329,4 +329,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-04-13 21:09:17
+-- Dump completed on 2021-04-14 22:56:45
