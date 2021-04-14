@@ -432,7 +432,6 @@ class User
                 $res->execute($values);
             } catch (PDOException $e) {
                 //in caso di eccezione ritorno l'eccezione
-                var_dump($e);
                 throw new Exception('Database query error');
             }
 
@@ -457,5 +456,49 @@ class User
 
         //se non è avvenuta correttamente, si ritorna insuccesso
         return FALSE;
+    }
+
+    /* Logout dell'utente corrente */
+    public function logout()
+    {
+        /* Global pdo */
+        global $pdo;
+
+        //controllo se c'è utente loggato, altrimenti nulla
+        if (!$this->authenticated) {
+            return;
+        }
+
+        //reset di tutti gli attributi
+        $this->id = NULL;
+        $this->mail = NULL;
+        $this->name = NULL;
+        $this->surname = NULL;
+        $this->expiration = NULL;
+        $this->address = NULL;
+        $this->avatar = NULL;
+        $this->authenticated = FALSE;
+
+        //se ci sono sessioni attive le elimina dal DB
+        if (session_status() == PHP_SESSION_ACTIVE) {
+
+            //query per eliminazione della sessione
+            $query = 'DELETE FROM user_session WHERE (idSession = :sid)';
+
+            //array di valori 
+            $values = array(':sid' => session_id());
+
+
+            try {
+                //preparo query
+                $res = $pdo->prepare($query);
+
+                //esecuzione query con passaggio di valori
+                $res->execute($values);
+            } catch (PDOException $e) {
+                //in caso di eccezione ritorno l'eccezione
+                throw new Exception('Database query error');
+            }
+        }
     }
 }
