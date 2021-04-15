@@ -11,6 +11,12 @@
 
     require_once('assets/user_check_login.php');
 
+    //controllo che ci sia autenticazione o faccio redirect
+    if(!$account->isAuthenticated()){
+        header('Location: /');
+        die();
+    }
+
     try {
         $account->logout();
         echo '<br><div class="alert alert-success">
