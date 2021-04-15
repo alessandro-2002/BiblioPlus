@@ -288,6 +288,33 @@ class User
         return $pdo->lastInsertId();
     }
 
+
+    /* Elimina un account dato l'id */
+    public function deleteAccount(int $id)
+    {
+        /* Global pdo */
+        global $pdo;
+
+        //query per eliminazione dato id
+        $query = 'DELETE FROM user WHERE account_id = :id';
+
+        //array di valori
+        $values = array(':id' => $id);
+
+        /* Execute the query */
+        try {
+            //preparo query
+            $res = $pdo->prepare($query);
+
+            //eseguo con passaggio di valori
+            $res->execute($values);
+        } catch (PDOException $e) {
+            throw new Exception('Database query error');
+        }
+
+        //l'eliminazione delle sessioni e degli altri collegamenti avviene grazie ai cascade
+    }
+
     /* cancella mediante una query tutte le sessioni scadute dal db con una semplice query */
     //la funzione viene invocata ogni volta prima di lavorare con le sessioni (registrazione e login)
     //il controllo viene comunque effettuato per ridondanza durante il sessionLogin, qui viene eseguita la pulizia dal DB per completezza
