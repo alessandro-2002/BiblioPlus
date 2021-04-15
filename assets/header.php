@@ -36,11 +36,9 @@
                         echo "no-avatar.jpg";
                     }
                     echo "' />";
-                    echo "ciao " . $account->getName() . "<br>";
+                    echo "ciao " . htmlentities($account->getName(), ENT_HTML5, 'ISO-8859-1') . "<br>";
                     echo "<a href='logout.php'>Logout</a>";
-                    //echo "<div class='logout' href='logout.php>Logout</div>";
                 } else {
-
                     echo '<a class="nav" href="login.php">Accedi o registrati</a>';
                 }
                 ?>
