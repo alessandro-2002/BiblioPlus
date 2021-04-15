@@ -301,7 +301,6 @@ class User
         //array di valori
         $values = array(':id' => $id);
 
-        /* Execute the query */
         try {
             //preparo query
             $res = $pdo->prepare($query);
@@ -485,6 +484,73 @@ class User
         return FALSE;
     }
 
+    /* Cambia password dell'account loggato data la vecchia password e la nuova */
+    public function changePassword(string $oldPassword, string $newPassword1, string $newPassword2)
+    {
+        //controllo back-end che le 2 nuove password coincidano
+        if ($newPassword1 != $newPassword2) {
+            throw new Exception("Le 2 password non corrispondono!");
+        }
+
+        //controllo dei requisiti della nuova password
+        if (!$this->isPasswordValid($newPassword1)) {
+            throw new Exception("La nuova password non &egrave; abbastanza sicura!");
+        }
+
+        /* Global pdo */
+        global $pdo;
+
+        //query per get della vecchia password (cifrata)
+        $query = 'SELECT password FROM user WHERE idUser = :idUser';
+
+        //array di valori
+        $values = array(':idUser' => $this->getId());
+
+        try {
+            //preparo query
+            $res = $pdo->prepare($query);
+
+            //eseguo con passaggio di valori
+            $res->execute($values);
+        } catch (PDOException $e) {
+            throw new Exception('Database query error');
+        }
+
+        //fetch del risultato
+        $res = $res->fetchColumn();
+
+        //controllo coincidenza della vecchia password
+        if (!password_verify($oldPassword, $res)) {
+            throw new Exception("La vecchia password non &egrave; corretta!");
+        }
+
+        //hash della nuova password
+        $hash = password_hash($newPassword1, PASSWORD_DEFAULT);
+
+
+        //inserimento della nuova password
+        //query per inserimento nuova password (cifrata) e impostazione nuova data di scadenza
+        $query = 'UPDATE user SET password = :password, expiration = DEFAULT WHERE idUser = :idUser';
+
+        //array di valori
+        $values = array(':password' => $hash, ':idUser' => $this->getId());
+
+        try {
+            //preparo query
+            $res = $pdo->prepare($query);
+
+            //eseguo con passaggio di valori
+            $res->execute($values);
+        } catch (PDOException $e) {
+            throw new Exception('Database query error');
+        }
+
+        //sloggo da tutte le sessioni
+        $this->closeAllSessions();
+
+        return true;
+    }
+
     /* Logout dell'utente corrente */
     public function logout()
     {
@@ -526,6 +592,35 @@ class User
                 //in caso di eccezione ritorno l'eccezione
                 throw new Exception('Database query error');
             }
+        }
+    }
+
+    /* Chiude tutte le sessioni dell'utente corrente */
+    public function closeAllSessions()
+    {
+        /* Global pdo */
+        global $pdo;
+
+        //controlla che qualcuno sia loggato
+        if (!$this->isAuthenticated()) {
+            return;
+        }
+
+        //query per eliminazione di tutte le sessioni
+        $query = 'DELETE FROM user_session WHERE idUser = :idUser';
+
+        //array di valori
+        $values = array(':idUser' => $this->getId());
+
+
+        try {
+            //preparo la query
+            $res = $pdo->prepare($query);
+
+            //eseguo la query con passaggio di valori
+            $res->execute($values);
+        } catch (PDOException $e) {
+            throw new Exception('Database query error');
         }
     }
 }

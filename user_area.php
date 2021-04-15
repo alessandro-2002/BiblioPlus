@@ -20,10 +20,9 @@
             die();
         }
 
-        echo "ok loggato";
-
         ?>
 
+        <a href="change_password.php">Cambio password</a>
 
 
 
