@@ -10,7 +10,7 @@
     <?php
     //require del login e del db
     require_once("db.php");
-    require_once("user_check_login.php");
+    require_once("session_login.php");
     ?>
 
     <header>
@@ -37,7 +37,8 @@
                     }
                     echo "' />";
                     echo "ciao " . htmlentities($account->getName(), ENT_HTML5, 'ISO-8859-1') . "<br>";
-                    echo "<a href='logout.php'>Logout</a>";
+                    echo "<a href='logout.php'>Logout</a><br>";
+                    echo "<a href='user_area.php'>Area Riservata</a><br>";
                 } else {
                     echo '<a class="nav" href="login.php">Accedi o registrati</a>';
                 }

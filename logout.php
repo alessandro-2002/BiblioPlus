@@ -9,7 +9,7 @@
 <body>
     <?php
 
-    require_once('assets/user_check_login.php');
+    require_once('assets/session_login.php');
 
     //controllo che ci sia autenticazione o faccio redirect
     if(!$account->isAuthenticated()){

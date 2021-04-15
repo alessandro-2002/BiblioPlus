@@ -12,15 +12,7 @@
 
     require_once("assets/db.php");
     require_once('classes/user_class.php');
-
-    //start sessione
-    session_start();
-
-    //crea oggetto utente
-    $account = new User();
-
-    //tento session login
-    $login = $account->sessionLogin();
+    require_once('assets/session_login.php');
 
     try {
         //se è già connesso lo reindirizzo in home 
