@@ -49,7 +49,7 @@
                 <p>Login Utente</p>
             </header>
             <form id="form" action="login.php" method="post">
-                <input id="txt" type="text" placeholder="E-Mail" name="mail" required><br>
+                <input id="txt" type="email" placeholder="E-Mail" name="mail" required><br>
                 <input id="txt" type="password" placeholder="Password" name="password" required><br>
                 <hr>
                 <input type="submit" id="button" value="Login">
