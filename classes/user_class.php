@@ -224,7 +224,7 @@ class User
 
 
     /* aggiunge account e ritorna id */
-    public function addAccount(string $mail, string $password, string $name, string $surname, ?string $address, ?string $avatar): int
+    public function addAccount(string $mail, string $password, string $name, string $surname, ?string $address): int
     {
         /* Global pdo */
         global $pdo;
@@ -258,7 +258,7 @@ class User
         /* aggiunta dell'account nel db */
 
         // query di registrazione
-        $query = 'INSERT INTO user (name, surname, mail, password, address, avatar) VALUES (:name, :surname, :mail, :password, :address, :avatar)';
+        $query = 'INSERT INTO user (name, surname, mail, password, address) VALUES (:name, :surname, :mail, :password, :address)';
 
         //hash password
         $hash = password_hash($password, PASSWORD_DEFAULT);
@@ -269,8 +269,7 @@ class User
             ':surname' => $surname,
             ':mail' => $mail,
             ':password' => $hash,
-            ':address' => $address,
-            ':avatar' => $avatar,
+            ':address' => $address
         );
 
         try {
@@ -286,6 +285,87 @@ class User
 
         //ritorno ultimo utente aggiunto
         return $pdo->lastInsertId();
+    }
+
+    /* prende il file dell'avatar, fa l'upload e lo inserisce nel db a partire dall'Id utente */
+    public function editAvatar(int $idUser, $avatar)
+    {
+        //controllo back-end della validità del file di avatar
+        if ($avatar['size'] > 0) {
+            // Controllo che il file non superi i 3 MB
+            if ($avatar['size'] > 3145728) {
+                throw new Exception("L'avatar non deve superare i 3 MB");
+            }
+
+            // Ottengo le informazioni sull'immagine
+            list($width, $height, $type, $attr) = getimagesize($avatar['tmp_name']);
+
+            // Controllo che il file sia in uno dei formati GIF, JPG o PNG
+            if (($type != 1) && ($type != 2) && ($type != 3)) {
+                throw new Exception("L'avatar deve essere un'immagine GIF, JPG o PNG.");
+            }
+        }
+
+        /* Global pdo */
+        global $pdo;
+
+        //controllo se esiste già un avatar per l'utente e in caso lo elimino
+        // query di get avatar
+        $query = 'SELECT avatar FROM user WHERE idUser = :id';
+
+        //array di valori 
+        $values = array(':id' => $idUser);
+
+        try {
+            //preparo query
+            $res = $pdo->prepare($query);
+
+            //eseguo query con passaggio di valori
+            $res->execute($values);
+        } catch (PDOException $e) {
+            throw new Exception('Database query error');
+        }
+
+        //controllo se esiste vecchio avatar e lo elimino
+        if ($res->rowCount() != 0) {
+            //fetch
+            $res = $res->fetchColumn();
+            
+            if ($res != NULL) {
+                //elimino avatar
+                unlink('avatars/' . $res);
+            }
+        }
+
+
+        //upload nuovo avatar
+        //prendo l'estensione del nuovo file
+        $ext = pathinfo($avatar['name'], PATHINFO_EXTENSION);
+
+        //creo il nuovo nome del file
+        $newName = $idUser . "." . $ext;
+
+        // sposto l'immagine nel percorso avatar
+        move_uploaded_file($avatar['tmp_name'], "avatars/" . $newName);
+
+
+        //procedo all'aggiornamento del DB
+        // query di edit avatar
+        $query = 'UPDATE user SET avatar = :avatar WHERE idUser = :id';
+
+        //array di valori 
+        $values = array(':id' => $idUser, ':avatar' => $newName);
+
+        try {
+
+            //preparo query
+            $res = $pdo->prepare($query);
+
+            //eseguo query con passaggio di valori
+            $res->execute($values);
+        } catch (PDOException $e) {
+            throw new Exception('Database query error');
+        }
     }
 
 

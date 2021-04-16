@@ -55,6 +55,7 @@
                 <input type="submit" id="button" value="Login">
             </form>
         </div>
+        Non sei ancora registrato? <a href="register.php">Registrati</a>
         <br>
 
     </center>
