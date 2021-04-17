@@ -7,7 +7,7 @@ set path=D:\software\xampp2\mysql\bin
 mysqldump -u backup -pbackup biblioteca_facile > export.sql
 echo commit
 set path=C:\Program Files\Git\bin
-git add export.sql
+git add .
 git commit -m "auto-export DB"
 echo push
 git push
