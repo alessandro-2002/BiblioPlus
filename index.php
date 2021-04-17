@@ -298,7 +298,7 @@
                         echo "<tr>";
 
                         //cover 
-                        echo "<td><img src='images/";
+                        echo "<td class='picture-box'><img src='images/";
                         if ($book['cover'] != NULL) {
                             echo $book['cover'];
                         } else {
