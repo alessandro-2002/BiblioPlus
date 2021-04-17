@@ -72,10 +72,11 @@
     }
     ?>
 
+    <!-- form di registrazione -->
     <center>
         <div id="login">
             <header>
-                <p>Login Utente</p>
+                <p>Registrazione Utente</p>
             </header>
             <form id="form" action="register.php" method="post" enctype="multipart/form-data">
                 <input id="txt" type="text" placeholder="E-Mail" name="mail" required><br>
@@ -92,6 +93,7 @@
             </form>
         </div>
 
+        <!-- Link in caso sia già registrato che rimanda a login -->
         Sei gi&agrave; registrato? <a href="login.php">Accedi</a>
         <br>
 

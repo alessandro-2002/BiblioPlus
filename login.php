@@ -43,6 +43,7 @@
     }
     ?>
 
+    <!-- form di login -->
     <center>
         <div id="login">
             <header>
@@ -55,6 +56,8 @@
                 <input type="submit" id="button" value="Login">
             </form>
         </div>
+
+        <!-- link in caso non sia già registrato che rimanda a registrazione -->
         Non sei ancora registrato? <a href="register.php">Registrati</a>
         <br>
 
