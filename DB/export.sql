@@ -207,7 +207,7 @@ CREATE TABLE `loan` (
 
 LOCK TABLES `loan` WRITE;
 /*!40000 ALTER TABLE `loan` DISABLE KEYS */;
-INSERT INTO `loan` VALUES (1,1,'2021-04-03 22:38:19',30,'2021-04-04 16:56:43');
+INSERT INTO `loan` VALUES (1,5,'2021-04-03 22:38:19',30,'2021-04-18 16:16:47');
 /*!40000 ALTER TABLE `loan` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -253,7 +253,7 @@ CREATE TABLE `user` (
   `avatar` varchar(20) DEFAULT NULL,
   `isEnabled` tinyint(1) NOT NULL DEFAULT 1,
   PRIMARY KEY (`idUser`)
-) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -262,7 +262,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES (1,'Alessandro','Toninelli','toninelli.alessandro02@gmail.com','asdfghjk','2021-07-06 14:38:45','Loc. Baibò 1, 25055 Pisogne (BS)',NULL,1),(5,'ales<br>sandro','toninelli','toninelli.alessandro00@gmail.com','$2y$10$kCCidRxchyT87HD8u.XiqOeAVU0pIZWcaArgGJ7iDHRWSEpeU0Of6','2021-07-24 23:23:24',NULL,'5.jpeg',1),(23,'Wade','Baisini','sheduxerr@gmail.com','$2y$10$/.YcPX2op9vWPzArrbaXoeGfMcBzVgjlcIw7Vx56qnevOBkQeNXge','2021-07-26 10:41:04',NULL,'23.PNG',1);
+INSERT INTO `user` VALUES (1,'Alessandro','Toninelli','toninelli.alessandro02@gmail.com','$2y$10$kkA6.uGZV.wA3fM10Eeci.01OutlfvgTjGVUomz/yNctwUb5gQYHW','2021-07-27 16:22:26','Loc. Baibò 1, 25055 Pisogne (BS)',NULL,1),(5,'ales<br>sandro','toninelli','toninelli.alessandro00@gmail.com','$2y$10$kCCidRxchyT87HD8u.XiqOeAVU0pIZWcaArgGJ7iDHRWSEpeU0Of6','2021-07-24 23:23:24',NULL,'5.jpeg',1),(23,'Wade','Baisini','sheduxerr@gmail.com','$2y$10$/.YcPX2op9vWPzArrbaXoeGfMcBzVgjlcIw7Vx56qnevOBkQeNXge','2021-07-26 10:41:04',NULL,'23.PNG',1);
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -289,6 +289,7 @@ CREATE TABLE `user_session` (
 
 LOCK TABLES `user_session` WRITE;
 /*!40000 ALTER TABLE `user_session` DISABLE KEYS */;
+INSERT INTO `user_session` VALUES ('dadapgnd6cumg392a0vl26v38i',1,'2021-04-19 16:22:41');
 /*!40000 ALTER TABLE `user_session` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -329,4 +330,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-04-17 10:42:36
+-- Dump completed on 2021-04-18 16:25:33
