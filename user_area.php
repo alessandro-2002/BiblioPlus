@@ -22,7 +22,10 @@
 
         ?>
 
-        <a href="change_password.php">Cambio password</a>
+        <!-- link per collegamenti -->
+        <a href="profile.php">Profilo</a><br>
+        <a href="change_password.php">Cambio password</a><br>
+        <a href="loans.php">I tuoi prestiti</a><br>
 
 
 

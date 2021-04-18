@@ -1,0 +1,33 @@
+.loans table {
+    width: 100%;
+}
+
+.loans td {
+    text-align: center;
+    padding: 5px 5px;
+}
+
+.loans th {
+    background: #b3c1ce;
+    text-align: center;
+    padding: 5px 5px;
+}
+
+.loans table, th, tr, td {
+    border: 1px solid black;
+    text-align: center;
+    padding: 5px 5px;
+}
+
+td.returned{
+    background-color: lightgreen;
+}
+
+td.expired{
+    background-color: red;
+    font-weight: bold;
+}
+
+td.inLoan{
+    background-color: yellow;
+}
