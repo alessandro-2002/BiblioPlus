@@ -12,30 +12,45 @@
     require_once('assets/session_login.php');
 
     //controllo che ci sia autenticazione o faccio redirect
-    if(!$account->isAuthenticated()){
+    if (!$account->isAuthenticated()) {
         header('Location: /');
         die();
     }
 
-    try {
-        $account->logout();
-        echo '<br><div class="alert alert-success">
-                <strong>Logout effettuato!</strong> Logout effettuato con successo, verrai reindirizzato alla home.
+    //controllo se sta sloggando da tutte le sessioni attive
+    if (isset($_GET['session']) && $_GET['session'] == "ALL") {
+
+        try {
+            $account->closeAllSessions();
+
+            echo '<br><div class="alert alert-success">
+                <strong>Logout effettuato!</strong> Logout effettuato con successo da tutte le sessioni, verrai reindirizzato alla home.
             </div>';
 
-        header('Refresh: 2; URL=/');
-        die();
-    } catch (Exception $e) {
+            header('Refresh: 2; URL=/');
+            die();
+        } catch (Exception $e) {
+            echo '<div class="alert alert-danger">
+                <strong>Errore!</strong> Errore durante il logout, verrai reindirizzato alla home.
 
-    ?>
-        <div class="alert alert-danger">
-            <strong>Errore!</strong> Errore durante il logout, verrai reindirizzato alla home.
+            </div>';
+        }
 
-        </div>
-
-    <?php
-        header('Refresh: 3; URL=/');
+        //altrimenti se sta sloggando solo da quella attuale
+    } else {
+        try {
+            $account->logout();
+            echo '<br><div class="alert alert-success">
+                <strong>Logout effettuato!</strong> Logout effettuato con successo, verrai reindirizzato alla home.
+            </div>';
+        } catch (Exception $e) {
+            echo '<div class="alert alert-danger">
+                <strong>Errore!</strong> Errore durante il logout, verrai reindirizzato alla home.
+            </div>';
+        }
     }
+
+    header('Refresh: 3; URL=/');
 
     ?>
 </body>
