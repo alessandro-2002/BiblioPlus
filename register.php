@@ -79,12 +79,12 @@
                 <p>Registrazione Utente</p>
             </header>
             <form id="form" action="register.php" method="post" enctype="multipart/form-data">
-                <input id="txt" type="text" placeholder="E-Mail" name="mail" required><br>
+                <input id="txt" type="text" maxlength="255" placeholder="E-Mail" name="mail" required><br>
                 <input id="txt" type="password" minlength="6" maxlength="15" placeholder="Password" name="password1" required><br>
                 <input id="txt" type="password" minlength="6" maxlength="15" placeholder="Ripeti Password" name="password2" required><br>
-                <input id="txt" type="text" placeholder="Nome" name="name" required><br>
-                <input id="txt" type="text" placeholder="Cognome" name="surname" required><br>
-                <input id="txt" type="text" placeholder="Indirizzo" name="address"><br>
+                <input id="txt" type="text" maxlength="45" placeholder="Nome" name="name" required><br>
+                <input id="txt" type="text" maxlength="45" placeholder="Cognome" name="surname" required><br>
+                <input id="txt" type="text" maxlength="100" placeholder="Indirizzo" name="address"><br>
 
                 Avatar
                 <input id="txt" type="file" name="avatar"><br>
