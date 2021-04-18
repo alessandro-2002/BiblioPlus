@@ -22,7 +22,7 @@
                 <input type="text" placeholder="ISBN..." name="ISBN" <?php
                                                                         //controllo se si sta cercando per isbn e lo metto nella textbox
                                                                         if (isset($_GET['ISBN']) && $_GET['ISBN'] != "") {
-                                                                            echo "value='" . htmlspecialchars($_GET['ISBN'], ENT_QUOTES) . "'";
+                                                                            echo "value='" . htmlentities($_GET['ISBN']) . "'";
                                                                         }
                                                                         ?> />
                 <button type="submit">Submit</button>
@@ -33,7 +33,7 @@
 
                                                                         //controllo se si sta cercando per titolo e lo metto nella textbox
                                                                         if (isset($_GET['title']) && $_GET['title'] != "") {
-                                                                            echo "value='" . htmlspecialchars($_GET['title'], ENT_QUOTES) . "'";
+                                                                            echo "value='" . htmlentities($_GET['title']) . "'";
                                                                         }
                                                                         ?> />
 
@@ -257,10 +257,10 @@
 
                     //query per trovare autori
                     $query = "SELECT author.idAuthor, name, surname
-                    FROM author, write_book AS wb
-                    WHERE author.idAuthor = wb.idAuthor
-                        AND wb.ISBN = :ISBN
-                    ORDER BY wb.position;";
+                        FROM author, write_book AS wb
+                        WHERE author.idAuthor = wb.idAuthor
+                            AND wb.ISBN = :ISBN
+                        ORDER BY wb.position;";
 
                     //prepare query, ottimizza l'esecuzione
                     $res = $pdo->prepare($query);

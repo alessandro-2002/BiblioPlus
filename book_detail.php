@@ -132,7 +132,7 @@ if (!isset($_GET['ISBN']) || $_GET['ISBN'] == "")
                             </td>
                             <td class="content">
                                 <?php
-                                echo htmlspecialchars($book['title'], ENT_QUOTES);
+                                echo htmlentities($book['title']);
                                 ?>
                             </td>
                         </tr>
@@ -142,7 +142,7 @@ if (!isset($_GET['ISBN']) || $_GET['ISBN'] == "")
                             </td>
                             <td class="content">
                                 <?php
-                                echo htmlspecialchars($book['subtitle'], ENT_QUOTES);
+                                echo htmlentities($book['subtitle']);
                                 ?>
                             </td>
                         </tr>
@@ -170,7 +170,7 @@ if (!isset($_GET['ISBN']) || $_GET['ISBN'] == "")
                             </td>
                             <td class="content">
                                 <?php
-                                echo htmlspecialchars($book['language'], ENT_QUOTES);
+                                echo htmlentities($book['language']);
                                 ?>
                             </td>
                         </tr>
@@ -180,7 +180,7 @@ if (!isset($_GET['ISBN']) || $_GET['ISBN'] == "")
                             </td>
                             <td class="content">
                                 <?php
-                                echo htmlspecialchars($book['year'], ENT_QUOTES);
+                                echo htmlentities($book['year']);
                                 ?>
                             </td>
                         </tr>
@@ -190,7 +190,7 @@ if (!isset($_GET['ISBN']) || $_GET['ISBN'] == "")
                             </td>
                             <td class="content">
                                 <?php
-                                echo "<a href='index.php?publisherId=" . $book['idPublisher'] . "'>" . htmlspecialchars($book['publisher'], ENT_QUOTES) . "</a>";
+                                echo "<a href='index.php?publisherId=" . $book['idPublisher'] . "'>" . htmlentities($book['publisher']) . "</a>";
                                 ?>
                             </td>
                         </tr>
@@ -200,7 +200,7 @@ if (!isset($_GET['ISBN']) || $_GET['ISBN'] == "")
                             </td>
                             <td class="content">
                                 <?php
-                                echo htmlspecialchars($book['copyNumber'], ENT_QUOTES);
+                                echo htmlentities($book['copyNumber']);
                                 ?>
                             </td>
                         </tr>

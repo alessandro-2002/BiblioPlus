@@ -47,8 +47,8 @@
                     <!-- menù -->
                     <nav id="userMenu" class="userMenu-content" style="display: none;">
                         <ul>
-                            <li>Benvenuto <?php echo htmlentities($account->getName(), ENT_HTML5, 'ISO-8859-1') . ' ' .
-                                                htmlentities($account->getSurname(), ENT_HTML5, 'ISO-8859-1'); ?> </li>
+                            <li>Benvenuto <?php echo htmlentities($account->getName()) . ' ' .
+                                                htmlentities($account->getSurname()); ?> </li>
                             <li><a href='user_area.php'>Area Riservata</a></li>
                             <li><a href='logout.php'>Logout</a></li>
                         </ul>
