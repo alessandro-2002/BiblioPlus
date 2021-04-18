@@ -113,7 +113,7 @@ class User
         $len = mb_strlen($name);
 
         //lunghezza minima del nome/cognome 1 carattere
-        if ($len < 1) {
+        if ($len < 1 || $len > 45) {
             $res = FALSE;
         }
 
@@ -133,8 +133,8 @@ class User
         //controllo lunghezza
         $len = mb_strlen($mail);
 
-        //lunghezza minima della mail 5 caratteri (a@b.c)
-        if ($len < 5) {
+        //lunghezza minima della mail 5 caratteri (a@b.c) e max 255
+        if ($len < 5 || $len > 255) {
             $res = FALSE;
         }
 
@@ -221,7 +221,6 @@ class User
     /********************************************************** */
 
     /* Funzioni statiche */
-
 
     /* aggiunge account e ritorna id */
     public function addAccount(string $mail, string $password, string $name, string $surname, ?string $address): int
@@ -310,14 +309,32 @@ class User
             throw new Exception('Database query error');
         }
 
-        //controllo se esiste vecchio avatar e lo elimino
-        if ($res->rowCount() != 0) {
-            //fetch
-            $res = $res->fetchColumn();
+        //fetch
+        $res = $res->fetchColumn();
 
-            if ($res != NULL) {
-                //elimino avatar
+        //controllo se esiste vecchio avatar e lo elimino fisicamente e dal DB
+        if ($res != NULL) {
+
+            //elimino avatar se esiste immagine
+            if (file_exists('avatars/' . $res)) {
                 unlink('avatars/' . $res);
+            }
+
+            // query di annullamento avatar
+            $query = 'UPDATE user SET avatar = NULL WHERE idUser = :id';
+
+            //array di valori 
+            $values = array(':id' => $idUser);
+
+            try {
+                
+                //preparo query
+                $res = $pdo->prepare($query);
+
+                //eseguo query con passaggio di valori
+                $res->execute($values);
+            } catch (PDOException $e) {
+                throw new Exception('Database query error');
             }
         }
     }
@@ -371,6 +388,82 @@ class User
             $res = $pdo->prepare($query);
 
             //eseguo query con passaggio di valori
+            $res->execute($values);
+        } catch (PDOException $e) {
+            throw new Exception('Database query error');
+        }
+    }
+
+    /* edita account da id */
+    public function editAccount(int $idUser, string $name, string $surname, string $mail, $optional)
+    {
+        /* Global pdo */
+        global $pdo;
+
+        //controllo validità nome
+        if (!$this->isNameValid($name)) {
+            throw new Exception('Nome invalido');
+        }
+
+        //controllo validità cognome
+        if (!$this->isNameValid($surname)) {
+            throw new Exception('Cognome invalido');
+        }
+
+        //controllo validità mail
+        if (!$this->isMailValid($mail)) {
+            throw new Exception('E-Mail invalida');
+        }
+
+
+        //controlla se esiste utente già registrato con la stessa mail
+        $idFromMail = $this->getIdFromMail($mail);
+
+        if (!is_null($idFromMail) && ($idFromMail != $idUser)) {
+            throw new Exception('E-Mail già utilizzata');
+        }
+
+        //edito account
+
+        //query base
+        $query = 'UPDATE user 
+                SET name = :name, 
+                    surname = :surname, 
+                    mail = :mail';
+
+        //array di valori
+        $values = array(
+            ':idUser' => $idUser,
+            ':name' => $name,
+            ':surname' => $surname,
+            ':mail' => $mail
+        );
+
+        //controllo se vanno aggioranti address e enable (se esistono)
+        if (isset($optional['address'])) {
+            $query = $query . ', address = :address';
+
+            //controllo se NULL
+            if ($optional['address'] == "") {
+                $values[':address'] = NULL;
+            } else {
+                $values[':address'] = $optional['address'];
+            }
+        }
+        if (isset($optional['enabled'])) {
+            $query = $query . ', isEnable = :isEnable';
+            $values[':isEnable'] = $optional['enabled'];
+        }
+
+        //aggiungo ultima parte query
+        $query = $query . ' WHERE idUser = :idUser';
+
+        try {
+
+            //preparo query
+            $res = $pdo->prepare($query);
+
+            //esecuzione con passaggio di valori
             $res->execute($values);
         } catch (PDOException $e) {
             throw new Exception('Database query error');
