@@ -3,6 +3,9 @@
 <head>
     <link rel="stylesheet" href="css/header.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script type="text/javascript" src="js/user_menu.js"></script>
 </head>
 
 <body>
@@ -26,7 +29,7 @@
             <!-- div up dedicato al login/gestione utente -->
             <div id="up">
                 <?php
-                //controllo autenticazione dell'utente e in caso metto i dati
+                //controllo autenticazione dell'utente e in caso metto il menù
                 if ($account->isAuthenticated()) {
                     //cover 
                     echo "<img style='width:60px; heigth=60px;' src='avatars/";
@@ -36,9 +39,21 @@
                         echo "no-avatar.jpg";
                     }
                     echo "' />";
-                    echo "ciao " . htmlentities($account->getName(), ENT_HTML5, 'ISO-8859-1') . "<br>";
-                    echo "<a href='logout.php'>Logout</a><br>";
-                    echo "<a href='user_area.php'>Area Riservata</a><br>";
+
+                ?>
+                    <!-- button per aprire menù -->
+                    <button id="menuButton" onclick="userMenuDrop()">Menu</button>
+
+                    <!-- menù -->
+                    <nav id="userMenu" class="userMenu-content" style="display: none;">
+                        <ul>
+                            <li>Benvenuto <?php echo htmlentities($account->getName(), ENT_HTML5, 'ISO-8859-1') . ' ' .
+                                                htmlentities($account->getSurname(), ENT_HTML5, 'ISO-8859-1'); ?> </li>
+                            <li><a href='user_area.php'>Area Riservata</a></li>
+                            <li><a href='logout.php'>Logout</a></li>
+                        </ul>
+                    </nav>
+                <?php
                 } else {
                     echo '<a class="nav" href="login.php">Accedi o registrati</a>';
                 }

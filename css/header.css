@@ -21,12 +21,6 @@ header .nav {
     border-radius: 4px;
 }
 
-/* Style the logo link (notice that we set the same value of line-height and font-size to prevent the header to increase when the font gets bigger */
-
-header a.logout {
-   
-}
-
 header a.logo {
     width: 50%;
     font-size: 25px;
@@ -58,8 +52,9 @@ header .right {
     float: right;
 }
 
-header .right #right {
+header .right #up {
     vertical-align: top;
+    margin-bottom: 5px;
 }
 
 header .right #down {
@@ -77,4 +72,8 @@ header .right #down {
     header-right {
         float: none;
     }
+}
+
+#userMenu li {
+    list-style-type: none;
 }
