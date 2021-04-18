@@ -287,25 +287,9 @@ class User
         return $pdo->lastInsertId();
     }
 
-    /* prende il file dell'avatar, fa l'upload e lo inserisce nel db a partire dall'Id utente */
-    public function editAvatar(int $idUser, $avatar)
+    /* elimino l'avatar dell'utente (se esiste) di cui è dato l'id */
+    public function removeAvatar(int $idUser)
     {
-        //controllo back-end della validità del file di avatar
-        if ($avatar['size'] > 0) {
-            // Controllo che il file non superi i 3 MB
-            if ($avatar['size'] > 3145728) {
-                throw new Exception("L'avatar non deve superare i 3 MB");
-            }
-
-            // Ottengo le informazioni sull'immagine
-            list($width, $height, $type, $attr) = getimagesize($avatar['tmp_name']);
-
-            // Controllo che il file sia in uno dei formati GIF, JPG o PNG
-            if (($type != 1) && ($type != 2) && ($type != 3)) {
-                throw new Exception("L'avatar deve essere un'immagine GIF, JPG o PNG.");
-            }
-        }
-
         /* Global pdo */
         global $pdo;
 
@@ -330,12 +314,37 @@ class User
         if ($res->rowCount() != 0) {
             //fetch
             $res = $res->fetchColumn();
-            
+
             if ($res != NULL) {
                 //elimino avatar
                 unlink('avatars/' . $res);
             }
         }
+    }
+
+    /* prende il file dell'avatar, fa l'upload e lo inserisce nel db a partire dall'Id utente */
+    public function editAvatar(int $idUser, $avatar)
+    {
+        //controllo back-end della validità del file di avatar
+        if ($avatar['size'] > 0) {
+            // Controllo che il file non superi i 3 MB
+            if ($avatar['size'] > 3145728) {
+                throw new Exception("L'avatar non deve superare i 3 MB");
+            }
+
+            // Ottengo le informazioni sull'immagine
+            list($width, $height, $type, $attr) = getimagesize($avatar['tmp_name']);
+
+            // Controllo che il file sia in uno dei formati GIF, JPG o PNG
+            if (($type != 1) && ($type != 2) && ($type != 3)) {
+                throw new Exception("L'avatar deve essere un'immagine GIF, JPG o PNG.");
+            }
+        }
+
+        /* Global pdo */
+        global $pdo;
+
+        $this->removeAvatar($idUser);
 
 
         //upload nuovo avatar
@@ -367,7 +376,6 @@ class User
             throw new Exception('Database query error');
         }
     }
-
 
     /* Elimina un account dato l'id */
     public function deleteAccount(int $id)
