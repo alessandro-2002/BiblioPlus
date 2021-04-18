@@ -89,7 +89,7 @@
 
 
                     //query di base per trovare i titoli del prestito
-                    $query = "SELECT ISBN, title, copy.idCopy AS idCopy
+                    $query = "SELECT book.ISBN AS ISBN, title, copy.idCopy AS idCopy
                     FROM book, copy, borrow
                     WHERE book.ISBN = copy.ISBN
                         AND copy.idCopy = borrow.idCopy
