@@ -327,7 +327,7 @@ class User
             $values = array(':id' => $idUser);
 
             try {
-                
+
                 //preparo query
                 $res = $pdo->prepare($query);
 
@@ -477,10 +477,10 @@ class User
         global $pdo;
 
         //query per eliminazione dato id
-        $query = 'DELETE FROM user WHERE account_id = :id';
+        $query = 'DELETE FROM user WHERE idUser = :idUser';
 
         //array di valori
-        $values = array(':id' => $id);
+        $values = array(':idUser' => $id);
 
         try {
             //preparo query
