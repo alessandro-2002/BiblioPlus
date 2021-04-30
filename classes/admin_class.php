@@ -560,7 +560,7 @@ class Admin
         //controlla se sessione è già startata
         if (session_status() == PHP_SESSION_ACTIVE) {
             //query per controllo della sessione nel DB, se non scaduta
-            $query = "SELECT admin.idAdmin, name, surname, mail, expiration, ACLcatalogue, ACLloan, ACLuser, ACLadmin, admin_session.idSession
+            $query = "SELECT admin.idAdmin, name, surname, mail, admin.expiration AS ex, ACLcatalogue, ACLloan, ACLuser, ACLadmin, admin_session.idSession
                 FROM admin, admin_session 
                 WHERE admin.idAdmin = admin_session.idAdmin
                     AND idSession = :idSession 
@@ -591,7 +591,7 @@ class Admin
                 $this->name = $res['name'];
                 $this->surname = $res['surname'];
                 $this->mail = $res['mail'];
-                $this->expiration = $res['expiration'];
+                $this->expiration = $res['ex'];
 
                 $this->ACLcatalogue = $res['ACLcatalogue'];
                 $this->ACLloan = $res['ACLloan'];
