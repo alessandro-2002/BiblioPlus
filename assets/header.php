@@ -80,7 +80,7 @@
                 }
                 ?>
 
-                <a class="nav" href="admin">Admin</a>
+                <a class="nav" href="admin" target="_blank">Admin</a>
 
 
             </div>
