@@ -34,7 +34,7 @@ CREATE TABLE `admin` (
   `ACLuser` tinyint(1) NOT NULL DEFAULT 0,
   `ACLadmin` tinyint(1) NOT NULL DEFAULT 0,
   PRIMARY KEY (`idAdmin`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -43,6 +43,7 @@ CREATE TABLE `admin` (
 
 LOCK TABLES `admin` WRITE;
 /*!40000 ALTER TABLE `admin` DISABLE KEYS */;
+INSERT INTO `admin` VALUES (1,'Alessandro','Toninelli','toninelli.alessandro00@gmail.com','$2y$10$iOB8hWTL7RCpsmD6pzVUHubUp4M.AsdPOHqzv011zmCYzt2SRN2ee','2021-08-08 21:59:50',1,1,1,1),(2,'Wade','Baisini','sheduxerr@gmail.com','$2y$10$hMBaHGiT1fMAKEk7y45.UeUZKb9XDHtu8h0xjoGszEkCzIq8tN0fC','2021-08-08 22:01:35',1,1,0,0);
 /*!40000 ALTER TABLE `admin` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -289,7 +290,6 @@ CREATE TABLE `user_session` (
 
 LOCK TABLES `user_session` WRITE;
 /*!40000 ALTER TABLE `user_session` DISABLE KEYS */;
-INSERT INTO `user_session` VALUES ('dadapgnd6cumg392a0vl26v38i',1,'2021-04-29 19:04:06');
 /*!40000 ALTER TABLE `user_session` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -330,4 +330,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-04-28 19:09:46
+-- Dump completed on 2021-04-30 22:45:06
