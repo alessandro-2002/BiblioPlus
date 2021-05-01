@@ -18,7 +18,7 @@
 
         <!-- link per collegamenti -->
         <a href="profile.php">Profilo</a><br>
-        <a href="change_password.php">Cambio password</a><br>
+        <a href="admin_change_password.php">Cambio password</a><br>
         <a href="admin_logout.php?session=ALL">Logout da tutte le sessioni</a><br>
 
 
