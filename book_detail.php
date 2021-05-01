@@ -12,7 +12,7 @@ if (!isset($_GET['ISBN']) || $_GET['ISBN'] == "")
     <meta charset="UTF-8">
     <link rel="stylesheet" href="css/base.css">
     <link rel="stylesheet" href="css/book_detail.css">
-    <title>Biblioteca facile!</title>
+    <title>Biblio+</title>
 </head>
 
 <body>

@@ -4,7 +4,7 @@
 <head>
     <link rel="stylesheet" href="css/login.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-    <title>Login</title>
+    <title>Biblio+</title>
 </head>
 
 <body>

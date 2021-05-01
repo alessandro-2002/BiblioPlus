@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <link rel="stylesheet" href="css/base.css">
     <link rel="stylesheet" href="css/loans.css">
-    <title>Biblioteca facile!</title>
+    <title>Biblio+</title>
 </head>
 
 <body>
