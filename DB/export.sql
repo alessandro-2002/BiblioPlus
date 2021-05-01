@@ -43,7 +43,7 @@ CREATE TABLE `admin` (
 
 LOCK TABLES `admin` WRITE;
 /*!40000 ALTER TABLE `admin` DISABLE KEYS */;
-INSERT INTO `admin` VALUES (1,'Alessandro','Toninelli','toninelli.alessandro00@gmail.com','$2y$10$iOB8hWTL7RCpsmD6pzVUHubUp4M.AsdPOHqzv011zmCYzt2SRN2ee','2021-08-08 21:59:50',1,1,1,1),(2,'Wade','Baisini','sheduxerr@gmail.com','$2y$10$hMBaHGiT1fMAKEk7y45.UeUZKb9XDHtu8h0xjoGszEkCzIq8tN0fC','2021-08-08 22:01:35',1,1,0,0);
+INSERT INTO `admin` VALUES (1,'Alessandro','Toninelli','toninelli.alessandro00@gmail.com','$2y$10$Va3zSWkXc/GJ2eDYzObVcOV9ClnmfpaPU/LtWjJrWpF7ExCTYkdsa','2021-08-09 21:56:50',1,1,1,1),(2,'Wade','Baisini','sheduxerr@gmail.com','$2y$10$hMBaHGiT1fMAKEk7y45.UeUZKb9XDHtu8h0xjoGszEkCzIq8tN0fC','2021-08-08 22:01:35',1,1,0,0);
 /*!40000 ALTER TABLE `admin` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -70,7 +70,7 @@ CREATE TABLE `admin_session` (
 
 LOCK TABLES `admin_session` WRITE;
 /*!40000 ALTER TABLE `admin_session` DISABLE KEYS */;
-INSERT INTO `admin_session` VALUES ('dadapgnd6cumg392a0vl26v38i',1,'2021-05-01 22:50:10');
+INSERT INTO `admin_session` VALUES ('dadapgnd6cumg392a0vl26v38i',1,'2021-05-02 21:58:45');
 /*!40000 ALTER TABLE `admin_session` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -291,7 +291,6 @@ CREATE TABLE `user_session` (
 
 LOCK TABLES `user_session` WRITE;
 /*!40000 ALTER TABLE `user_session` DISABLE KEYS */;
-INSERT INTO `user_session` VALUES ('dadapgnd6cumg392a0vl26v38i',5,'2021-05-01 22:49:44');
 /*!40000 ALTER TABLE `user_session` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -332,4 +331,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-04-30 22:50:51
+-- Dump completed on 2021-05-01 23:24:39
