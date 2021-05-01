@@ -26,9 +26,6 @@
             echo '<br><div class="alert alert-success">
                 <strong>Logout effettuato!</strong> Logout effettuato con successo da tutte le sessioni, verrai reindirizzato alla home.
             </div>';
-
-            header('Refresh: 2; URL=/');
-            die();
         } catch (Exception $e) {
             echo '<div class="alert alert-danger">
                 <strong>Errore!</strong> Errore durante il logout, verrai reindirizzato alla home.
