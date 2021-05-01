@@ -16,10 +16,10 @@
     require_once("admin_session_login.php");
     ?>
 
-    <header>
+    <header style="background-color: #00e2ff66">
 
         <!-- logo -->
-        <a href="/" class="logo">
+        <a href="index.php" class="logo">
             <img class="logo" src="../img/logo.jpg" alt="Biblioteca Facile" />
         </a>
 
