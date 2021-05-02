@@ -5,7 +5,6 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    <script type="text/javascript" src="../js/user_menu.js"></script>
 </head>
 
 <body>
@@ -25,18 +24,12 @@
 
         <!-- menu di navigazione -->
         <div class="right">
-
-            <!-- div up dedicato al login/gestione utente -->
             <div id="up">
-                <!-- button per aprire menù -->
-                <button id="menuButton" onclick="userMenuDrop()">Menu</button>
-
-                <!-- menù -->
-                <nav id="userMenu" class="userMenu-content" style="display: none;">
+                <!-- dati -->
+                <nav id="userMenu" class="userMenu-content">
                     <ul>
                         <li>Benvenuto <?php echo htmlentities($adminAccount->getName()) . ' ' .
                                             htmlentities($adminAccount->getSurname()); ?> </li>
-                        <li><a href='admin_area.php'>Area Riservata</a></li>
                         <li><a href='admin_logout.php'>Logout</a></li>
                     </ul>
                 </nav>
@@ -57,7 +50,7 @@
                 ?>
 
                 <a class="nav" href="/" target="_blank">User</a>
-
+                
 
             </div>
         </div>

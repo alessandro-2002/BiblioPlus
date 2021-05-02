@@ -15,7 +15,8 @@
 
         <h1>Dashboard Bibliotecario</h1>
 
-        <a href="admin_users.php">Gestione Utenti</a>
+        <a href="admin_users.php">Gestione Utenti</a><BR>
+        <a href='admin_area.php'>Area Riservata</a> DA LEVARE E FARE TUTTO BOTTONE
     </div>
 
 </body>
