@@ -50,19 +50,13 @@
 
                 //se sono nelle pagine di un nav evidenzio la casella                
                 if ($fileName == "index.php") {
-                    echo '<a class="nav active" href="/">Catalogo</a>';
+                    echo '<a class="nav active" href="/">Dashboard</a>';
                 } else {
-                    echo '<a class="nav" href="/">Catalogo</a>';
-                }
-
-                if ($fileName == "contacts.php") {
-                    echo '<a class="nav active" href="contacts.php">Contatti</a>';
-                } else {
-                    echo '<a class="nav" href="contacts.php">Contatti</a>';
+                    echo '<a class="nav" href="index.php">Dashboard</a>';
                 }
                 ?>
 
-                <a class="nav" href="admin" target="_blank">Admin</a>
+                <a class="nav" href="/" target="_blank">User</a>
 
 
             </div>
