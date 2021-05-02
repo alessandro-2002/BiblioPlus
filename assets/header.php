@@ -20,7 +20,7 @@
 
         <!-- logo -->
         <a href="/" class="logo">
-            <img class="logo" src="img/logo.jpg" alt="Biblioteca Facile" />
+            <img class="logo" src="img/logo.svg" alt="Biblioteca Facile" />
         </a>
 
         <!-- menu di navigazione -->

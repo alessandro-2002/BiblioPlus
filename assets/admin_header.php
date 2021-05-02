@@ -20,7 +20,7 @@
 
         <!-- logo -->
         <a href="index.php" class="logo">
-            <img class="logo" src="../img/logo.jpg" alt="Biblioteca Facile" />
+            <img class="logo" src="../img/logo.svg" alt="Biblioteca Facile" />
         </a>
 
         <!-- menu di navigazione -->
@@ -50,7 +50,7 @@
 
                 //se sono nelle pagine di un nav evidenzio la casella                
                 if ($fileName == "index.php") {
-                    echo '<a class="nav active" href="/">Dashboard</a>';
+                    echo '<a class="nav active" href="index.php">Dashboard</a>';
                 } else {
                     echo '<a class="nav" href="index.php">Dashboard</a>';
                 }

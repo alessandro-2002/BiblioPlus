@@ -30,6 +30,8 @@ header a.logo {
 header a img.logo {
     border-radius: 8px;
     max-height: 90px;
+    padding: 10px;
+    padding-left: 15px;
 }
 
 /* Change the background color on mouse-over */
