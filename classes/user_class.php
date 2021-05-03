@@ -1,7 +1,5 @@
 <?php
 
-require_once("assets/db.php");
-
 class User
 {
     /* proprietà della classe */
@@ -45,6 +43,54 @@ class User
 
         /* inizializzo a non autenticato */
         $this->authenticated = FALSE;
+    }
+
+    /* costruttore da id*/
+    public function popolaDaId(int $id)
+    {;
+        /* Global pdo */
+        global $pdo;
+
+        //query per popolazione
+        $query = "SELECT idUser, name, surname, mail, address, avatar
+        FROM user
+        WHERE idUser = :idUser";
+
+        //array di valori
+        $values = array(':idUser' => $id);
+
+
+        try {
+            //preparo query
+            $res = $pdo->prepare($query);
+
+            //eseguo query
+            $res->execute($values);
+        } catch (PDOException $e) {
+            //in caso di eccezione ritorno l'eccezione
+            throw new Exception('Database query error');
+        }
+
+        //fetch del risultato
+        $res = $res->fetch(PDO::FETCH_ASSOC);
+
+        //se esiste il risultato restituisco il login
+        if (is_array($res)) {
+            //autenticazione avvenuta con successo, popolo l'oggetto e ritorno true
+            $this->id = intval($res['idUser'], 10);
+            $this->name = $res['name'];
+            $this->surname = $res['surname'];
+            $this->mail = $res['mail'];
+            $this->expiration = $res['expiration'];
+            $this->address = $res['address'];
+            $this->avatar = $res['avatar'];
+
+            return TRUE;
+        } else {
+
+            //se non esiste utente
+            return FALSE;
+        }
     }
 
     /* Distruttore */
