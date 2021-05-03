@@ -88,7 +88,7 @@
                         echo "<tr>";
 
                         //avatar
-                        echo "<td><a href='admin_edit_user?idUser=" . $user['idUser'] . "'><img src='../avatars/";
+                        echo "<td><a href='admin_edit_user.php?idUser=" . $user['idUser'] . "'><img src='../avatars/";
                         if ($user['avatar'] != NULL) {
                             echo $user['avatar'];
                         } else {
