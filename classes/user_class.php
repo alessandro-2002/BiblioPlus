@@ -496,8 +496,8 @@ class User
             }
         }
         if (isset($optional['enabled'])) {
-            $query = $query . ', isEnable = :isEnable';
-            $values[':isEnable'] = $optional['enabled'];
+            $query = $query . ', isEnabled = :isEnabled';
+            $values[':isEnabled'] = $optional['enabled'];
         }
 
         //aggiungo ultima parte query
