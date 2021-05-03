@@ -25,6 +25,9 @@ class User
     /* avatar dell'utente loggato */
     private $avatar;
 
+    /* abilitazione dell'utente */
+    private $enabled;
+
     /* TRUE se autenticato, FALSE altrimenti */
     private $authenticated;
 
@@ -41,6 +44,8 @@ class User
         $this->address = NULL;
         $this->avatar = NULL;
 
+        $this->enabled = NULL;
+
         /* inizializzo a non autenticato */
         $this->authenticated = FALSE;
     }
@@ -52,7 +57,7 @@ class User
         global $pdo;
 
         //query per popolazione
-        $query = "SELECT idUser, name, surname, mail, address, avatar
+        $query = "SELECT idUser, name, surname, mail, address, avatar, isEnabled
         FROM user
         WHERE idUser = :idUser";
 
@@ -83,6 +88,7 @@ class User
             $this->mail = $res['mail'];
             $this->address = $res['address'];
             $this->avatar = $res['avatar'];
+            $this->enabled = (bool)$res['isEnabled'];
 
             return TRUE;
         } else {
