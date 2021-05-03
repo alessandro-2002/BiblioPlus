@@ -141,6 +141,11 @@ class User
         return $this->avatar;
     }
 
+    public function isEnabled(): ?bool
+    {
+        return $this->enabled;
+    }
+
     public function isAuthenticated(): bool
     {
         return $this->authenticated;
