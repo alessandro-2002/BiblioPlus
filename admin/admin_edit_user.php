@@ -98,7 +98,7 @@
                     <div class="col-md-9 personal-info">
                         <h3>Informazioni personali</h3>
 
-                        <form class="form-horizontal" method="POST" action="admin_edit_user.php?idUser=<?php echo $user->getId(); ?>">
+                        <form class="form-horizontal" method="POST" action="">
                             <div class="form-group">
                                 <label class="col-lg-3 control-label">Id Utente:</label>
                                 <div class="col-lg-8">

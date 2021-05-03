@@ -34,7 +34,7 @@
                         <strong>Modifica effettuata!</strong> Modifiche apportate con successo, la pagina verr&agrave; ricaricata.
                     </div>';
 
-                header('Refresh: 3; URL=profile.php');
+                header('Refresh: 3');
                 die();
             } catch (Exception $e) {
                 echo '<div class="alert alert-danger">
@@ -66,7 +66,7 @@
                         <strong>Modifica effettuata!</strong> Modifiche apportate con successo, la pagina verr&agrave; ricaricata.
                     </div>';
 
-                header('Refresh: 3; URL=profile.php');
+                header('Refresh: 3');
                 die();
             } catch (Exception $e) {
                 echo '<div class="alert alert-danger">
@@ -86,7 +86,7 @@
                         <strong>Modifica effettuata!</strong> Modifiche apportate con successo, la pagina verr&agrave; ricaricata.
                     </div>';
 
-                header('Refresh: 3; URL=profile.php');
+                header('Refresh: 3');
                 die();
             } catch (Exception $e) {
                 echo '<div class="alert alert-danger">
@@ -115,7 +115,7 @@
                                             }
                                             ?>" class="avatar img-circle" alt="avatar">
                         <h6>Aggiorna o elimina il tuo avatar...</h6>
-                        <form id="form" action="profile.php" method="post" enctype="multipart/form-data">
+                        <form id="form" action="" method="post" enctype="multipart/form-data">
                             <input type="file" name="avatar" class="form-control">
                             <br>
                             <div class="form-group">
@@ -134,7 +134,7 @@
                 <div class="col-md-9 personal-info">
                     <h3>Informazioni personali</h3>
 
-                    <form class="form-horizontal" method="POST" action="profile.php">
+                    <form class="form-horizontal" method="POST" action="">
                         <div class="form-group">
                             <label class="col-lg-3 control-label">Id Utente:</label>
                             <div class="col-lg-8">
