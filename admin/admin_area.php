@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <link rel="stylesheet" href="../css/base.css">
     <link rel="stylesheet" href="../css/admin_area.css">
-    <title>Biblio+</title>
+    <title>Area Bibliotecario</title>
 </head>
 
 <body>

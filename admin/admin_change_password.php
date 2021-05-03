@@ -7,7 +7,7 @@
     <meta charset="UTF-8">
     <link rel="stylesheet" href="../css/base.css">
     <link rel="stylesheet" href="../css/change_password.css">
-    <title>Biblioteca facile!</title>
+    <title>Area Bibliotecario</title>
 </head>
 
 <body>
