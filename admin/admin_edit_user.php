@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <link rel="stylesheet" href="../css/base.css">
     <link rel="stylesheet" href="../css/profile.css">
+    <link rel="stylesheet" href="../css/toggleSwitch.css">
     <title>Area Bibliotecario</title>
 </head>
 
@@ -43,7 +44,16 @@
 
                 //invoco la funzione per l'edit dell'utente
                 try {
-                    $user->editAccount($user->getId(), $_POST['name'], $_POST['surname'], $_POST['mail'], array('address' => $_POST['address']));
+                    //creo array per parametri opzionali indirizzo e enabled
+                    $options = array('address' => $_POST['address']);
+
+                    if (isset($_POST['enabled']) && $_POST['enabled'] == "on") {
+                        $options['enabled'] = true;
+                    } else {
+                        $options['enabled'] = false;
+                    }
+
+                    $user->editAccount($user->getId(), $_POST['name'], $_POST['surname'], $_POST['mail'], $options);
 
                     //stampo successo e ricarico pagina
                     echo '<br><div class="alert alert-success">
@@ -149,6 +159,26 @@
                                                                                                                         ?>>
                                 </div>
                             </div>
+
+                            <div class="form-group">
+                                <label class="col-lg-3 control-label">Abilitato:</label>
+                                <div class="col-lg-8">
+                                    <label class="switch">
+                                        <input type="checkbox" name="enabled" <?php
+                                                                                if ($user->isEnabled()) {
+                                                                                    echo " checked";
+                                                                                }
+                                                                                ?> <?php
+                                                                                    //se non ha autorizzazione metto disabled
+                                                                                    if (!$adminAccount->getACLuser()) {
+                                                                                        echo " disabled";
+                                                                                    }
+                                                                                    ?>>
+                                        <span class="slider round"></span>
+                                    </label>
+                                </div>
+                            </div>
+
                             <?php
                             //se ha autorizzazione stampo form per modifica utente
                             if ($adminAccount->getACLuser()) {
