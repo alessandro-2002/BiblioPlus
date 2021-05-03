@@ -27,11 +27,10 @@
             <div id="up">
                 <!-- dati -->
                 <nav id="userMenu" class="userMenu-content">
-                    <ul>
-                        <li>Benvenuto <?php echo htmlentities($adminAccount->getName()) . ' ' .
-                                            htmlentities($adminAccount->getSurname()); ?> </li>
-                        <li><a href='admin_logout.php'>Logout</a></li>
-                    </ul>
+
+                    Bibliotecario <b><?php echo htmlentities($adminAccount->getName()) . ' ' .
+                                    htmlentities($adminAccount->getSurname()); ?></b>
+
                 </nav>
             </div>
 
@@ -50,7 +49,8 @@
                 ?>
 
                 <a class="nav" href="/" target="_blank">User</a>
-                
+                <a class="nav" href="admin_logout.php">Logout</a>
+
 
             </div>
         </div>
