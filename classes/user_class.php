@@ -81,7 +81,6 @@ class User
             $this->name = $res['name'];
             $this->surname = $res['surname'];
             $this->mail = $res['mail'];
-            $this->expiration = $res['expiration'];
             $this->address = $res['address'];
             $this->avatar = $res['avatar'];
 
