@@ -1,0 +1,18 @@
+div#status{
+    min-width: 100%;
+    border-width: 10px;
+    text-align: center;
+}
+
+span.returned{
+    background-color: lightgreen;
+}
+
+span.expired{
+    background-color: red;
+    font-weight: bold;
+}
+
+span.inLoan{
+    background-color: yellow;
+}
