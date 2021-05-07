@@ -1,3 +1,64 @@
+<?php
+//funzione per stampare i titoli del prestito, creo per ottimizzare l'if
+function stampaTitoli($pdo, int $idLoan)
+{
+    //query di per trovare i titoli del prestito
+    $query = "SELECT book.ISBN AS ISBN, title, copy.idCopy AS idCopy
+    FROM book, copy, borrow
+    WHERE book.ISBN = copy.ISBN
+        AND copy.idCopy = borrow.idCopy
+        AND borrow.idLoan = :idLoan";
+
+    /* ricerca dei titoli */
+
+    //array di valori da passare per la query titoli
+    $values = array(':idLoan' => $idLoan);
+
+    /* esecuzione query */
+
+    try {
+
+        //prepare query, ottimizza l'esecuzione
+        $res = $pdo->prepare($query);
+
+        //esecuzione con passaggio di valori 
+        $res->execute($values);
+    } catch (PDOException $e) {
+        echo $e->getMessage();
+
+        //in caso di errore stampo con stile
+        echo "<div class=\"alert alert-danger\">
+        <strong>Errore!</strong> Errore nella ricerca
+        </div>";
+        die();
+    }
+
+    //fetch
+    $titoli = $res->fetchAll();
+
+?>
+    <div class="form-group row">
+        <label for="" class="col-4 col-form-label">Titoli</label>
+        <div class="col-8">
+            <div class="input-group">
+
+                <?php
+                //foreach e stampa titoli
+                foreach ($titoli as $index => $titolo) {
+                    echo '<a href="book_detail.php?ISBN=' . $titolo['ISBN'] . '">' . htmlentities($titolo['title']) . "</a> (" . $titolo['idCopy'] . ')';
+
+                    if (count($titoli) > $index + 1) {
+                        echo "<br>";
+                    }
+                }
+                ?>
+            </div>
+        </div>
+    </div>
+<?php
+}
+?>
+
 <!DOCTYPE html>
 <html lang="it">
 
@@ -118,7 +179,8 @@
                     DATE_FORMAT(returnDate, '%d-%m-%Y %H:%i') AS returnDate,
                     user.idUser, user.name, user.surname 
                 FROM loan, user
-                WHERE idLoan = :idLoan";
+                WHERE loan.idUser = user.idUser
+                    AND idLoan = :idLoan";
 
         //array di valori
         $values = array(':idLoan' => $_GET['idLoan']);
@@ -207,6 +269,10 @@
                         </div>
 
                         <?php
+
+                        //stampo titoli
+                        stampaTitoli($pdo, $loan['idLoan']);
+
                         //controllo se ha acl, in tal caso stampo il bottone per riaprire il prestito
                         if ($adminAccount->getACLloan()) {
                         ?>
@@ -243,6 +309,9 @@
                             </div>
                         </div>
                         <?php
+
+                        //stampo titoli
+                        stampaTitoli($pdo, $loan['idLoan']);
 
                         //stampo pulsanti solo se ha le acl
                         if ($adminAccount->getACLloan()) {
