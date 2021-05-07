@@ -318,7 +318,7 @@
                             echo "<tr>";
 
                             //id prestito
-                            echo "<td>" . $loan['idLoan'] . "</td>";
+                            echo "<td><a href='admin_edit_loan.php?idLoan=" . $loan['idLoan'] . "'>" . $loan['idLoan'] . "</a></td>";
 
                             //date
                             echo "<td>" . $loan['loanDate'] . "</td>";
