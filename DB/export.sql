@@ -43,7 +43,7 @@ CREATE TABLE `admin` (
 
 LOCK TABLES `admin` WRITE;
 /*!40000 ALTER TABLE `admin` DISABLE KEYS */;
-INSERT INTO `admin` VALUES (1,'Alessandro','Toninelli','toninelli.alessandro00@gmail.com','$2y$10$Va3zSWkXc/GJ2eDYzObVcOV9ClnmfpaPU/LtWjJrWpF7ExCTYkdsa','2021-08-09 21:56:50',1,1,1,1),(2,'Wade','Baisini','sheduxerr@gmail.com','$2y$10$hMBaHGiT1fMAKEk7y45.UeUZKb9XDHtu8h0xjoGszEkCzIq8tN0fC','2021-08-08 22:01:35',1,1,0,0);
+INSERT INTO `admin` VALUES (1,'Alessandro','Toninelli','toninelli.alessandro00@gmail.com','$2y$10$Va3zSWkXc/GJ2eDYzObVcOV9ClnmfpaPU/LtWjJrWpF7ExCTYkdsa','2021-08-09 21:56:50',1,1,1,1),(2,'Wade','Baisini','sheduxerr@gmail.com','$2y$10$yHqwAOwMY8JC3qsX1om6XegR.d1GTbktJYmUqLpXZ8JD3LwGeqFp6','2021-08-11 19:44:44',1,1,0,0);
 /*!40000 ALTER TABLE `admin` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -70,7 +70,7 @@ CREATE TABLE `admin_session` (
 
 LOCK TABLES `admin_session` WRITE;
 /*!40000 ALTER TABLE `admin_session` DISABLE KEYS */;
-INSERT INTO `admin_session` VALUES ('dadapgnd6cumg392a0vl26v38i',1,'2021-05-02 21:58:45');
+INSERT INTO `admin_session` VALUES ('dadapgnd6cumg392a0vl26v38i',1,'2021-05-08 19:17:08'),('k56lnniqg0d7jltslk25d0eqbg',1,'2021-05-08 20:56:28');
 /*!40000 ALTER TABLE `admin_session` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -153,7 +153,7 @@ CREATE TABLE `borrow` (
 
 LOCK TABLES `borrow` WRITE;
 /*!40000 ALTER TABLE `borrow` DISABLE KEYS */;
-INSERT INTO `borrow` VALUES (1,1);
+INSERT INTO `borrow` VALUES (1,1),(1,2);
 /*!40000 ALTER TABLE `borrow` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -209,7 +209,7 @@ CREATE TABLE `loan` (
 
 LOCK TABLES `loan` WRITE;
 /*!40000 ALTER TABLE `loan` DISABLE KEYS */;
-INSERT INTO `loan` VALUES (1,5,'2021-04-03 22:38:19',30,'2021-04-18 16:16:47');
+INSERT INTO `loan` VALUES (1,5,'2021-04-03 22:38:19',37,'2021-05-07 20:57:11');
 /*!40000 ALTER TABLE `loan` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -264,7 +264,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES (1,'Ethan Aldo','Cominelli','toninelli.alessandro02@gmail.com','$2y$10$kkA6.uGZV.wA3fM10Eeci.01OutlfvgTjGVUomz/yNctwUb5gQYHW','2021-07-27 16:22:26','Località Baibò 1, 25055 Pisogne (BS) ','1.PNG',1),(5,'alessandro','toninelli','toninelli.alessandro00@gmail.com','$2y$10$kCCidRxchyT87HD8u.XiqOeAVU0pIZWcaArgGJ7iDHRWSEpeU0Of6','2021-07-24 23:23:24',NULL,'5.png',1),(23,'Wade','Baisini','sheduxerr@gmail.com','$2y$10$/.YcPX2op9vWPzArrbaXoeGfMcBzVgjlcIw7Vx56qnevOBkQeNXge','2021-07-26 10:41:04',NULL,'23.PNG',1);
+INSERT INTO `user` VALUES (1,'Ethan Aldino','Cominelli','toninelli.alessandro02@gmail.com','$2y$10$kkA6.uGZV.wA3fM10Eeci.01OutlfvgTjGVUomz/yNctwUb5gQYHW','2021-07-27 16:22:26','Via Pisani 11, 25040 Esine (BS)','1.PNG',1),(5,'Gabriele','Baiguini','toninelli.alessandro00@gmail.com','$2y$10$kCCidRxchyT87HD8u.XiqOeAVU0pIZWcaArgGJ7iDHRWSEpeU0Of6','2021-07-24 23:23:24',NULL,'5.png',1),(23,'Wade','Baisini','sheduxerr@gmail.com','$2y$10$/.YcPX2op9vWPzArrbaXoeGfMcBzVgjlcIw7Vx56qnevOBkQeNXge','2021-07-26 10:41:04',NULL,'23.PNG',1);
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -331,4 +331,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-05-01 23:24:39
+-- Dump completed on 2021-05-07 22:40:37
