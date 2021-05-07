@@ -33,13 +33,66 @@
         }
 
         //controllo se c'è action in get e in tal caso la eseguo
-        if (isset($_GET['action']) && $_GET['action'] == "close") {
-            $query = "UPDATE loan 
+        if (isset($_GET['action'])) {
+
+            //controllo se l'azione in get è close per chiudere il prestito
+            if ($_GET['action'] == "close") {
+
+                //inserisco nel where che la returnDate deve essere NULL altrimenti non lascio chiudere il prestito
+                $query = "UPDATE loan 
                     SET returnDate = NOW()
+                    WHERE idLoan = :idLoan
+                        AND returnDate IS NULL";
+
+                //array di valori
+                $values = array(':idLoan' => $_GET['idLoan']);
+
+                try {
+                    //preparo query
+                    $res = $pdo->prepare($query);
+
+                    //eseguo query
+                    $res->execute($values);
+                } catch (PDOException $e) {
+                    //in caso di eccezione ritorno l'eccezione
+                    throw new Exception('Database query error');
+                }
+
+                //controllo se l'azione in get è la riapertura di un prestito chiuso, annullo quindi la data di riconsegna
+            } else if ($_GET['action'] == "reopen") {
+
+                //query per settare a NULL la data di riconsegna
+                $query = "UPDATE loan 
+                    SET returnDate = NULL
+                    WHERE idLoan = :idLoan";
+
+                //array di valori
+                $values = array(':idLoan' => $_GET['idLoan']);
+
+                try {
+                    //preparo query
+                    $res = $pdo->prepare($query);
+
+                    //eseguo query
+                    $res->execute($values);
+                } catch (PDOException $e) {
+                    //in caso di eccezione ritorno l'eccezione
+                    throw new Exception('Database query error');
+                }
+            }
+
+            //infine ricarico la pagina togliendo la parte get
+            header("Location: admin_edit_loan.php?idLoan=" . $_GET['idLoan']);
+            die();
+
+            //se sta aggiornando la scadenza la aggiorno e poi aggiorno la pagine
+        } else if (isset($_POST['duration']) && $_POST['duration'] != NULL) {
+            $query = "UPDATE loan 
+                    SET duration = :duration
                     WHERE idLoan = :idLoan";
 
             //array di valori
-            $values = array(':idLoan' => $_GET['idLoan']);
+            $values = array(':idLoan' => $_GET['idLoan'], ':duration' => $_POST['duration']);
 
             try {
                 //preparo query
@@ -52,7 +105,7 @@
                 throw new Exception('Database query error');
             }
 
-            header("Location: admin_edit_loan.php?idLoan=" . $_GET['idLoan']);
+            header("Refresh: 0");
             die();
         }
 
@@ -139,6 +192,7 @@
                     </div>
 
                     <?php
+                    //se è riconsegnato stampo solo la data di riconsegna e il bottone per riaprire il prestito
                     if ($isRiconsegnato) {
                     ?>
                         <div class="form-group row">
@@ -152,9 +206,19 @@
                             </div>
                         </div>
 
-                    <?php
+                        <?php
+                        //controllo se ha acl, in tal caso stampo il bottone per riaprire il prestito
+                        if ($adminAccount->getACLloan()) {
+                        ?>
+                            <div class="form-group row">
+                                <div class="offset-4 col-8">
+                                    <a href="admin_edit_loan.php?idLoan=<?php echo $loan['idLoan']; ?>&action=reopen" class="btn btn-success" role="button">Annulla riconsegna</a>
+                                </div>
+                            </div>
+                        <?php
+                        }
                     } else {
-                    ?>
+                        ?>
                         <div class="form-group row">
                             <label for="" class="col-4 col-form-label">Data di scadenza</label>
                             <div class="col-8">
@@ -191,7 +255,7 @@
                             </div>
                             <div class="form-group row">
                                 <div class="offset-4 col-8">
-                                    <a href="admin_edit_loan.php?idLoan=<?php echo $loan['idLoan']; ?>&action=close" class="btn btn-success" role="button">Chiudi</a>
+                                    <a href="admin_edit_loan.php?idLoan=<?php echo $loan['idLoan']; ?>&action=close" class="btn btn-success" role="button">Riconsegna</a>
                                 </div>
                             </div>
                     <?php
