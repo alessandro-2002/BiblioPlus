@@ -296,8 +296,7 @@
                             /* esecuzione query */
 
                             try {
-                                //esecuzione con passaggio di eventuali valori di ricerca, controllo esistano
-
+                                //esecuzione con passaggio di valori
                                 $res->execute($values);
 
                                 //fetch
