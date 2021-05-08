@@ -277,10 +277,10 @@
 
                         //query di base per trovare i titoli del prestito
                         $query = "SELECT book.ISBN AS ISBN, title, copy.idCopy AS idCopy
-                    FROM book, copy, borrow
-                    WHERE book.ISBN = copy.ISBN
-                        AND copy.idCopy = borrow.idCopy
-                        AND borrow.idLoan = :idLoan";
+                                FROM book, copy, borrow
+                                WHERE book.ISBN = copy.ISBN
+                                    AND copy.idCopy = borrow.idCopy
+                                    AND borrow.idLoan = :idLoan";
 
                         //prepare query, ottimizza l'esecuzione
                         $res = $pdo->prepare($query);
@@ -302,8 +302,6 @@
                                 //fetch
                                 $titoli = $res->fetchAll();
                             } catch (PDOException $e) {
-                                echo $e->getMessage();
-
                                 //in caso di errore stampo con stile
                                 echo "<div class=\"alert alert-danger\">
                                 <strong>Errore!</strong> Errore nella ricerca
