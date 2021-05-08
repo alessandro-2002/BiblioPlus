@@ -49,9 +49,9 @@
                     $options = array('address' => $_POST['address']);
 
                     if (isset($_POST['enabled']) && $_POST['enabled'] == "on") {
-                        $options['enabled'] = true;
+                        $options['enabled'] = 1;
                     } else {
-                        $options['enabled'] = false;
+                        $options['enabled'] = 0;
                     }
 
                     $user->editAccount($user->getId(), $_POST['name'], $_POST['surname'], $_POST['mail'], $options);
