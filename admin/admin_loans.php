@@ -56,6 +56,24 @@
             <!-- Visualizzazione tabellare dei prestiti -->
             <div class="loans">
 
+
+                <?php
+                //controllo se ha acl per aggiunta prestito altrimenti non stampo bottone
+                if ($adminAccount->getACLloan()) {
+                ?>
+
+                    <!-- button per aggiungere prestito -->
+                    <a href="admin_new_loan.php">
+                        <button type="button" class="btn btn-lg" aria-label=" Left Align">
+                            <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Nuovo Prestito
+                        </button>
+                    </a>
+
+                    <br><br>
+                <?php
+                }
+                ?>
+
                 <table>
 
                     <!-- intestazione -->
