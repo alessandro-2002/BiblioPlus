@@ -1,11 +1,16 @@
+<?php
+
+//salvo location per activate solo su bottone della pagina
+$fileName = basename($_SERVER['PHP_SELF']);
+?>
+
 <html>
 
 <head>
-    <link rel="stylesheet" href="css/header.css">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    <script type="text/javascript" src="js/user_menu.js"></script>
 </head>
 
 <body>
@@ -17,75 +22,65 @@
     ?>
 
     <header>
+        <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #f0f0f0;">
 
-        <!-- logo -->
-        <a href="/" class="logo">
-            <img class="logo" src="img/logo.svg" alt="Biblioteca Facile" />
-        </a>
+            <!-- logo -->
+            <nav class="navbar navbar-light">
+                <a class="navbar-brand" href="/">
+                    <img src="../img/logo.svg" alt="" style="max-width: 60%;">
+                </a>
+            </nav>
 
-        <!-- menu di navigazione -->
-        <div class="right">
+            <!-- bottone per collapse in caso di schermo piccolo -->
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
 
-            <!-- div up dedicato al login/gestione utente -->
-            <div id="up">
+            <!-- navbar -->
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav mr-auto">
+
+                    <!-- home -->
+                    <li class="nav-item <?php
+                                        //controllo se è su home, in tal caso metto active
+                                        if ($fileName == "index.php") {
+                                            echo 'active';
+                                        } ?>">
+                        <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
+                    </li>
+                </ul>
+
                 <?php
-                //controllo autenticazione dell'utente e in caso metto il menù
+
                 if ($account->isAuthenticated()) {
-                    //cover 
-                    echo "<img style='width:60px; heigth=60px;' src='avatars/";
-                    if ($account->getAvatar() != NULL) {
-                        echo $account->getAvatar();
-                    } else {
-                        echo "no-avatar.jpg";
-                    }
-                    echo "' />";
-
                 ?>
-                    <!-- button per aprire menù -->
-                    <button id="menuButton" onclick="userMenuDrop()">Menu</button>
+                    <div class="nav-item dropdown">
+                        <!-- avatar -->
+                        <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <img src="avatars/<?php
+                                                if ($account->getAvatar() != NULL) {
+                                                    echo $account->getAvatar();
+                                                } else {
+                                                    echo "no-avatar.jpg";
+                                                }
+                                                ?>" alt="" style="max-width: 60px;" class="rounded">
+                        </a>
 
-                    <!-- menù -->
-                    <nav id="userMenu" class="userMenu-content" style="display: none;">
-                        <ul>
-                            <li>Benvenuto <?php echo htmlentities($account->getName()) . ' ' .
-                                                htmlentities($account->getSurname()); ?> </li>
-                            <li><a href='user_area.php'>Area Riservata</a></li>
-                            <li><a href='logout.php'>Logout</a></li>
-                        </ul>
-                    </nav>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <!-- eliminare pagine varie dell'area utente e metterle qui -->
+                            <a class="dropdown-item" href="#">Action</a>
+                            <a class="dropdown-item" href="#">Another action</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="logout.php">Logout</a>
+                        </div>
+                    </div>
+
                 <?php
-                } else {
-                    echo '<a class="nav" href="login.php">Accedi o registrati</a>';
                 }
                 ?>
-            </div>
-
-            <!-- div down per nav tra le pagine -->
-            <div id="down">
-                <?php
-                //controlla la pagina in cui si è
-                $fileName = basename($_SERVER['PHP_SELF']);
-
-                //se sono nelle pagine di un nav evidenzio la casella                
-                if ($fileName == "index.php") {
-                    echo '<a class="nav active" href="/">Catalogo</a>';
-                } else {
-                    echo '<a class="nav" href="/">Catalogo</a>';
-                }
-
-                if ($fileName == "contacts.php") {
-                    echo '<a class="nav active" href="contacts.php">Contatti</a>';
-                } else {
-                    echo '<a class="nav" href="contacts.php">Contatti</a>';
-                }
-                ?>
-
-                <a class="nav" href="admin" target="_blank">Admin</a>
-
 
             </div>
-        </div>
-
+        </nav>
     </header>
 
 </body>
