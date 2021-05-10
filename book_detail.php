@@ -31,7 +31,8 @@ if (!isset($_GET['ISBN']) || $_GET['ISBN'] == "")
                 LEFT JOIN copy ON book.ISBN = copy.ISBN 
                                 AND copy.idCopy NOT IN (SELECT borrow.idCopy 
                                                         FROM loan, borrow
-                                                        WHERE returnDate IS NULL)
+                                                        WHERE loan.idLoan = borrow.idLoan
+                                                            AND returnDate IS NULL)
                 /* controllo ISBN */
                 WHERE book.ISBN = :ISBN
                 GROUP BY book.ISBN";
