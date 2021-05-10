@@ -110,7 +110,7 @@
                         echo "<tr>";
 
                         //azioni
-                        echo "<td><a href='admin_edit_loan.php?idLoan=" . $loan['idLoan'] . "' target='_blank'>";
+                        echo "<td><a href='admin_edit_loan.php?idLoan=" . $loan['idLoan'] . "'>";
 
                         echo "<button type=\"button\" class=\"btn btn-default\" aria-label=\"Left Align\">
                         <span class=\"glyphicon glyphicon-pencil\" aria-hidden=\"true\"></span>
