@@ -70,6 +70,15 @@ function stampaTitoli($pdo, int $idLoan)
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 
+    <script>
+        //conferma cancellazione prestito
+        function confirmDelete() {
+            if (confirm("Vuoi eliminare definitivamente il prestito dallo storico? L'azione è irreversibile!")) {
+                window.location = "admin_edit_loan.php?idLoan=<?php echo $_GET['idLoan']; ?>&action=delete";
+            }
+        }
+    </script>
+
     <title>Area Bibliotecario</title>
 </head>
 
@@ -93,8 +102,8 @@ function stampaTitoli($pdo, int $idLoan)
                         </div>';
         }
 
-        //controllo se c'è action in get e in tal caso la eseguo
-        if (isset($_GET['action'])) {
+        //controllo se c'è action in get e ha acl e in tal caso la eseguo
+        if (isset($_GET['action']) && $adminAccount->getACLloan()) {
 
             //controllo se l'azione in get è close per chiudere il prestito
             if ($_GET['action'] == "close") {
@@ -140,6 +149,34 @@ function stampaTitoli($pdo, int $idLoan)
                     //in caso di eccezione ritorno l'eccezione
                     throw new Exception('Database query error');
                 }
+            } else if ($_GET['action'] == "delete") {
+
+                //query per cancellazione prestito
+                $query = "DELETE FROM loan 
+                    WHERE idLoan = :idLoan";
+
+                //array di valori
+                $values = array(':idLoan' => $_GET['idLoan']);
+
+                try {
+                    //preparo query
+                    $res = $pdo->prepare($query);
+
+                    //eseguo query
+                    $res->execute($values);
+                } catch (PDOException $e) {
+                    //in caso di eccezione ritorno l'eccezione
+                    throw new Exception('Database query error');
+                }
+
+                //messaggio di conferma
+                echo '<br><div class="alert alert-success">
+                            <strong>Prestito eliminato con successo!</strong> Verrai reindirizzato alla lista prestiti.' .
+                    '</div>';
+
+                //redirect a pagina prestiti
+                header("Refresh:2; URL=admin_loans.php");
+                die();
             }
 
             //infine ricarico la pagina togliendo la parte get
@@ -147,7 +184,7 @@ function stampaTitoli($pdo, int $idLoan)
             die();
 
             //se sta aggiornando la scadenza la aggiorno e poi aggiorno la pagine
-        } else if (isset($_POST['duration']) && $_POST['duration'] != NULL) {
+        } else if (isset($_POST['duration']) && $_POST['duration'] != NULL && $adminAccount->getACLloan()) {
             $query = "UPDATE loan 
                     SET duration = :duration
                     WHERE idLoan = :idLoan";
@@ -325,6 +362,11 @@ function stampaTitoli($pdo, int $idLoan)
                             <div class="form-group row">
                                 <div class="offset-4 col-8">
                                     <a href="admin_edit_loan.php?idLoan=<?php echo $loan['idLoan']; ?>&action=close" class="btn btn-success" role="button">Riconsegna</a>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="offset-4 col-8">
+                                    <button type="button" onclick="confirmDelete()" class="btn btn-danger" role="button">ELIMINA</a>
                                 </div>
                             </div>
                     <?php
