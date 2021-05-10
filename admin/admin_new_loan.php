@@ -70,32 +70,134 @@
                                                     FROM borrow, loan
                                                     WHERE borrow.idLoan = loan.idLoan
                                                         AND loan.returnDate IS NULL)
-                                    AND idCopy = :idCopy";
+                                    AND idCopy IN (";
 
-                                    //AGGIUNGERE NELLA QUERY LA LISTA DELLE COPIE CON idCopy IN (...)
-                                    //CONTROLLARE POI QUANTE COPIE VENGONO RESTITUITE E QUALI MANCANO RISPETTO A QUELLE INSERITE
-                                    //SI OTTIMIZZA CON UNA SOLA EXECUTE E SI OTTENGONO CONTEMPORANEAMENTE TUTTI GLI ERRORI
+                        //scorro la lista di idCopy dal post per inserirle nella query
+                        foreach ($_POST['idCopy'] as $index => $idCopy) {
+                            //concateno nella stringa i vari idCopy
+                            $query = $query . $idCopy;
 
-                        //prepare query per ottimizzare esecuzione
-                        $res = $pdo->prepare($query);
+                            //se non è ultimo elemento metto ,
+                            if (count($_POST['idCopy']) > $index + 1) {
+                                $query = $query . ", ";
+                            }
+                        }
 
-                        foreach ($_POST['idCopy'] as $idCopy) {
-                            //array di valori da passare
-                            $values = array(':idCopy' => $idCopy);
+                        //alla fine chiudo query
+                        $query = $query . ")";
+
+                        // esecuzione query 
+                        try {
+                            //prepare query
+                            $res = $pdo->prepare($query);
+
+                            //esecuzione
+                            $res->execute();
+                        } catch (PDOException $e) {
+                            throw new Exception("Query error");
+                        }
+
+                        //fetch
+                        $res = $res->fetchAll();
+                        //prendo solo la colonna idCopy in modo da creare un unico vettore
+                        $res = array_column($res, 'idCopy');
+
+                        //trovo le differenze tra i 2 array (elementi inesistenti o già in prestito)
+                        $diff = array_diff($_POST['idCopy'], $res);
+
+                        //controllo se ci sono id che non sono trovati nella query, quindi la copia esiste ed è libera altrimenti genero eccezione
+                        if (count($diff) != 0) {
+                            //creo stringa contenente tutte le copie che creano errore
+                            $errorCopyString = "";
+                            $c = 0;
+                            foreach ($diff as $err) {
+                                //concateno gli idCopy                                
+                                $errorCopyString = $errorCopyString . $err;
+
+                                $c++;
+
+                                //se non è ultimo elemento metto ,
+                                if (count($diff) > $c) {
+                                    $errorCopyString = $errorCopyString . ", ";
+                                }
+                            }
+
+                            throw new Exception("Copie id " . $errorCopyString . " inesistenti o gi&agrave; in prestito.");
+                        }
+
+
+                        /* inserimento dati */
+
+                        //effettuato il controllo di tutti i dati procedo con l'inserimento del db mediante transazione
+                        try {
+                            //inizio transazione
+                            $pdo->beginTransaction();
+
+                            /* query per inserimento dati in loan */
+
+                            //inserisco idUser e durata, la data è inserita con default
+                            $query = "INSERT INTO loan (idUser, duration) VALUES (:idUser, :duration)";
+
+                            //array di valori
+                            $values = array(":idUser" => $_POST['idUser'], ":duration" => $_POST['duration']);
 
                             // esecuzione query 
                             try {
+                                //prepare query
+                                $res = $pdo->prepare($query);
+
                                 //esecuzione con passaggio di valori
                                 $res->execute($values);
+
+                                //get id del prestito appena inserito
+                                $idLoan = $pdo->lastInsertId();
                             } catch (PDOException $e) {
-                                throw new Exception("Query error");
+                                throw new Exception("Insert Loan Query error");
                             }
 
-                            //controllo se c'è un id, quindi la copia esiste ed è libera altrimenti genero eccezione
-                            if ($res->rowCount() != 1) {
-                                throw new Exception("Copia id:" . $idCopy . " inesistente o gi&agrave; in prestito.");
+
+                            /* query per inserimento dati in borrow */
+
+                            //query base da iterare per tutte le copie
+                            //inserisco idLoan e idCopy
+                            $query = "INSERT INTO borrow (idLoan, idCopy) VALUES (:idLoan, :idCopy)";
+
+                            //array di valori base con id prestito
+                            $values = array(":idLoan" => $idLoan);
+
+                            // esecuzione query 
+                            try {
+                                //prepare query
+                                $res = $pdo->prepare($query);
+
+                                //iterazione ed esecuzione per ogni copia
+                                foreach ($_POST['idCopy'] as $idCopy) {
+                                    //asseganzione nell'array dell'id copia sostituendo il precedente
+                                    $values[":idCopy"] = $idCopy;
+
+                                    //esecuzione con passaggio di valori
+                                    $res->execute($values);
+                                }
+                            } catch (PDOException $e) {
+                                throw new Exception("Insert Borrow Query error");
                             }
+                        } catch (PDOException $e) {
+                            // rollback se errore
+                            $pdo->rollback();
+
+                            throw new Exception($e);
                         }
+
+                        //se tutti gli inserimenti sono andati a buon fine commit
+                        $pdo->commit();
+
+                        //stampo messaggio di successo
+                        echo '<br><div class="alert alert-success">
+                                <strong>Prestito effettuato con successo!</strong> Verrai reindirizzato al riepilogo.' .
+                            '</div>';
+
+                        header("Refresh:2; URL=admin_edit_loan.php?idLoan=" . $idLoan);
+                        die();
                     } catch (Exception $e) {
                         echo '<br><div class="alert alert-danger">
                                 <strong>Errore!</strong> ' . $e->getMessage() .
