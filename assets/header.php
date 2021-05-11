@@ -58,7 +58,7 @@ $fileName = basename($_SERVER['PHP_SELF']);
                         <!-- avatar -->
                         <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <img src="avatars/<?php
-                                                if ($account->getAvatar() != NULL) {
+                                            if ($account->getAvatar() != NULL) {
                                                     echo $account->getAvatar();
                                                 } else {
                                                     echo "no-avatar.jpg";
@@ -66,8 +66,10 @@ $fileName = basename($_SERVER['PHP_SELF']);
                                                 ?>" alt="" style="max-width: 60px;" class="rounded">
                         </a>
 
-                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <div class="dropdown-menu dropdown-menu-right">
                             <!-- eliminare pagine varie dell'area utente e metterle qui -->
+                            <h6 class="dropdown-header">Benvenuto <?php echo htmlentities($account->getName()) . ' ' .
+                                                                    htmlentities($account->getSurname()); ?></h6>
                             <a class="dropdown-item" href="#">Action</a>
                             <a class="dropdown-item" href="#">Another action</a>
                             <div class="dropdown-divider"></div>
