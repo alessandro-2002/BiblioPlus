@@ -78,6 +78,7 @@ $fileName = basename($_SERVER['PHP_SELF']);
                                                                                 htmlentities($account->getSurname()); ?></h6>
                                     <a class="dropdown-item" href="profile.php">Profilo</a>
                                     <a class="dropdown-item" href="change_password.php">Cambio password</a>
+                                    <a class="dropdown-item" href="loans.php">Prestiti</a>
                                     <div class="dropdown-divider"></div>
                                     <a class="dropdown-item" href="logout.php">Logout</a>
                                     <a class="dropdown-item" href="logout.php?session=ALL">Logout da tutte le sessioni</a>
