@@ -8,8 +8,10 @@ $fileName = basename($_SERVER['PHP_SELF']);
 
 <head>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+
 
 </head>
 
@@ -48,42 +50,55 @@ $fileName = basename($_SERVER['PHP_SELF']);
                                         } ?>">
                         <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="admin/" target="_blank">Admin<span class="sr-only"></span></a>
+                    </li>
                 </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <?php
 
-                <?php
+                    if ($account->isAuthenticated()) {
+                    ?>
+                        <li>
+                            <div class="nav-item dropdown">
+                                <!-- avatar -->
+                                <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <img src="avatars/<?php
+                                                        if ($account->getAvatar() != NULL) {
+                                                            echo $account->getAvatar();
+                                                        } else {
+                                                            echo "no-avatar.jpg";
+                                                        }
+                                                        ?>" alt="" style="max-width: 60px;" class="rounded">
+                                </a>
 
-                if ($account->isAuthenticated()) {
-                ?>
-                    <div class="nav-item dropdown">
-                        <!-- avatar -->
-                        <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <img src="avatars/<?php
-                                            if ($account->getAvatar() != NULL) {
-                                                    echo $account->getAvatar();
-                                                } else {
-                                                    echo "no-avatar.jpg";
-                                                }
-                                                ?>" alt="" style="max-width: 60px;" class="rounded">
-                        </a>
+                                <div class="dropdown-menu dropdown-menu-right">
+                                    <!-- eliminare pagine varie dell'area utente e metterle qui -->
+                                    <h6 class="dropdown-header">Benvenuto <?php echo htmlentities($account->getName()) . ' ' .
+                                                                                htmlentities($account->getSurname()); ?></h6>
+                                    <a class="dropdown-item" href="profile.php">Profilo</a>
+                                    <a class="dropdown-item" href="change_password.php">Cambio password</a>
+                                    <div class="dropdown-divider"></div>
+                                    <a class="dropdown-item" href="logout.php">Logout</a>
+                                    <a class="dropdown-item" href="logout.php?session=ALL">Logout da tutte le sessioni</a>
+                                </div>
+                            </div>
+                        </li>
+                    <?php
+                    } else {
+                    ?>
+                        <li class="nav-item">
+                            <a class="nav-link" href="login.php">Accedi o registrati<span class="sr-only"></span></a>
+                        </li>
+                    <?php
+                    }
+                    ?>
 
-                        <div class="dropdown-menu dropdown-menu-right">
-                            <!-- eliminare pagine varie dell'area utente e metterle qui -->
-                            <h6 class="dropdown-header">Benvenuto <?php echo htmlentities($account->getName()) . ' ' .
-                                                                    htmlentities($account->getSurname()); ?></h6>
-                            <a class="dropdown-item" href="#">Action</a>
-                            <a class="dropdown-item" href="#">Another action</a>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="logout.php">Logout</a>
-                        </div>
-                    </div>
-
-                <?php
-                }
-                ?>
-
+                </ul>
             </div>
         </nav>
     </header>
+    <br>
 
 </body>
 
