@@ -27,11 +27,11 @@ $fileName = basename($_SERVER['PHP_SELF']);
         <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #f0f0f0;">
 
             <!-- logo -->
-            <nav class="navbar navbar-light">
+            <div class="navbar navbar-light">
                 <a class="navbar-brand" href="/">
                     <img src="../img/logo.svg" alt="" style="max-width: 60%;">
                 </a>
-            </nav>
+            </div>
 
             <!-- bottone per collapse in caso di schermo piccolo -->
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -40,7 +40,7 @@ $fileName = basename($_SERVER['PHP_SELF']);
 
             <!-- navbar -->
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav mr-auto">
+                <ul class="navbar-nav mr-auto nav-pills">
 
                     <!-- home -->
                     <li class="nav-item <?php
@@ -48,7 +48,7 @@ $fileName = basename($_SERVER['PHP_SELF']);
                                         if ($fileName == "index.php") {
                                             echo 'active';
                                         } ?>">
-                        <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
+                        <a class="nav-link" href="/">Home</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="admin/" target="_blank">Admin<span class="sr-only"></span></a>
@@ -69,7 +69,7 @@ $fileName = basename($_SERVER['PHP_SELF']);
                                                         } else {
                                                             echo "no-avatar.jpg";
                                                         }
-                                                        ?>" alt="" style="max-width: 60px;" class="rounded">
+                                                        ?>" alt="" style="max-width: 100px; height: 60px;" class="rounded">
                                 </a>
 
                                 <div class="dropdown-menu dropdown-menu-right">
