@@ -1,10 +1,13 @@
+<?php ob_start(); ?>
 <html>
 
 <head>
-    <link rel="stylesheet" href="../css/header.css">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+
 </head>
 
 <body>
@@ -15,47 +18,84 @@
     require_once("admin_session_login.php");
     ?>
 
-    <header style="background-color: #00e2ff66">
 
-        <!-- logo -->
-        <a href="index.php" class="logo">
-            <img class="logo" src="../img/logo.svg" alt="Biblioteca Facile" />
-        </a>
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #e3f2fd;">
 
-        <!-- menu di navigazione -->
-        <div class="right">
-            <div id="up">
-                <!-- dati -->
-                <nav id="userMenu" class="userMenu-content">
-
-                    Bibliotecario <b><?php echo htmlentities($adminAccount->getName()) . ' ' .
-                                    htmlentities($adminAccount->getSurname()); ?></b>
-
-                </nav>
+            <!-- logo -->
+            <div class="navbar navbar-light">
+                <a class="navbar-brand" href="index.php">
+                    <img src="../img/logo.svg" alt="" style="max-width: 60%;">
+                </a>
             </div>
 
-            <!-- div down per nav tra le pagine -->
-            <div id="down">
-                <?php
-                //controlla la pagina in cui si è
-                $fileName = basename($_SERVER['PHP_SELF']);
+            <!-- bottone per collapse in caso di schermo piccolo -->
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
 
-                //se sono nelle pagine di un nav evidenzio la casella                
-                if ($fileName == "index.php") {
-                    echo '<a class="nav active" href="index.php">Dashboard</a>';
-                } else {
-                    echo '<a class="nav" href="index.php">Dashboard</a>';
-                }
-                ?>
+            <!-- navbar -->
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav mr-auto nav-pills">
 
-                <a class="nav" href="/" target="_blank">User</a>
-                <a class="nav" href="admin_logout.php">Logout</a>
+                    <!-- Dashboard -->
+                    <li class="nav-item <?php
+                                        //controllo se è su home, in tal caso metto active
+                                        if ($fileName == "index.php") {
+                                            echo 'active';
+                                        } ?>">
+                        <a class="nav-link" href="index.php">Dashboard</a>
+                    </li>
 
+                    <!-- Utenti -->
+                    <li class="nav-item <?php
+                                        //controllo se è su utenti, in tal caso metto active
+                                        if ($fileName == "admin_users.php") {
+                                            echo 'active';
+                                        } ?>">
+                        <a class="nav-link" href="admin_users.php">Utenti</a>
+                    </li>
 
+                    <!-- Prestiti -->
+                    <li class="nav-item <?php
+                                        //controllo se è su prestiti, in tal caso metto active
+                                        if ($fileName == "admin_loans.php") {
+                                            echo 'active';
+                                        } ?>">
+                        <a class="nav-link" href="admin_loans.php">Prestiti</a>
+                    </li>
+
+                    <!-- user area -->
+                    <li class="nav-item">
+                        <a class="nav-link" href="/" target="_blank">User<span class="sr-only"></span></a>
+                    </li>
+                </ul>
+
+                <!-- dropdown -->
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <div class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Bibliotecario <?php echo htmlentities($adminAccount->getName()) . ' ' .
+                                                    htmlentities($adminAccount->getSurname()); ?>
+                            </a>
+
+                            <div class="dropdown-menu dropdown-menu-right">
+                                <a class="dropdown-item" href="admin_profile.php">Profilo</a>
+                                <a class="dropdown-item" href="admin_change_password.php">Cambio password</a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="admin_logout.php">Logout</a>
+                                <a class="dropdown-item" href="admin_logout.php?session=ALL">Logout da tutte le sessioni</a>
+                            </div>
+                        </div>
+                    </li>
+
+                </ul>
             </div>
-        </div>
-
+        </nav>
     </header>
+    <br>
+
 
 </body>
 
