@@ -1,4 +1,10 @@
 <?php ob_start(); ?>
+<?php
+
+//salvo location per activate solo su bottone della pagina
+$fileName = basename($_SERVER['PHP_SELF']);
+?>
+
 <html>
 
 <head>
