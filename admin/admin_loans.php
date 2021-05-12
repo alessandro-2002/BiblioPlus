@@ -65,7 +65,7 @@
                     <!-- button per aggiungere prestito -->
                     <a href="admin_new_loan.php">
                         <button type="button" class="btn btn-lg" aria-label=" Left Align">
-                            <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Nuovo Prestito
+                            <i class="fa fa-plus"></i> Nuovo Prestito
                         </button>
                     </a>
 
@@ -113,7 +113,7 @@
                         echo "<td><a href='admin_edit_loan.php?idLoan=" . $loan['idLoan'] . "'>";
 
                         echo "<button type=\"button\" class=\"btn btn-default\" aria-label=\"Left Align\">
-                        <span class=\"glyphicon glyphicon-pencil\" aria-hidden=\"true\"></span>
+                            <i class=\"fas fa-edit\"></i>
                         </button>";
 
                         echo "</a></td>";
