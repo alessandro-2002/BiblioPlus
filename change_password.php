@@ -5,8 +5,6 @@
 
 <head>
     <meta charset="UTF-8">
-    <link rel="stylesheet" href="css/base.css">
-    <link rel="stylesheet" href="css/change_password.css">
     <title>Biblio+</title>
 </head>
 
