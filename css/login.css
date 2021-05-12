@@ -1,98 +1,52 @@
 html, body {
-    background: #ffffff;
-    font-family: lucida console;
-    width: 90%;
+    height: 100%;
+}
+
+body {
+    display: flex;
+    align-items: center;
+    padding-top: 40px;
+    padding-bottom: 40px;
+    background-color: #f5f5f5;
+}
+
+.login {
+    width: 100%;
+    max-width: 330px;
+    padding: 15px;
     margin: auto;
 }
 
-#login {
-    border: 1px solid #0080ff;
-    width: 30%;
-    height: auto;
-    font-family: lucida console;
-    margin-top: 2%;
+.login .checkbox {
+    font-weight: 400;
 }
 
-header {
-    font-size: 20px;
-    background: #71B8FF;
-    padding-top: 10px;
-    padding-bottom: 2px;
-    text-align: center;
-    border-bottom: 1px solid #0080ff;
+.login .form-floating:focus-within {
+    z-index: 2;
 }
 
-#form {
-    text-align: center;
+.firstElement {
+    margin-bottom: -1px;
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0;
 }
 
-#txt {
-    border: 1px solid #000000;
-    margin-top: 3px;
-    margin-left: 10px;
-    width: 60%;
+.lastElement {
+    margin-bottom: 10px;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
 }
 
-#button {
-    margin-top: 5px;
-    margin-bottom: 5px;
-    padding: 3px;
-    border: 1px solid #0080ff;
-    background: #ccc;
-    width: 100px;
-    color: #000000;
+.bd-placeholder-img {
+    font-size: 1.125rem;
+    text-anchor: middle;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    user-select: none;
 }
 
-#button:hover {
-    margin-top: 5px;
-    padding: 3px;
-    border: 1px solid #0080ff;
-    background: #ededed;
-    width: 100px;
-    color: #444444;
-}
-
-#footer {
-    bottom: 1px;
-    z-index: 50%;
-    position: fixed;
-    width: 100%;
-}
-
-/* Private.php*/
-
-#topbar {
-    width: 100%;
-    border-bottom: 1px solid #0080ff;
-    background: #71b8ff;
-    padding-right: 16px;
-    padding-top: 5px;
-    padding-bottom: 5px;
-    margin-right: -20px;
-    margin-left: -8px;
-    margin-top: -8px;
-}
-
-#logout {
-    margin-left: 20px;
-    border: 1px solid #0080ff;
-    padding-top: 3px;
-    padding-bottom: 3px;
-    padding-left: 20px;
-    padding-right: 20px;
-    background: #ccc;
-    color: #000000;
-    text-decoration: none;
-}
-
-#logout:hover {
-    margin-left: 20px;
-    border: 1px solid #0080ff;
-    padding-top: 3px;
-    padding-bottom: 3px;
-    padding-left: 20px;
-    padding-right: 20px;
-    background: #ededed;
-    color: #444444;
-    text-decoration: none;
+@media (min-width: 768px) {
+    .bd-placeholder-img-lg {
+        font-size: 3.5rem;
+    }
 }
