@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <link rel="stylesheet" href="css/base.css">
     <link rel="stylesheet" href="css/home.css">
+
     <title>Biblio+</title>
 
 </head>
@@ -138,7 +139,7 @@
 
         //get books list
         //preparo query di base
-        $query = "SELECT ISBN, title, subtitle, cover, name AS publisher, publisher.idPublisher AS idPublisher
+        $query = "SELECT ISBN, title, subtitle, cover
                 FROM book, publisher
                 WHERE book.idPublisher = publisher.idPublisher";
 
@@ -212,6 +213,7 @@
             }
         } catch (PDOException $e) {
             //in caso di errore stampo con stile
+            echo $e->getMessage();
             echo "<div class=\"alert alert-danger\">
                     <strong>Errore!</strong> Errore nella ricerca
                 </div>";
@@ -226,119 +228,43 @@
             $books = $res->fetchAll();
         ?>
 
-            <!-- Visualizzazione tabellare dei libri -->
-            <div class="books">
+            <section style="max-width: 85%; margin:auto;">
 
-                <table>
-
-                    <!-- intestazione -->
-                    <tr>
-                        <th>
-                            Immagine
-                        </th>
-                        <th>
-                            ISBN
-                        </th>
-                        <th>
-                            Titolo
-                        </th>
-                        <th>
-                            Sottotitolo
-                        </th>
-                        <th>
-                            Autori
-                        </th>
-                        <th>
-                            Editore
-                        </th>
-                    </tr>
-
+                <!-- Grid row -->
+                <div class="row">
                     <?php
-
-                    //query per trovare autori
-                    $query = "SELECT author.idAuthor, name, surname
-                        FROM author, write_book AS wb
-                        WHERE author.idAuthor = wb.idAuthor
-                            AND wb.ISBN = :ISBN
-                        ORDER BY wb.position;";
-
-                    //prepare query, ottimizza l'esecuzione
-                    $res = $pdo->prepare($query);
-
-
-                    //stampa dei libri in tabella
                     foreach ($books as $book) {
-
-                        /* ricerca degli autori */
-
-                        //array di valori da passare per la query autori
-                        $values = array(':ISBN' => $book['ISBN']);
-
-                        /* esecuzione query */
-                        try {
-                            //esecuzione con passaggio di eventuali valori di ricerca, controllo esistano
-                            if (isset($values)) {
-                                $res->execute($values);
-                            }
-
-                            //fetch
-                            $autori = $res->fetchAll();
-                        } catch (PDOException $e) {
-
-                            //in caso di errore stampo con stile
-                            echo "<div class=\"alert alert-danger\">
-                                <strong>Errore!</strong> Errore nella ricerca
-                                </div>";
-                            die();
-                        }
-
-                        /* stampa tabellare */
-
-                        echo "<tr>";
-
-                        //cover 
-                        echo "<td class='picture-box'><img src='images/";
-                        if ($book['cover'] != NULL) {
-                            echo $book['cover'];
-                        } else {
-                            echo "no-image.jpg";
-                        }
-                        echo "' />";
-
-                        //ISBN
-                        echo "<td>" . $book['ISBN'] . "</td>";
-
-                        //title
-                        echo "<td><a href=\"book_detail.php?ISBN=" . $book['ISBN'] . "\">" . $book['title'] . "</a></td>";
-
-                        //subtitle
-                        echo "<td>" . $book['subtitle'] . "</td>";
-
-                        //autori
-                        echo "<td>";
-
-                        //stampo gli autori utilizzando l'index per capire se devo mettere la virgola (o se è l'ultimo)
-                        foreach ($autori as $index => $autore) {
-                            echo '<a href="index.php?authorId=' . $autore['idAuthor'] . '">' . $autore['name'] . " " . $autore['surname'] . '</a>';
-
-                            if (count($autori) > $index + 1) {
-                                echo ", ";
-                            }
-                        }
-
-                        echo "</td>";
-
-                        //publisher
-                        echo "<td><a href=\"index.php?publisherId=" . $book['idPublisher'] . "\">" . $book['publisher'] . "</a></td>";
-
-                        echo "</tr>";
-                    }
                     ?>
 
+                        <!-- Grid column -->
+                        <div class="col-md-4 mb-4">
+                            <!-- Card -->
+                            <div class="">
+                                <div class="view zoom overlay z-depth-2 rounded text-center">
+                                    <a href="book_detail.php?ISBN=<?php echo $book['ISBN']; ?>">
+                                        <img class="img-fluid rounded" src="images/<?php
+                                                                                    if ($book['cover'] != NULL) {
+                                                                                        echo $book['cover'];
+                                                                                    } else {
+                                                                                        echo "no-image.jpg";
+                                                                                    }
+                                                                                    ?>" style="max-width: 80%; ">
+                                    </a>
+                                </div>
+                                <div class="text-center pt-4">
+                                    <h5><?php echo htmlentities($book['title']); ?></h5>
+                                    <p class="mb-2 text-muted small"><?php echo htmlentities($book['subtitle']); ?></p>
+                                </div>
+                            </div>
+                            <!-- Card -->
+                        </div>
+                        <!-- Column -->
 
-                </table>
-
-            </div>
+                    <?php
+                    }
+                    ?>
+                </div>
+            </section>
 
         <?php
         } else {
