@@ -14,7 +14,7 @@ function addCopy() {
                         <div class="input-group">
                             <input id="idCopy" name="idCopy[]" type="number" min="1" step="1" class="form-control" required>
                             <button type="button" class="btn btn-default btn-xs remove" onclick="removeCopy(this)">
-                                <span class="glyphicon glyphicon-minus" aria-hidden="true"></span>
+                                <i class="fas fa-trash"></i>
                             </button>
                         </div>
                     </div>`;

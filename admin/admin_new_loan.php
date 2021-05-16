@@ -8,12 +8,6 @@
 
     <script src="../js/admin_new_loan.js"></script>
 
-    <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-wEmeIV1mKuiNpC+IOBjI7aAzPcEZeedi5yW5f2yOq55WWLwNGmvvx4Um1vskeMj0" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-p34f1UUtsS3wqzfto5wAAmdvj+osOnFyQFpp4Ua3gs/ZVWx6oOypYoCJhGGScy+8" crossorigin="anonymous"></script> -->
-
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
-
 
     <title>Area Bibliotecario</title>
 </head>
@@ -286,7 +280,7 @@
                         <div class="col-8">
                             <div class="input-group">
                                 <button type="button" class="btn btn-default" onclick="addCopy()">
-                                    <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Aggiungi copia
+                                    <i class="fa fa-plus"></i> Aggiungi copia
                                 </button>
                             </div>
                         </div>
