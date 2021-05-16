@@ -70,6 +70,7 @@ CREATE TABLE `admin_session` (
 
 LOCK TABLES `admin_session` WRITE;
 /*!40000 ALTER TABLE `admin_session` DISABLE KEYS */;
+INSERT INTO `admin_session` VALUES ('dadapgnd6cumg392a0vl26v38i',1,'2021-05-17 19:52:37');
 /*!40000 ALTER TABLE `admin_session` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -152,7 +153,7 @@ CREATE TABLE `borrow` (
 
 LOCK TABLES `borrow` WRITE;
 /*!40000 ALTER TABLE `borrow` DISABLE KEYS */;
-INSERT INTO `borrow` VALUES (1,1),(4,1),(4,2),(10,1),(15,1),(15,2);
+INSERT INTO `borrow` VALUES (1,1),(4,1),(4,2),(10,1),(15,1),(15,2),(17,1),(17,2);
 /*!40000 ALTER TABLE `borrow` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -199,7 +200,7 @@ CREATE TABLE `loan` (
   PRIMARY KEY (`idLoan`),
   KEY `fk5` (`idUser`),
   CONSTRAINT `fk5` FOREIGN KEY (`idUser`) REFERENCES `user` (`idUser`) ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -208,7 +209,7 @@ CREATE TABLE `loan` (
 
 LOCK TABLES `loan` WRITE;
 /*!40000 ALTER TABLE `loan` DISABLE KEYS */;
-INSERT INTO `loan` VALUES (1,5,'2021-04-03 22:38:19',4,'2021-05-10 18:51:06'),(4,1,'2021-05-10 21:03:38',10,'2021-05-12 22:59:11'),(10,23,'2021-05-10 22:11:42',33,'2021-05-12 23:03:56'),(15,27,'2021-05-12 23:04:45',30,NULL);
+INSERT INTO `loan` VALUES (1,5,'2021-04-03 22:38:19',4,'2021-05-10 18:51:06'),(4,1,'2021-05-10 21:03:38',10,'2021-05-12 22:59:11'),(10,23,'2021-05-10 22:11:42',33,'2021-05-12 23:03:56'),(15,27,'2021-05-12 23:04:45',3,'2021-05-16 21:01:23'),(17,69,'2021-05-16 21:09:32',30,NULL);
 /*!40000 ALTER TABLE `loan` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -254,7 +255,7 @@ CREATE TABLE `user` (
   `avatar` varchar(20) DEFAULT NULL,
   `isEnabled` tinyint(1) NOT NULL DEFAULT 1,
   PRIMARY KEY (`idUser`)
-) ENGINE=InnoDB AUTO_INCREMENT=29 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=70 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -263,7 +264,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES (1,'Ethan Aldino','Cominelli','toninelli.alessandro02@gmail.com','$2y$10$eAV3IwNjUmCe9q3nayTXPuorlEOh0vWyXck96N5q5qzbxMWOkrXC2','2021-08-20 19:41:23','Via Pisani 11, 25040 Esine (BS)','1.PNG',1),(5,'Gabriele Molto bene Test nome assai prolisso','Baiguini','toninelli.alessandro00@gmail.com','$2y$10$kCCidRxchyT87HD8u.XiqOeAVU0pIZWcaArgGJ7iDHRWSEpeU0Of6','2021-07-24 23:23:24',NULL,'5.png',1),(23,'Wade Giovanni Erba','Nepero Baisini','sheduxerr@gmail.com','$2y$10$/.YcPX2op9vWPzArrbaXoeGfMcBzVgjlcIw7Vx56qnevOBkQeNXge','2021-07-26 10:41:04',NULL,'23.PNG',1),(26,'Manuel','Bonù','manuel.bonu02@gmail.com','$2y$10$CngVNb0BVqtVqasHeKwmxOcKJoPAPUhOp/khZpbfkbiEtbeMUdXfO','2021-08-16 09:22:20','Via Porte 12, Angolo Terme','26.jpeg',0),(27,'Simone','Mariolini','simone.mariolini42@gmail.com','$2y$10$i.Wq5JEX6Q8yhdjPGg17mOzKkJ3akbgOQKuIazNi8AaoJ3S3NOrbK','2021-08-20 19:00:26','Via Archi 8, 25040 Angolo Terme (BS)','27.png',1),(28,'Test','Cognome','test@testo.it','$2y$10$FRTJhSOGYayElDQXpj5/uuwdfxZ/Jvne4a08WZou33hGwuWsN.gcy','2021-08-20 21:38:41',NULL,NULL,1);
+INSERT INTO `user` VALUES (1,'Ethan Aldino','Cominelli','toninelli.alessandro02@gmail.com','$2y$10$eAV3IwNjUmCe9q3nayTXPuorlEOh0vWyXck96N5q5qzbxMWOkrXC2','2021-08-20 19:41:23','Via Pisani 11, 25040 Esine (BS)','1.PNG',1),(5,'Gabriele Molto bene Test nome assai prolisso','Baiguini','toninelli.alessandro00@gmail.com','$2y$10$kCCidRxchyT87HD8u.XiqOeAVU0pIZWcaArgGJ7iDHRWSEpeU0Of6','2021-07-24 23:23:24',NULL,'5.png',1),(23,'Wade Giovanni Erba','Nepero Baisini','sheduxerr@gmail.com','$2y$10$/.YcPX2op9vWPzArrbaXoeGfMcBzVgjlcIw7Vx56qnevOBkQeNXge','2021-07-26 10:41:04',NULL,'23.PNG',1),(26,'Manuel','Bonù','manuel.bonu02@gmail.com','$2y$10$CngVNb0BVqtVqasHeKwmxOcKJoPAPUhOp/khZpbfkbiEtbeMUdXfO','2021-08-16 09:22:20','Via Porte 12, Angolo Terme','26.jpeg',0),(27,'Simone','Mariolini','simone.mariolini42@gmail.com','$2y$10$A3XX5YS9.n1lHoa3l9fpy.qd33WTky.9GoN/z8vywtcM.wuBOFwcW','2021-08-20 19:00:26','Via Archi 8, 25040 Angolo Terme (BS)','27.PNG',1),(28,'Test','Cognome','test@testo.it','$2y$10$FRTJhSOGYayElDQXpj5/uuwdfxZ/Jvne4a08WZou33hGwuWsN.gcy','2021-08-20 21:38:41',NULL,NULL,1),(69,'Alberto','Pezzotti','alberto.pezzotti@gmail.com','$2y$10$pKwPIg0oFi4EVYyMWgDB4uipdAZLGiqEpjM1aM.EyC.H/9LB4E5xm','2021-08-24 20:54:48','Via Ravellini 4A, 25040 Angolo Terme (BS)','69.jpg',1);
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -290,6 +291,7 @@ CREATE TABLE `user_session` (
 
 LOCK TABLES `user_session` WRITE;
 /*!40000 ALTER TABLE `user_session` DISABLE KEYS */;
+INSERT INTO `user_session` VALUES ('dadapgnd6cumg392a0vl26v38i',69,'2021-05-17 20:55:24');
 /*!40000 ALTER TABLE `user_session` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -330,4 +332,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-05-14 21:48:51
+-- Dump completed on 2021-05-16 22:15:16
