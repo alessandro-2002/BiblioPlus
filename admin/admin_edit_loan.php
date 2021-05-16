@@ -41,15 +41,11 @@ function stampaTitoli($pdo, int $idLoan)
         <label for="" class="col-4 col-form-label">Titoli</label>
         <div class="col-8">
             <div class="input-group">
-
                 <?php
                 //foreach e stampa titoli
-                foreach ($titoli as $index => $titolo) {
-                    echo '<a href="book_detail.php?ISBN=' . $titolo['ISBN'] . '">' . htmlentities($titolo['title']) . "</a> (" . $titolo['idCopy'] . ')';
+                foreach ($titoli as $titolo) {
 
-                    if (count($titoli) > $index + 1) {
-                        echo "<br>";
-                    }
+                    echo '<a href="book_detail.php?ISBN=' . $titolo['ISBN'] . '" class="list-group-item list-group-item-action">' . htmlentities($titolo['title']) . " (" . $titolo['idCopy'] . ')</a>';
                 }
                 ?>
             </div>
@@ -65,7 +61,6 @@ function stampaTitoli($pdo, int $idLoan)
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" href="../css/base.css">
-    <link rel="stylesheet" href="../css/admin_edit_loan.css">
 
     <script>
         //conferma cancellazione prestito
@@ -243,24 +238,26 @@ function stampaTitoli($pdo, int $idLoan)
                 <h1>Prestito id <?php echo $loan['idLoan']; ?></h1>
 
                 <hr>
-                <div id="status">
-                    <?php
-                    $isRiconsegnato = false;
+                <div class="text-center">
+                    <h3>
+                        <?php
+                        $isRiconsegnato = false;
 
-                    //se libro è già stato riconsegnato contrassegno come riconsegnato
-                    if ($loan['returnDate'] != NULL) {
-                        echo "<span class='returned'> RICONSEGNATO </span>";
-                        $isRiconsegnato = true;
+                        //se libro è già stato riconsegnato contrassegno come riconsegnato
+                        if ($loan['returnDate'] != NULL) {
+                            echo '<span class="badge badge-success">RICONSEGNATO</span>';
+                            $isRiconsegnato = true;
 
-                        //se non riconsegnato controllo se scaduto
-                    } else if (strtotime("now") > strtotime($loan['expireDate'])) {
-                        echo "<span class='expired'> SCADUTO </span>";
+                            //se non riconsegnato controllo se scaduto
+                        } else if (strtotime("now") > strtotime($loan['expireDate'])) {
+                            echo '<span class="badge badge-danger">SCADUTO</span>';
 
-                        //se non scaduto né riconsegnato è ancora in prestito
-                    } else {
-                        echo "<span class='inLoan'> IN CORSO </span>";
-                    }
-                    ?>
+                            //se non scaduto né riconsegnato è ancora in prestito
+                        } else {
+                            echo '<span class="badge badge-warning">IN CORSO</span>';
+                        }
+                        ?>
+                    </h3>
                 </div>
 
                 <br>
@@ -350,20 +347,18 @@ function stampaTitoli($pdo, int $idLoan)
                         //stampo pulsanti solo se ha le acl
                         if ($adminAccount->getACLloan()) {
                         ?>
-                            <div class="form-group row">
-                                <div class="offset-4 col-8">
-                                    <button name="submit" type="submit" class="btn btn-primary">Aggiorna scadenza</button>
-                                    <button name="submit" type="reset" class="btn">Reset</button>
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <div class="offset-4 col-8">
-                                    <a href="admin_edit_loan.php?idLoan=<?php echo $loan['idLoan']; ?>&action=close" class="btn btn-success" role="button">Riconsegna</a>
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <div class="offset-4 col-8">
-                                    <button type="button" onclick="confirmDelete()" class="btn btn-danger" role="button">ELIMINA</a>
+                            <div id="buttons">
+                                <div class="form-group row">
+                                    <div class="offset-4 col-8">
+                                        <button name="submit" type="submit" class="btn btn-primary" style="width: 160px;">Aggiorna scadenza</button>
+                                        <button name="submit" type="reset" class="btn" style="width: 160px; background-color: #ffd900;">Reset</button>
+                                        <!--   </div>
+                                 </div>
+                                <div class="form-group row">
+                                    <div class="offset-4 col-8"> -->
+                                        <a href="admin_edit_loan.php?idLoan=<?php echo $loan['idLoan']; ?>&action=close" class="btn btn-success" role="button" style="width: 160px;">Riconsegna</a>
+                                        <button type="button" onclick="confirmDelete()" class="btn btn-danger" role="button" style="width: 160px;">ELIMINA</a>
+                                    </div>
                                 </div>
                             </div>
                     <?php
