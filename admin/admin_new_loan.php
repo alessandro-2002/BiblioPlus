@@ -301,7 +301,7 @@
 
         } else {
             echo '<br><div class="alert alert-danger">
-                    <strong>Errore!</strong> Non disponi dell\'autorizzazione effettuare prestiti.
+                    <strong>Errore!</strong> Non disponi dell\'autorizzazione per effettuare prestiti.
                 </div>';
         }
         ?>

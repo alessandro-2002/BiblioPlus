@@ -352,10 +352,7 @@ function stampaTitoli($pdo, int $idLoan)
                                     <div class="offset-4 col-8">
                                         <button name="submit" type="submit" class="btn btn-primary" style="width: 160px;">Aggiorna scadenza</button>
                                         <button name="submit" type="reset" class="btn" style="width: 160px; background-color: #ffd900;">Reset</button>
-                                        <!--   </div>
-                                 </div>
-                                <div class="form-group row">
-                                    <div class="offset-4 col-8"> -->
+                               
                                         <a href="admin_edit_loan.php?idLoan=<?php echo $loan['idLoan']; ?>&action=close" class="btn btn-success" role="button" style="width: 160px;">Riconsegna</a>
                                         <button type="button" onclick="confirmDelete()" class="btn btn-danger" role="button" style="width: 160px;">ELIMINA</a>
                                     </div>
