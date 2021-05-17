@@ -13,11 +13,59 @@
         require_once("../assets/admin_header.php");
         ?>
 
-        <h1>Dashboard Bibliotecario</h1>
+        <br>
 
-        <a href="admin_users.php">Gestione Utenti</a><br>
-        <a href="admin_loans.php">Gestione Prestiti</a><br>
-        <a href='admin_area.php'>Area Riservata</a> DA LEVARE E FARE TUTTO BOTTONE
+        <h4>Bibliotecario <?php echo htmlentities($adminAccount->getName()) . ' ' .
+                                htmlentities($adminAccount->getSurname()); ?> </h4>
+
+        <br>
+
+        Mail di accesso: <?php echo htmlentities($adminAccount->getMail()); ?>
+
+        <br><br>
+
+        <b>Permessi</b>
+        <br>
+
+        Prestiti: <?php
+                    //se consentito
+                    if ($adminAccount->getACLloan()) {
+                        echo '<span class="badge badge-success">Consentito</span>';
+                        //se non consentito 
+                    } else {
+                        echo '<span class="badge badge-danger">NON consentito</span>';
+                    }
+                    ?>
+        <br>
+        Catalogo: <?php
+                    //se consentito
+                    if ($adminAccount->getACLcatalogue()) {
+                        echo '<span class="badge badge-success">Consentito</span>';
+                        //se non consentito 
+                    } else {
+                        echo '<span class="badge badge-danger">NON consentito</span>';
+                    }
+                    ?>
+        <br>
+        Utenti: <?php
+                //se consentito
+                if ($adminAccount->getACLuser()) {
+                    echo '<span class="badge badge-success">Consentito</span>';
+                    //se non consentito 
+                } else {
+                    echo '<span class="badge badge-danger">NON consentito</span>';
+                }
+                ?>
+        <br>
+        Bibliotecari: <?php
+                        //se consentito
+                        if ($adminAccount->getACLadmin()) {
+                            echo '<span class="badge badge-success">Consentito</span>';
+                            //se non consentito 
+                        } else {
+                            echo '<span class="badge badge-danger">NON consentito</span>';
+                        }
+                        ?>
     </div>
 
 </body>
