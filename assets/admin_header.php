@@ -62,6 +62,15 @@ $fileName = basename($_SERVER['PHP_SELF']);
                         <a class="nav-link" href="admin_users.php">Utenti</a>
                     </li>
 
+                    <!-- Admins -->
+                    <li class="nav-item <?php
+                                        //controllo se è su admins, in tal caso metto active
+                                        if ($fileName == "admin_admins.php") {
+                                            echo 'active';
+                                        } ?>">
+                        <a class="nav-link" href="admin_admins.php">Bibliotecari</a>
+                    </li>
+
                     <!-- Prestiti -->
                     <li class="nav-item <?php
                                         //controllo se è su prestiti, in tal caso metto active
