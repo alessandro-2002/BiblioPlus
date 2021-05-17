@@ -87,7 +87,6 @@ $fileName = basename($_SERVER['PHP_SELF']);
                             </a>
 
                             <div class="dropdown-menu dropdown-menu-right">
-                                <a class="dropdown-item" href="admin_profile.php">Profilo</a>
                                 <a class="dropdown-item" href="admin_change_password.php">Cambio password</a>
                                 <div class="dropdown-divider"></div>
                                 <a class="dropdown-item" href="admin_logout.php">Logout</a>
