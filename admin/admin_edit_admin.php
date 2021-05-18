@@ -6,7 +6,6 @@
     <link rel="stylesheet" href="../css/base.css">
     <link rel="stylesheet" href="../css/profile.css">
     <link rel="stylesheet" href="../css/toggleSwitch.css">
-    <link rel="stylesheet" href="../css/loans.css">
     <title>Area Bibliotecario</title>
 </head>
 
@@ -21,6 +20,14 @@
         //importo classe admin
         require_once("../classes/admin_class.php");
 
+        //controllo se bibliotecario ha le ACL per la modifica degli admin altrimenti segnalo che può solo visualizzare e die
+        if (!$adminAccount->getACLadmin()) {
+            echo '<br><div class="alert alert-danger">
+                    <strong>Errore!</strong> Non disponi dell\'autorizzazione per gestire i Bibliotecari.
+                </div>';
+            die();
+        }
+
         //controllo che ci sia user in get altrimenti redirect
         if (!isset($_GET['idAdmin']) || $_GET['idAdmin'] == NULL) {
             header('Location: admin_admins.php');
@@ -31,14 +38,6 @@
 
         //controllo che id sia inserito come int e in caso procedo con la popolazione dell'oggetto
         if (((int)$_GET['idAdmin']) != 0 &&  $admin->popolaDaId($_GET['idAdmin'])) {
-
-            //controllo se bibliotecario ha le ACL per la modifica altrimenti segnalo che può solo visualizzare
-            if (!$adminAccount->getACLadmin()) {
-                echo '<br><div class="alert alert-danger">
-                        <strong>Errore!</strong> Non disponi dell\'autorizzazione per gestire i Bibliotecari.
-                    </div>';
-            }
-
 
             //in caso ci sia modifica in post edito l'account
             if (isset($_POST['name']) && isset($_POST['surname']) && isset($_POST['mail']) && $adminAccount->getACLadmin()) {
@@ -103,172 +102,123 @@
             <div class="container">
                 <h1>Profilo Bibliotecario</h1>
                 <hr>
-                <div class="row">
 
-                    <!-- edit form column -->
-                    <div class="col-md-9 personal-info">
-                        <h3>Informazioni personali</h3>
-
-                        <form class="form-horizontal" method="POST" action="">
-                            <div class="form-group">
-                                <label class="col-lg-3 control-label">Id Bibliotecario:</label>
-                                <div class="col-lg-8">
-                                    <input class="form-control" type="text" value="<?php
-                                                                                    echo htmlentities($admin->getId());
-                                                                                    ?>" disabled>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="col-lg-3 control-label">Nome:</label>
-                                <div class="col-lg-8">
-                                    <input class="form-control" type="text" maxlength="45" name="name" value="<?php
-                                                                                                                echo htmlentities($admin->getName());
-                                                                                                                ?>" required<?php
-                                                                                                                            //se non ha autorizzazione metto disabled
-                                                                                                                            if (!$adminAccount->getACLadmin()) {
-                                                                                                                                echo " disabled";
-                                                                                                                            }
-                                                                                                                            ?>>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="col-lg-3 control-label">Cognome:</label>
-                                <div class="col-lg-8">
-                                    <input class="form-control" type="text" maxlength="45" name="surname" value="<?php
-                                                                                                                    echo htmlentities($admin->getSurname());
-                                                                                                                    ?>" required<?php
-                                                                                                                                //se non ha autorizzazione metto disabled
-                                                                                                                                if (!$adminAccount->getACLadmin()) {
-                                                                                                                                    echo " disabled";
-                                                                                                                                }
-                                                                                                                                ?>>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="col-lg-3 control-label">Email:</label>
-                                <div class="col-lg-8">
-                                    <input class="form-control" type="email" maxlength="255" name="mail" value="<?php
-                                                                                                                echo htmlentities($admin->getMail());
-                                                                                                                ?>" required<?php
-                                                                                                                            //se non ha autorizzazione metto disabled
-                                                                                                                            if (!$adminAccount->getACLadmin()) {
-                                                                                                                                echo " disabled";
-                                                                                                                            }
-                                                                                                                            ?>>
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                <label class="col-lg-3 control-label">ACL catalogo:</label>
-                                <div class="col-lg-8">
-                                    <label class="switch">
-                                        <input type="checkbox" name="ACLcatalogue" <?php
-                                                                                    if ($admin->getACLcatalogue()) {
-                                                                                        echo " checked";
-                                                                                    }
-                                                                                    ?> <?php
-                                                                                        //se non ha autorizzazione metto disabled
-                                                                                        if (!$adminAccount->getACLadmin()) {
-                                                                                            echo " disabled";
-                                                                                        }
-                                                                                        ?>>
-                                        <span class="slider round"></span>
-                                    </label>
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                <label class="col-lg-3 control-label">ACL prestiti:</label>
-                                <div class="col-lg-8">
-                                    <label class="switch">
-                                        <input type="checkbox" name="ACLloan" <?php
-                                                                                if ($admin->getACLloan()) {
-                                                                                    echo " checked";
-                                                                                }
-                                                                                ?> <?php
-                                                                                    //se non ha autorizzazione metto disabled
-                                                                                    if (!$adminAccount->getACLadmin()) {
-                                                                                        echo " disabled";
-                                                                                    }
-                                                                                    ?>>
-                                        <span class="slider round"></span>
-                                    </label>
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                <label class="col-lg-3 control-label">ACL Utenti:</label>
-                                <div class="col-lg-8">
-                                    <label class="switch">
-                                        <input type="checkbox" name="ACLuser" <?php
-                                                                                if ($admin->getACLuser()) {
-                                                                                    echo " checked";
-                                                                                }
-                                                                                ?> <?php
-                                                                                    //se non ha autorizzazione metto disabled
-                                                                                    if (!$adminAccount->getACLadmin()) {
-                                                                                        echo " disabled";
-                                                                                    }
-                                                                                    ?>>
-                                        <span class="slider round"></span>
-                                    </label>
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                <label class="col-lg-3 control-label">ACL Bibliotecari:</label>
-                                <div class="col-lg-8">
-                                    <label class="switch">
-                                        <input type="checkbox" name="ACLadmin" <?php
-                                                                                if ($admin->getACLadmin()) {
-                                                                                    echo " checked";
-                                                                                }
-                                                                                ?> <?php
-                                                                                    //se non ha autorizzazione metto disabled
-                                                                                    if (!$adminAccount->getACLadmin()) {
-                                                                                        echo " disabled";
-                                                                                    }
-                                                                                    ?>>
-                                        <span class="slider round"></span>
-                                    </label>
-                                </div>
-                            </div>
-
-
-
-                            <?php
-                            //se ha autorizzazione stampo form per modifica utente
-                            if ($adminAccount->getACLuser()) {
-                            ?>
-                                <div class="form-group">
-                                    <label class="col-md-3 control-label"></label>
-                                    <div class="col-md-8">
-                                        <input type="submit" class="btn btn-primary" value="Salva">
-                                        <span></span>
-                                        <input type="reset" class="btn btn-default" value="Reset">
-                                    </div>
-                                </div>
-                            <?php
-                            }
-                            ?>
-                        </form>
+                <form class="form-horizontal" method="POST" action="">
+                    <div class="form-group row">
+                        <label class="col-4 col-form-label">Id Bibliotecario</label>
+                        <div class="col-8">
+                            <input class="form-control" type="text" value="<?php
+                                                                            echo htmlentities($admin->getId());
+                                                                            ?>" disabled>
+                        </div>
                     </div>
-                </div>
+                    <div class="form-group row">
+                        <label class="col-4 col-form-label">Nome</label>
+                        <div class="col-8">
+                            <input class="form-control" type="text" maxlength="45" name="name" value="<?php
+                                                                                                        echo htmlentities($admin->getName());
+                                                                                                        ?>" required>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-4 col-form-label">Cognome</label>
+                        <div class="col-8">
+                            <input class="form-control" type="text" maxlength="45" name="surname" value="<?php
+                                                                                                            echo htmlentities($admin->getSurname());
+                                                                                                            ?>" required>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-4 col-form-label">Email</label>
+                        <div class="col-8">
+                            <input class="form-control" type="email" maxlength="255" name="mail" value="<?php
+                                                                                                        echo htmlentities($admin->getMail());
+                                                                                                        ?>" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label class="col-4 col-form-label">ACL catalogo</label>
+                        <div class="col-8">
+                            <label class="switch">
+                                <input type="checkbox" name="ACLcatalogue" <?php
+                                                                            if ($admin->getACLcatalogue()) {
+                                                                                echo " checked";
+                                                                            }
+                                                                            ?>>
+                                <span class="slider round"></span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label class="col-4 col-form-label">ACL prestiti</label>
+                        <div class="col-8">
+                            <label class="switch">
+                                <input type="checkbox" name="ACLloan" <?php
+                                                                        if ($admin->getACLloan()) {
+                                                                            echo " checked";
+                                                                        }
+                                                                        ?>>
+                                <span class="slider round"></span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label class="col-4 col-form-label">ACL Utenti</label>
+                        <div class="col-8">
+                            <label class="switch">
+                                <input type="checkbox" name="ACLuser" <?php
+                                                                        if ($admin->getACLuser()) {
+                                                                            echo " checked";
+                                                                        }
+                                                                        ?>>
+                                <span class="slider round"></span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label class="col-4 col-form-label">ACL Bibliotecari</label>
+                        <div class="col-8">
+                            <label class="switch">
+                                <input type="checkbox" name="ACLadmin" <?php
+                                                                        if ($admin->getACLadmin()) {
+                                                                            echo " checked";
+                                                                        }
+                                                                        ?>>
+                                <span class="slider round"></span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- bottoni -->
+                    <div class="form-group row">
+                        <label class="col-4 col-form-label"></label>
+                        <div class="col-8">
+                            <input type="submit" class="btn btn-primary" value="Salva">
+                            <span></span>
+                            <input type="reset" class="btn btn-default" value="Reset">
+                        </div>
+                    </div>
+                </form>
             </div>
+    </div>
 
 
-        <?php
+<?php
         } else {
             echo '<br><div class="alert alert-warning">
                     <strong>Attenzione!</strong> Nessun bibliotecario trovato.
                 </div>';
         }
-        ?>
+?>
 
 
-    </div>
+</div>
 
-    <br><br>
+<br><br>
 
 </body>
 
