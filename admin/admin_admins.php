@@ -55,6 +55,15 @@
                 <!-- Visualizzazione tabellare degli utenti -->
                 <div class="users">
 
+                    <!-- button per aggiungere admin -->
+                    <a href="admin_new_admin.php">
+                        <button type="button" class="btn btn-lg" aria-label=" Left Align">
+                            <i class="fa fa-plus"></i> Nuovo Bibliotecario
+                        </button>
+                    </a>
+
+                    <br><br>
+
                     <table>
 
                         <!-- intestazione -->
@@ -107,7 +116,7 @@
 
 
                             //id admin
-                            echo "<td><a href='admin_edit_admin.php?idAdmin=" . $admin['idAdmin'] . "'>" . $admin['idAdmin'] . "</a>";
+                            echo "<td>" . $admin['idAdmin'] . "</td>";
 
                             //mail
                             echo "<td>" . $admin['mail'] . "</td>";
