@@ -347,8 +347,9 @@ class Admin
         /* aggiunta dell'account nel db */
 
         // query di registrazione
-        $query = 'INSERT INTO admin (name, surname, mail, password, ACLcatalogue, ACLloan, ACLuser, ACLadmin) 
-                VALUES (:name, :surname, :mail, :password, :ACLcatalogue, :ACLloan, :ACLuser, :ACLadmin)';
+        // obbligherò l'admin a resettare la password al primo accesso
+        $query = 'INSERT INTO admin (name, surname, mail, password, ACLcatalogue, ACLloan, ACLuser, ACLadmin, expiration) 
+                VALUES (:name, :surname, :mail, :password, :ACLcatalogue, :ACLloan, :ACLuser, :ACLadmin, NOW())';
 
         //hash password
         $hash = password_hash($password, PASSWORD_DEFAULT);
