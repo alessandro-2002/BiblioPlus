@@ -60,7 +60,10 @@
                         <!-- intestazione -->
                         <tr>
                             <th>
-                                Id Bibliotecario
+                                <!-- colonna azioni -->
+                            </th>
+                            <th>
+                                Id
                             </th>
                             <th>
                                 Mail
@@ -92,6 +95,16 @@
                             /* stampa tabellare */
 
                             echo "<tr>";
+
+                            //azioni
+                            echo "<td><a href='admin_edit_admin.php?idAdmin=" . $admin['idAdmin'] . "'>";
+
+                            echo "<button type=\"button\" class=\"btn btn-default\" aria-label=\"Left Align\">
+                                    <i class=\"fas fa-edit\"></i>
+                                </button>";
+
+                            echo "</a></td>";
+
 
                             //id admin
                             echo "<td><a href='admin_edit_admin.php?idAdmin=" . $admin['idAdmin'] . "'>" . $admin['idAdmin'] . "</a>";

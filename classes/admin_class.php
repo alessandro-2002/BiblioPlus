@@ -57,6 +57,58 @@ class Admin
         $this->authenticated = FALSE;
     }
 
+    /* costruttore da id*/
+    public function popolaDaId(int $id)
+    {;
+        /* Global pdo */
+        global $pdo;
+
+        //query per popolazione
+        $query = "SELECT admin.idAdmin, name, surname, mail, admin.expiration AS ex, ACLcatalogue, ACLloan, ACLuser, ACLadmin, admin_session.idSession
+                FROM admin, admin_session 
+                WHERE admin.idAdmin = :idAdmin";
+
+        //array di valori
+        $values = array(':idAdmin' => $id);
+
+
+        try {
+            //preparo query
+            $res = $pdo->prepare($query);
+
+            //eseguo query
+            $res->execute($values);
+        } catch (PDOException $e) {
+            //in caso di eccezione ritorno l'eccezione
+            throw new Exception('Database query error');
+        }
+
+        //fetch del risultato
+        $res = $res->fetch(PDO::FETCH_ASSOC);
+
+        //se esiste il risultato restituisco il login
+        if (is_array($res)) {
+            //autenticazione avvenuta con successo, popolo l'oggetto e ritorno true
+            $this->id = intval($res['idAdmin'], 10);
+            $this->name = $res['name'];
+            $this->surname = $res['surname'];
+            $this->mail = $res['mail'];
+            $this->expiration = $res['ex'];
+
+            //ACL
+            $this->ACLcatalogue = $res['ACLcatalogue'];
+            $this->ACLloan = $res['ACLloan'];
+            $this->ACLuser = $res['ACLuser'];
+            $this->ACLadmin = $res['ACLadmin'];
+
+            return TRUE;
+        } else {
+
+            //se non esiste utente
+            return FALSE;
+        }
+    }
+
     /* Distruttore */
     public function __destruct()
     {
@@ -329,7 +381,7 @@ class Admin
     }
 
     /* edita account da id */
-    public function editAccount(int $idUser, string $name, string $surname, string $mail, $ACL)
+    public function editAccount(int $idAdmin, string $name, string $surname, string $mail, $ACL)
     {
         /* Global pdo */
         global $pdo;
@@ -353,7 +405,7 @@ class Admin
         //controlla se esiste admin già registrato con la stessa mail
         $idFromMail = $this->getIdFromMail($mail);
 
-        if (!is_null($idFromMail) && ($idFromMail != $idUser)) {
+        if (!is_null($idFromMail) && ($idFromMail != $idAdmin)) {
             throw new Exception('E-Mail già utilizzata');
         }
 
@@ -385,11 +437,11 @@ class Admin
                     ACLloan = :ACLloan, 
                     ACLuser = :ACLuser, 
                     ACLadmin = :ACLadmin
-                WHERE idUser = :idUser';
+                WHERE idAdmin = :idAdmin';
 
         //array di valori
         $values = array(
-            ':idUser' => $idUser,
+            ':idAdmin' => $idAdmin,
             ':name' => $name,
             ':surname' => $surname,
             ':mail' => $mail,
