@@ -5,8 +5,9 @@
 
 <head>
     <meta charset="UTF-8">
+
     <link rel="stylesheet" href="../css/base.css">
-    <link rel="stylesheet" href="../css/change_password.css">
+
     <title>Area Bibliotecario</title>
 </head>
 
@@ -50,21 +51,48 @@
 
         ?>
 
-        <h1>Cambio credenziali Bibliotecario</h1>
+        <div class="container">
 
-        <!-- form di cambio password -->
-        <form id="form" action="admin_change_password.php" method="post">
-            <label for="oldPassword">Password attuale: </label>
-            <input id="txt" type="password" placeholder="Password attuale" name="oldPassword" required><br>
+            <h1>Cambio credenziali Bibliotecario</h1>
 
-            <label for="newPassword1">Nuova password: </label>
-            <input id="txt" type="password" placeholder="Nuova password" name="newPassword1" required><br>
-
-            <label for="newPassword2">Ripeti la nuova password: </label>
-            <input id="txt" type="password" placeholder="Nuova password" name="newPassword2" required><br>
             <hr>
-            <input type="submit" id="button" value="Modifica">
-        </form>
+
+            <form action="" method="POST">
+                <div class="form-group row">
+                    <label for="oldPassword" class="col-4 col-form-label">Password attuale</label>
+                    <div class="col-8">
+                        <div class="input-group">
+                            <input id="oldPassword" name="oldPassword" type="password" class="form-control" required>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="" class="col-4 col-form-label">Nuova password</label>
+                    <div class="col-8">
+                        <div class="input-group">
+                            <input id="newPassword1" name="newPassword1" type="password" minlength="6" maxlength="15" class="form-control" required>
+                        </div>
+                    </div>
+                </div>
+                <div id="copie">
+                    <div class="form-group row">
+                        <label for="" class="col-4 col-form-label">Ripeti la nuova password</label>
+                        <div class="col-8">
+                            <div class="input-group">
+                                <input id="newPassword2" name="newPassword2" type="password" minlength="6" maxlength="15" class="form-control" required>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <div class="offset-4 col-8">
+                        <button type="submit" class="btn btn-primary">Modifica</button>
+                    </div>
+                </div>
+
+            </form>
+        </div>
 
 
 
