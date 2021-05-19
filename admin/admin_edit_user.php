@@ -8,6 +8,24 @@
     <link rel="stylesheet" href="../css/toggleSwitch.css">
     <link rel="stylesheet" href="../css/loans.css">
     <title>Area Bibliotecario</title>
+
+    <script>
+        //conferma cancellazione utente
+        function confirmDelete() {
+            if (confirm("Vuoi eliminare DEFINITIVAMENTE l'utente?")) {
+                if (confirm("Sei sicuro? L'azione è irreversibile e comporta l'eliminazione di tutto lo storico prestiti dell'utente!")) {
+                    window.location = "admin_edit_user.php?idUser=<?php echo $_GET['idUser']; ?>&action=delete";
+                }
+            }
+        }
+
+        //conferma reset password
+        function confirmResetPassword() {
+            if (confirm("Vuoi resettare la password dell'utente?")) {
+                window.location = "admin_edit_user.php?idUser=<?php echo $_GET['idUser']; ?>&action=resetPassword";
+            }
+        }
+    </script>
 </head>
 
 <body>
@@ -37,6 +55,52 @@
                 echo '<br><div class="alert alert-info">
                         <strong>Info!</strong> Non disponi dell\'autorizzazione per modificare gli utenti, questa scheda è in sola lettura.
                         </div>';
+
+                //se ha acl controllo se c'è action in corso
+            } else {
+                if (isset($_GET['action'])) {
+
+                    //controllo se sta eliminando l'utente
+                    if ($_GET['action'] == "delete") {
+
+                        //elimino account dalla classe
+                        try {
+                            $user->deleteAccount($_GET['idUser']);
+
+                            //messaggio di conferma
+                            echo '<br><div class="alert alert-success">
+                                    <strong>Utente eliminato con successo!</strong> Verrai reindirizzato alla lista utenti.' .
+                                '</div>';
+
+                            //redirect a pagina prestiti
+                            header("Refresh:2; URL=admin_users.php");
+                            die();
+                        } catch (Exception $e) {
+                            //messaggio di errore
+                            echo '<br><div class="alert alert-danger">
+                                    <strong>Errore!</strong> ' . $e->getMessage() .
+                                '</div>';
+                        }
+                    } else if ($_GET['action'] == "resetPassword") {
+
+                        //resetto password dalla classe
+                        try {
+                            //salvo nuova password
+                            $newPassword = $user->resetPassword();
+
+                            //messaggio di conferma
+                            echo '<script>
+                                    alert("Password aggiornata con successo! Al prossimo accesso sarà richiesto il reset. La nuova password è: ' . $newPassword . '");
+                                    window.location = "admin_edit_user.php?idUser=' . $_GET['idUser'] . '";' .
+                                '</script>';
+                        } catch (Exception $e) {
+                            //messaggio di errore
+                            echo '<br><div class="alert alert-danger">
+                                    <strong>Errore!</strong> ' . $e->getMessage() .
+                                '</div>';
+                        }
+                    }
+                }
             }
 
 
@@ -188,9 +252,13 @@
                                 <div class="form-group">
                                     <label class="col-md-3 control-label"></label>
                                     <div class="col-md-8">
-                                        <input type="submit" class="btn btn-primary" value="Salva">
+                                        <input type="submit" class="btn btn-primary" value="Salva" style="width: 160px;">
                                         <span></span>
-                                        <input type="reset" class="btn btn-default" value="Reset">
+                                        <input type="reset" class="btn btn-default" value="Reset" style="width: 160px;">
+
+                                        <button type="button" onclick="confirmResetPassword()" class="btn btn-warning" role="button" style="width: 160px;">Nuova Password</button>
+                                        <button type="button" onclick="confirmDelete()" class="btn btn-danger" role="button" style="width: 160px;">ELIMINA</button>
+
                                     </div>
                                 </div>
                             <?php

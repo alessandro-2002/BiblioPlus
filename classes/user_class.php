@@ -576,7 +576,7 @@ class User
 
     /********************************************************** */
 
-    /* Funzioni sull'utente loggato */
+    /* Funzioni sull'utente loggato/popolato */
 
 
     /* Login con mail e password, ritorna true o false e imposta l'oggetto */
@@ -786,6 +786,54 @@ class User
         $this->closeAllSessions();
 
         return true;
+    }
+
+    /* Resetta la password dell'account (funzione solo lato admin) */
+    //la password andrà reimpostata al primo login
+    public function resetPassword()
+    {
+        //genero nuova password
+        $newPass = "";
+
+        //for che genera nuova password di 8 caratteri
+        for ($i = 0; $i < 8; $i++) {
+            // Se i è in posto pari scrivo lettera minuscola
+            if ($i % 2) {
+                $newPass = $newPass . chr(rand(97, 122));
+
+                // Se i è in posto dispari scrivo numero
+            } else {
+                $newPass = $newPass . rand(0, 9);
+            }
+        }
+
+        /* Global pdo */
+        global $pdo;
+
+        //hash della nuova password
+        $hash = password_hash($newPass, PASSWORD_DEFAULT);
+
+        //inserimento della nuova password
+        //query per inserimento nuova password (cifrata) e scadenza password NOW per farla reimpostare al primo accesso
+        $query = 'UPDATE user SET password = :password, expiration = NOW() WHERE idUser = :idUser';
+
+        //array di valori
+        $values = array(':password' => $hash, ':idUser' => $this->getId());
+
+        try {
+            //preparo query
+            $res = $pdo->prepare($query);
+
+            //eseguo con passaggio di valori
+            $res->execute($values);
+        } catch (PDOException $e) {
+            throw new Exception('Database query error');
+        }
+
+        //sloggo da tutte le sessioni
+        $this->closeAllSessions();
+
+        return $newPass;
     }
 
     /* Logout dell'utente corrente */
