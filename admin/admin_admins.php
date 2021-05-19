@@ -41,9 +41,18 @@
                 </div>";
                 die();
             }
+            ?>
 
+            <!-- button per aggiungere admin -->
+            <a href="admin_new_admin.php">
+                <button type="button" class="btn btn-lg" aria-label=" Left Align">
+                    <i class="fa fa-plus"></i> Nuovo Bibliotecario
+                </button>
+            </a>
 
+            <br><br>
 
+            <?php
             //controllo se ci sono bibliotecari
             if ($res->rowCount() > 0) {
 
@@ -54,15 +63,6 @@
 
                 <!-- Visualizzazione tabellare degli utenti -->
                 <div class="users">
-
-                    <!-- button per aggiungere admin -->
-                    <a href="admin_new_admin.php">
-                        <button type="button" class="btn btn-lg" aria-label=" Left Align">
-                            <i class="fa fa-plus"></i> Nuovo Bibliotecario
-                        </button>
-                    </a>
-
-                    <br><br>
 
                     <table>
 

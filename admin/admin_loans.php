@@ -45,6 +45,23 @@
 
 
 
+        //controllo se ha acl per aggiunta prestito altrimenti non stampo bottone
+        if ($adminAccount->getACLloan()) {
+        ?>
+
+            <!-- button per aggiungere prestito -->
+            <a href="admin_new_loan.php">
+                <button type="button" class="btn btn-lg" aria-label=" Left Align">
+                    <i class="fa fa-plus"></i> Nuovo Prestito
+                </button>
+            </a>
+
+            <br><br>
+        <?php
+        }
+
+
+
         //controllo se ci sono prestiti
         if ($res->rowCount() > 0) {
 
@@ -55,24 +72,6 @@
 
             <!-- Visualizzazione tabellare dei prestiti -->
             <div class="loans">
-
-
-                <?php
-                //controllo se ha acl per aggiunta prestito altrimenti non stampo bottone
-                if ($adminAccount->getACLloan()) {
-                ?>
-
-                    <!-- button per aggiungere prestito -->
-                    <a href="admin_new_loan.php">
-                        <button type="button" class="btn btn-lg" aria-label=" Left Align">
-                            <i class="fa fa-plus"></i> Nuovo Prestito
-                        </button>
-                    </a>
-
-                    <br><br>
-                <?php
-                }
-                ?>
 
                 <table>
 
