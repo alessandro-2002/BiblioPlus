@@ -728,6 +728,54 @@ class Admin
         return true;
     }
 
+    /* Resetta la password dell'account */
+    //la password andrà reimpostata al primo login
+    public function resetPassword()
+    {
+        //genero nuova password
+        $newPass = "";
+
+        //for che genera nuova password di 8 caratteri
+        for ($i = 0; $i < 8; $i++) {
+            // Se i è in posto pari scrivo lettera minuscola
+            if ($i % 2) {
+                $newPass = $newPass . chr(rand(97, 122));
+
+                // Se i è in posto dispari scrivo numero
+            } else {
+                $newPass = $newPass . rand(0, 9);
+            }
+        }
+
+        /* Global pdo */
+        global $pdo;
+
+        //hash della nuova password
+        $hash = password_hash($newPass, PASSWORD_DEFAULT);
+
+        //inserimento della nuova password
+        //query per inserimento nuova password (cifrata) e scadenza password NOW per farla reimpostare al primo accesso
+        $query = 'UPDATE admin SET password = :password, expiration = NOW() WHERE idAdmin = :idAdmin';
+
+        //array di valori
+        $values = array(':password' => $hash, ':idAdmin' => $this->getId());
+
+        try {
+            //preparo query
+            $res = $pdo->prepare($query);
+
+            //eseguo con passaggio di valori
+            $res->execute($values);
+        } catch (PDOException $e) {
+            throw new Exception('Database query error');
+        }
+
+        //sloggo da tutte le sessioni
+        $this->closeAllSessions();
+
+        return $newPass;
+    }
+
     /* Logout dell'admin corrente */
     public function logout()
     {
@@ -781,11 +829,6 @@ class Admin
     {
         /* Global pdo */
         global $pdo;
-
-        //controlla che qualcuno sia loggato
-        if (!$this->isAuthenticated()) {
-            return;
-        }
 
         //query per eliminazione di tutte le sessioni
         $query = 'DELETE FROM admin_session WHERE idAdmin = :idAdmin';

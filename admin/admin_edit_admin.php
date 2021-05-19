@@ -7,6 +7,24 @@
     <link rel="stylesheet" href="../css/profile.css">
     <link rel="stylesheet" href="../css/toggleSwitch.css">
     <title>Area Bibliotecario</title>
+
+    <script>
+        //conferma cancellazione admin
+        function confirmDelete() {
+            if (confirm("Vuoi eliminare DEFINITIVAMENTE il bibliotecario?")) {
+                if (confirm("Sei sicuro? L'azione è irreversibile!")) {
+                    window.location = "admin_edit_admin.php?idAdmin=<?php echo $_GET['idAdmin']; ?>&action=delete";
+                }
+            }
+        }
+
+        //conferma reset password
+        function confirmResetPassword() {
+            if (confirm("Vuoi resettare la password del bibliotecario?")) {
+                window.location = "admin_edit_admin.php?idAdmin=<?php echo $_GET['idAdmin']; ?>&action=resetPassword";
+            }
+        }
+    </script>
 </head>
 
 <body>
@@ -38,6 +56,51 @@
 
         //controllo che id sia inserito come int e in caso procedo con la popolazione dell'oggetto
         if (((int)$_GET['idAdmin']) != 0 &&  $admin->popolaDaId($_GET['idAdmin'])) {
+
+            //se ha acl e ha popolato controllo se c'è action in corso
+            if (isset($_GET['action'])) {
+
+                //controllo se sta eliminando l'admin
+                if ($_GET['action'] == "delete") {
+
+                    //elimino account dalla classe
+                    try {
+                        $admin->deleteAccount($_GET['idAdmin']);
+
+                        //messaggio di conferma
+                        echo '<br><div class="alert alert-success">
+                                <strong>Bibliotecario eliminato con successo!</strong> Verrai reindirizzato alla lista bibliotecari.' .
+                            '</div>';
+
+                        //redirect a pagina admins
+                        header("Refresh:2; URL=admin_admins.php");
+                        die();
+                    } catch (Exception $e) {
+                        //messaggio di errore
+                        echo '<br><div class="alert alert-danger">
+                                <strong>Errore!</strong> ' . $e->getMessage() .
+                            '</div>';
+                    }
+                } else if ($_GET['action'] == "resetPassword") {
+
+                    //resetto password dalla classe
+                    try {
+                        //salvo nuova password
+                        $newPassword = $admin->resetPassword();
+
+                        //messaggio di conferma
+                        echo '<script>
+                                alert("Password aggiornata con successo! Al prossimo accesso sarà richiesto il reset. La nuova password è: ' . $newPassword . '");
+                                window.location = "admin_edit_admin.php?idAdmin=' . $_GET['idAdmin'] . '";' .
+                            '</script>';
+                    } catch (Exception $e) {
+                        //messaggio di errore
+                        echo '<br><div class="alert alert-danger">
+                                <strong>Errore!</strong> ' . $e->getMessage() .
+                            '</div>';
+                    }
+                }
+            }
 
             //in caso ci sia modifica in post edito l'account
             if (isset($_POST['name']) && isset($_POST['surname']) && isset($_POST['mail']) && $adminAccount->getACLadmin()) {
@@ -197,9 +260,13 @@
                     <div class="form-group row">
                         <label class="col-4 col-form-label"></label>
                         <div class="col-8">
-                            <input type="submit" class="btn btn-primary" value="Salva">
+                            <input type="submit" class="btn btn-primary" value="Salva" style="width: 160px;">
                             <span></span>
-                            <input type="reset" class="btn btn-default" value="Reset">
+                            <input type="reset" class="btn btn-default" value="Reset" style="width: 160px;">
+
+                            <button type="button" onclick="confirmResetPassword()" class="btn btn-warning" role="button" style="width: 160px;">Nuova Password</button>
+                            <button type="button" onclick="confirmDelete()" class="btn btn-danger" role="button" style="width: 160px;">ELIMINA</button>
+
                         </div>
                     </div>
                 </form>
