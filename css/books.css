@@ -1,0 +1,34 @@
+.books img {
+    max-height: 100%;
+    max-width: 100%;
+    width: auto;
+    object-fit: cover;
+}
+
+.books table {
+    width: 100%;
+}
+
+.books td {
+    text-align: center;
+    padding: 5px 5px;
+}
+
+.books th {
+    background: #b3c1ce;
+    text-align: center;
+    padding: 5px 5px;
+}
+
+.picture-box {
+    max-height: 200px;
+    min-height: 100px;
+    max-width: 200px;
+    max-width: 100px;
+}
+
+.books table, th, tr, td {
+    border: 1px solid black;
+    text-align: center;
+    padding: 5px 5px;
+}
