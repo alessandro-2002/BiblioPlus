@@ -886,11 +886,6 @@ class User
         /* Global pdo */
         global $pdo;
 
-        //controlla che qualcuno sia loggato
-        if (!$this->isAuthenticated()) {
-            return;
-        }
-
         //query per eliminazione di tutte le sessioni
         $query = 'DELETE FROM user_session WHERE idUser = :idUser';
 
