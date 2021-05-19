@@ -297,6 +297,20 @@
                 </div>";
         }
 
+        //controllo se ha acl per aggiunta libro altrimenti non stampo bottone
+        if ($adminAccount->getACLcatalogue()) {
+        ?>
+
+            <!-- button per aggiungere libro -->
+            <a href="admin_new_book.php">
+                <button type="button" class="btn btn-lg" aria-label=" Left Align">
+                    <i class="fa fa-plus"></i> Nuovo Titolo
+                </button>
+            </a>
+
+            <br><br>
+        <?php
+        }
 
 
         //controllo se ci sono libri
