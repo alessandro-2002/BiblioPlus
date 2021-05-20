@@ -24,7 +24,8 @@
 
         //query 
         $queryP = "SELECT idPublisher, name
-                            FROM publisher";
+                    FROM publisher
+                    ORDER BY name";
 
         /* esecuzione query */
         try {
@@ -48,9 +49,9 @@
         /* ricerca lista autori */
 
         //query 
-        $queryA = "SELECT idAuthor, name, surname
-                            FROM author
-                            ORDER BY surname";
+        $queryA = "SELECT idAuthor, name
+                    FROM author
+                    ORDER BY name";
 
         /* esecuzione query */
         try {
@@ -164,7 +165,7 @@
                                                     if (isset($_GET['authorId']) && $_GET['authorId'] == $author['idAuthor']) {
                                                         echo " selected ";
                                                     }
-                                                    echo '>'  . $author['surname'] . ' ' . $author['name'] .  '</option>';
+                                                    echo '>'  .  $author['name'] .  '</option>';
                                                 }
                                                 ?>
 

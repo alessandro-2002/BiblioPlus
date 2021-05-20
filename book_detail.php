@@ -68,7 +68,7 @@ if (!isset($_GET['ISBN']) || $_GET['ISBN'] == "")
             /* ricerca degli autori */
 
             //query per trovare autori
-            $query = "SELECT author.idAuthor, name, surname
+            $query = "SELECT author.idAuthor, name
             FROM author, write_book AS wb
             WHERE author.idAuthor = wb.idAuthor
                 AND wb.ISBN = :ISBN
@@ -156,7 +156,7 @@ if (!isset($_GET['ISBN']) || $_GET['ISBN'] == "")
                                 //stampo gli autori utilizzando l'index per capire se devo mettere la virgola (o se è l'ultimo)
                                 //aggiungo collegamento per ricerca nell'index
                                 foreach ($autori as $index => $autore) {
-                                    echo "<a href='index.php?authorId=" . $autore['idAuthor'] . "'>" . $autore['name'] . " " . $autore['surname'] . '</a>';
+                                    echo "<a href='index.php?authorId=" . $autore['idAuthor'] . "'>" . $autore['name'] . " " . '</a>';
 
                                     if (count($autori) > $index + 1) {
                                         echo ", ";

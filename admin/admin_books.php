@@ -56,9 +56,9 @@
         /* ricerca lista autori */
 
         //query 
-        $queryA = "SELECT idAuthor, name, surname
+        $queryA = "SELECT idAuthor, name
                             FROM author
-                            ORDER BY surname";
+                            ORDER BY name";
 
         /* esecuzione query */
         try {
@@ -174,7 +174,7 @@
                                                     if (isset($_GET['authorId']) && $_GET['authorId'] == $author['idAuthor']) {
                                                         echo " selected ";
                                                     }
-                                                    echo '>'  . $author['surname'] . ' ' . $author['name'] .  '</option>';
+                                                    echo '>' . $author['name'] .  '</option>';
                                                 }
                                                 ?>
 
@@ -353,7 +353,7 @@
                     <?php
 
                     //query per trovare autori
-                    $query = "SELECT author.idAuthor, name, surname
+                    $query = "SELECT author.idAuthor, name
                         FROM author, write_book AS wb
                         WHERE author.idAuthor = wb.idAuthor
                             AND wb.ISBN = :ISBN
@@ -425,7 +425,7 @@
 
                         //stampo gli autori utilizzando l'index per capire se devo mettere la virgola (o se è l'ultimo)
                         foreach ($autori as $index => $autore) {
-                            echo '<a href="admin_books.php?authorId=' . $autore['idAuthor'] . '">' . $autore['name'] . " " . $autore['surname'] . '</a>';
+                            echo '<a href="admin_books.php?authorId=' . $autore['idAuthor'] . '">' . $autore['name'] . '</a>';
 
                             if (count($autori) > $index + 1) {
                                 echo ", ";
