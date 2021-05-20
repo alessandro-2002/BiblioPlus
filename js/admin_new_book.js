@@ -7,7 +7,7 @@ function addAuthor(name) {
     var div = document.createElement("div");
 
     //assegno classe al div creato
-    div.className = "form-group row";
+    div.className = "form-group row autore";
 
     //aggiungo contenuto della riga nel form
     div.innerHTML = `<label for="" class="col-4 col-form-label">Autore:</label>
@@ -29,8 +29,18 @@ function removeCopy(e) {
 }
 
 function searchISBN() {
+
     // prende isbn dall'input
     var isbn = document.getElementById("ISBN").value;
+
+    //pulisco la form
+    document.getElementById("newBook").reset();
+
+    //elimino tutti gli autori già inseriti
+    $('.autore').remove();
+
+    //rimetto l'ISBN
+    document.getElementById("ISBN").value = isbn;
 
     //cerca json da ISBN
     $.ajax({
@@ -40,74 +50,80 @@ function searchISBN() {
     });
 
     function handleResponse(response) {
-        //console.log(response);
-        $.each(response.items, function (i, item) {
+        //se non c'è risposta stampo errore
+        if (response.totalItems != 1) {
+            window.alert("Nessun titolo trovato con l'ISBN inserito.");
+        } else {
 
-            //try catch per ogni elemento, se non viene trovato non assegno nulla
-            try {
-                var title = item.volumeInfo.title;
+            //altrimenti compilo i campi
+            $.each(response.items, function (i, item) {
 
-                if (title !== undefined)
-                    document.getElementById("title").value = title;
-            } finally {
-            }
+                //try catch per ogni elemento, se non viene trovato non assegno nulla
+                try {
+                    var title = item.volumeInfo.title;
 
-            try {
-                var cover = item.volumeInfo.imageLinks.thumbnail;
+                    if (title !== undefined)
+                        document.getElementById("title").value = title;
+                } finally {
+                }
 
-                if (cover !== undefined)
-                    document.getElementById("coverLink").value = cover;
-            } finally {
-            }
+                try {
+                    var cover = item.volumeInfo.imageLinks.thumbnail;
 
-            try {
-                var subtitle = item.volumeInfo.subtitle;
+                    if (cover !== undefined)
+                        document.getElementById("coverLink").value = cover;
+                } finally {
+                }
 
-                if (subtitle !== undefined)
-                    document.getElementById("subtitle").value = subtitle;
-            } finally {
-            }
+                try {
+                    var subtitle = item.volumeInfo.subtitle;
 
-            try {
-                var language = item.volumeInfo.language;
+                    if (subtitle !== undefined)
+                        document.getElementById("subtitle").value = subtitle;
+                } finally {
+                }
 
-                if (language !== undefined)
-                    document.getElementById("language").value = language;
-            } finally {
-            }
+                try {
+                    var language = item.volumeInfo.language;
 
-            try {
-                var publisher = item.volumeInfo.publisher;
+                    if (language !== undefined)
+                        document.getElementById("language").value = language;
+                } finally {
+                }
 
-                if (publisher !== undefined)
-                    document.getElementById("publisher").value = publisher;
-            } finally {
-            }
+                try {
+                    var publisher = item.volumeInfo.publisher;
 
-            try {
-                var year = item.volumeInfo.publishedDate;
+                    if (publisher !== undefined)
+                        document.getElementById("publisher").value = publisher;
+                } finally {
+                }
 
-                if (year !== undefined)
-                    document.getElementById("year").value = year;
-            } finally {
-            }
+                try {
+                    var year = item.volumeInfo.publishedDate;
 
-
-            try {
-                var authors = item.volumeInfo.authors;
-
-                //aggiungo input con autore per ogni autore
-                $.each(authors, function (i, item) {
-                    addAuthor(item);
-                });
-            } finally {
-            }
+                    if (year !== undefined)
+                        document.getElementById("year").value = year;
+                } finally {
+                }
 
 
+                try {
+                    var authors = item.volumeInfo.authors;
+
+                    //aggiungo input con autore per ogni autore
+                    $.each(authors, function (i, item) {
+                        addAuthor(item);
+                    });
+                } finally {
+                }
 
 
 
 
-        });
+
+
+            });
+        }
     }
 }

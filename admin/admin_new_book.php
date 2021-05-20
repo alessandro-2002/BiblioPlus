@@ -68,7 +68,7 @@
 
                 <hr>
 
-                <form method="POST" action="">
+                <form method="POST" action="" id="newBook">
                     <div class="form-group row">
                         <label class="col-4 col-form-label">ISBN:</label>
                         <div class="col-8">
@@ -148,6 +148,15 @@
                                 <button type="button" class="btn btn-default" onclick="addAuthor('')">
                                     <i class="fa fa-plus"></i> Aggiungi autore
                                 </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label class="col-4 col-form-label">Numero copie:</label>
+                        <div class="col-8">
+                            <div class="input-group">
+                                <input class="form-control" type="number" name="nCopie" id="nCopie" step="1" min="0" value=0 required>
                             </div>
                         </div>
                     </div>
