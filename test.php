@@ -1,28 +1,32 @@
+
 <?php
-session_start();
-include_once("classes/user_class.php");
-$account = new User();
 
+$page = file_get_contents("https://www.googleapis.com/books/v1/volumes?q=isbn:9788817079761");
 
-$login = FALSE;
+$data = json_decode($page, true);
 
-try
-{
-	$login = $account->login('toninelli.alessandro00@gmail.com', 'Stallman00');
-}
-catch (Exception $e)
-{
-	echo $e->getMessage();
-	die();
+if ($data['totalItems'] == 1) {
+
+	echo "Title = " . $data['items'][0]['volumeInfo']['title'];
+	echo "Authors = " . @implode(",", $data['items'][0]['volumeInfo']['authors']);
+	echo "Pagecount = " . $data['items'][0]['volumeInfo']['pageCount'];
+
+	if (isset($data['items'][0]['volumeInfo']['imageLinks']['thumbnail'])) {
+		$url = $data['items'][0]['volumeInfo']['imageLinks']['thumbnail'];
+
+		$img = 'logo2.jpg';
+
+		// Function to write image into file
+		file_put_contents($img, file_get_contents($url));
+
+		echo "File downloaded!";
+	} else {
+		echo "no img";
+	}
+} else {
+	echo "no books";
 }
 
-if ($login)
-{
-	echo 'Authentication successful.';
-	echo 'Account ID: ' . $account->getId() . '<br>';
-	echo 'Account name: ' . $account->getMail() . '<br>';
-}
-else
-{
-	echo 'Authentication failed.';
-}
+//https://codepen.io/mkokes/pen/KqvZNY
+
+?>
