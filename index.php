@@ -296,7 +296,7 @@
         ?>
 
             <!-- visualizzazione in blocchi libri -->
-            <section style="max-width: 85%; margin:auto;">
+            <section style="max-width: 95%; margin:auto;">
 
                 <!-- Grid row -->
                 <div class="row">
@@ -305,21 +305,21 @@
                     ?>
 
                         <!-- Grid column -->
-                        <div class="col-md-4 mb-4">
+                        <div class="col-md-4 mb-4 text-center">
                             <!-- Card -->
-                            <div class="">
-                                <div class="view zoom overlay z-depth-2 rounded text-center">
-                                    <a href="book_detail.php?ISBN=<?php echo $book['ISBN']; ?>">
-                                        <img class="img-fluid rounded" src="images/<?php
-                                                                                    if ($book['cover'] != NULL) {
-                                                                                        echo $book['cover'];
-                                                                                    } else {
-                                                                                        echo "no-image.jpg";
-                                                                                    }
-                                                                                    ?>" style="max-width: 80%; ">
-                                    </a>
-                                </div>
-                                <div class="text-center pt-4">
+                            <div>
+                                <a href="book_detail.php?ISBN=<?php echo $book['ISBN']; ?>">
+                                    <div class="rounded cover" style='background-image: url("images/<?php
+                                                                                                    if ($book['cover'] != NULL) {
+                                                                                                        echo $book['cover'];
+                                                                                                    } else {
+                                                                                                        echo "no-image.jpg";
+                                                                                                    }
+                                                                                                    ?>");'>
+
+                                    </div>
+                                </a>
+                                <div class="pt-4">
                                     <h5><?php echo htmlentities($book['title']); ?></h5>
                                     <p class="mb-2 text-muted small"><?php echo htmlentities($book['subtitle']); ?></p>
                                 </div>

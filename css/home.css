@@ -51,3 +51,11 @@
         min-width: 500px;
     }
 }
+
+.cover {
+    background-size: cover;
+    height: 250px;
+    width: 200px;
+    background-position: center;
+    margin: auto;
+}
