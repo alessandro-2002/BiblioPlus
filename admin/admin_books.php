@@ -394,7 +394,7 @@
                         echo "<tr>";
 
                         //azioni
-                        echo "<td><a href='admin_book_detail.php?ISBN=" . $book['ISBN'] . "'>";
+                        echo "<td><a href='admin_edit_book.php?ISBN=" . $book['ISBN'] . "'>";
 
                         echo "<button type=\"button\" class=\"btn btn-default\" aria-label=\"Left Align\">
                             <i class=\"fas fa-edit\"></i>
