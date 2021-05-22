@@ -404,7 +404,7 @@
                             //stampo i titoli nel prestito andando a capo dopo ognuno
                             //Titolo (idCopia) con link sul titolo alla ricerca per ISBN in index
                             foreach ($titoli as $index => $titolo) {
-                                echo '<a href="book_detail.php?ISBN=' . $titolo['ISBN'] . '">' . htmlentities($titolo['title']) . "</a> (" . $titolo['idCopy'] . ')';
+                                echo '<a href="admin_edit_book.php?ISBN=' . $titolo['ISBN'] . '">' . htmlentities($titolo['title']) . "</a> (" . $titolo['idCopy'] . ')';
 
                                 if (count($titoli) > $index + 1) {
                                     echo "<br>";
