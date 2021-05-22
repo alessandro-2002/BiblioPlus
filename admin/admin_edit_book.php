@@ -117,6 +117,13 @@
                                     <strong>Libro eliminato con successo!</strong> Verrai reindirizzato al catalogo.' .
                                 '</div>';
 
+                            //eliminazione immagine
+                            if($book['cover']!=NULL){
+                                if(file_exists("../images/" . $book['cover'])){
+                                    unlink("../images/" . $book['cover']);
+                                }
+                            }
+
                             //redirect a pagina libri
                             header("Refresh:2; URL=admin_books.php");
                             die();

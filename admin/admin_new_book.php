@@ -110,49 +110,48 @@
                         $autori = array();
 
                         //query base ricerca per autore esistente
-                        $query = "SELECT idAuthor
+                        $query1 = "SELECT idAuthor
                                 FROM author
                                 WHERE name=:name";
 
+                        //prepare query
+                        $res1 = $pdo->prepare($query1);
+
+                        //query di inserimento per autore
+                        $query2 = "INSERT INTO author(name) VALUES(:name)";
+
+                        //prepare query
+                        $res2 = $pdo->prepare($query2);
+
                         //foreach per scorrere array autori in post
-                        foreach ($_POST['authors'] as $author) {
-                            //array di valori da passare
-                            $values = array(':name' => $author);
-
-                            // esecuzione query 
-                            try {
-                                //prepare query
-                                $res = $pdo->prepare($query);
-
-                                //esecuzione con passaggio di valori
-                                $res->execute($values);
-                            } catch (PDOException $e) {
-                                throw new Exception("Query error");
-                            }
-
-                            //controllo se c'è autore, in tal caso salvo id altrimenti lo inserisco
-                            if ($res->rowCount() == 1) {
-                                $idAutore = $res->fetchAll();
-                                $autori[] = $idAutore[0]['idAuthor'];
-                            } else {
-                                //query di inserimento per autore
-                                $query = "INSERT INTO author(name) VALUES(:name)";
-
+                        if (isset($_POST['authors'])) {
+                            foreach ($_POST['authors'] as $author) {
                                 //array di valori da passare
                                 $values = array(':name' => $author);
 
                                 // esecuzione query 
                                 try {
-                                    //prepare query
-                                    $res = $pdo->prepare($query);
 
                                     //esecuzione con passaggio di valori
-                                    $res->execute($values);
-
-                                    //salvo l'id dell'autore appena inserito
-                                    $autori[] = $pdo->lastInsertId();
+                                    $res1->execute($values);
                                 } catch (PDOException $e) {
                                     throw new Exception("Query error");
+                                }
+
+                                //controllo se c'è autore, in tal caso salvo id altrimenti lo inserisco
+                                if ($res1->rowCount() == 1) {
+                                    $autori[] = $res1->fetchAll(PDO::FETCH_COLUMN, 0)[0];
+                                } else {
+                                    // esecuzione query 
+                                    try {
+                                        //esecuzione con passaggio di valori
+                                        $res2->execute($values);
+
+                                        //salvo l'id dell'autore appena inserito
+                                        $autori[] = $pdo->lastInsertId();
+                                    } catch (PDOException $e) {
+                                        throw new Exception("Query error");
+                                    }
                                 }
                             }
                         }
@@ -184,8 +183,55 @@
                             $values[':year'] = NULL;
                         }
 
-                        //gestione cover ora ci penso
-                        $values[':cover'] = NULL;
+                        /* AGGIUNTA COPERTINA */
+
+                        //se c'è file prevale su link
+                        if (isset($_FILES['coverFile']) && $_FILES['coverFile']['size'] > 0) {
+                            // Controllo che il file non superi i 3 MB
+                            if ($_FILES['coverFile']['size'] > 3145728) {
+                                throw new Exception("La copertina non deve superare i 3 MB");
+                            }
+
+                            // Ottengo le informazioni sull'immagine
+                            list($width, $height, $type, $attr) = getimagesize($_FILES['coverFile']['tmp_name']);
+
+                            // Controllo che il file sia in uno dei formati GIF, JPG o PNG
+                            if (($type != 1) && ($type != 2) && ($type != 3)) {
+                                throw new Exception("La copertina deve essere un'immagine GIF, JPG o PNG.");
+                            }
+
+                            //upload nuova copertina
+                            //prendo l'estensione del nuovo file
+                            $ext = pathinfo($_FILES['coverFile']['name'], PATHINFO_EXTENSION);
+
+                            //creo il nuovo nome del file
+                            $newName = $_POST['ISBN'] . "." . $ext;
+
+                            // sposto l'immagine nel percorso avatar
+                            move_uploaded_file($_FILES['coverFile']['tmp_name'], "../images/" . $newName);
+
+                            $values[':cover'] = $newName;
+
+                            //controllo se c'è link
+                        } else if (isset($_POST['coverLink']) && $_POST['coverLink'] != "") {
+
+                            $url = $_POST['coverLink'];
+
+                            $newName = $_POST['ISBN'] . ".jpg";
+
+                            try {
+                                // Function to write image into file
+                                file_put_contents("../images/" . $newName, file_get_contents($url));
+                            } catch (Exception $e) {
+                                throw new Exception("Errore nel download dell'immagine di copertina.");
+                            }
+
+                            $values[':cover'] = $newName;
+
+                            //se non c'è upload di copertina
+                        } else {
+                            $values[':cover'] = NULL;
+                        }
 
                         //query di inserimento per libro
                         $query = "INSERT INTO book(ISBN, title, subtitle, language, year, cover, idPublisher) 
@@ -201,6 +247,7 @@
                         } catch (PDOException $e) {
                             throw new Exception("Query error " . $e->getMessage());
                         }
+
 
                         /* Inserimento nella nn write_book */
 
@@ -226,7 +273,7 @@
                                 //esecuzione con passaggio di valori
                                 $res->execute($values);
                             } catch (PDOException $e) {
-                                throw new Exception("Query error");
+                                throw new Exception("Query error " . $e->getMessage());
                             }
                         }
 
@@ -282,7 +329,7 @@
 
                 <hr>
 
-                <form method="POST" action="" id="newBook">
+                <form method="POST" action="" id="newBook" enctype="multipart/form-data">
                     <div class="form-group row">
                         <label class="col-4 col-form-label">ISBN:</label>
                         <div class="col-8">
