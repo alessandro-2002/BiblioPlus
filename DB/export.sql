@@ -125,7 +125,7 @@ CREATE TABLE `book` (
 
 LOCK TABLES `book` WRITE;
 /*!40000 ALTER TABLE `book` DISABLE KEYS */;
-INSERT INTO `book` VALUES ('9788804678397','Einstein','La sua vita, il suo universo','Italiano',2019,'9788804678397.jpg',1),('9788808389770','Corso di informatica 3','Seconda edizione per Informatica','It',2018,'9788808389770.jpg',10),('9788811685272','Apologia di un matematico',NULL,'It',NULL,'9788811685272.jpg',5);
+INSERT INTO `book` VALUES ('9788804678397','Einstein','La sua vita, il suo universo','Italiano',2019,'9788804678397.jpg',1),('9788808389770','Corso di informatica 3','Seconda edizione per Informatica','It',2018,'9788808389770.jpg',10),('9788811685272','Apologia di un matematico',NULL,'It',NULL,'9788811685272.jpg',5),('9788845927034','Il senso delle cose',NULL,'It',2012,'9788845927034.jpg',5);
 /*!40000 ALTER TABLE `book` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -152,7 +152,7 @@ CREATE TABLE `borrow` (
 
 LOCK TABLES `borrow` WRITE;
 /*!40000 ALTER TABLE `borrow` DISABLE KEYS */;
-INSERT INTO `borrow` VALUES (1,1),(4,1),(4,2),(10,1),(15,1),(15,2),(17,1),(17,2),(18,1),(19,2);
+INSERT INTO `borrow` VALUES (1,1),(4,1),(4,2),(10,1),(15,1),(15,2),(17,1),(17,2),(18,1),(19,2),(21,47);
 /*!40000 ALTER TABLE `borrow` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -169,7 +169,7 @@ CREATE TABLE `copy` (
   PRIMARY KEY (`idCopy`),
   KEY `fk4_idx` (`ISBN`),
   CONSTRAINT `fk4` FOREIGN KEY (`ISBN`) REFERENCES `book` (`ISBN`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=46 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=49 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -178,7 +178,7 @@ CREATE TABLE `copy` (
 
 LOCK TABLES `copy` WRITE;
 /*!40000 ALTER TABLE `copy` DISABLE KEYS */;
-INSERT INTO `copy` VALUES (1,'9788804678397'),(2,'9788804678397'),(30,'9788808389770'),(23,'9788811685272'),(24,'9788811685272'),(25,'9788811685272'),(26,'9788811685272'),(27,'9788811685272');
+INSERT INTO `copy` VALUES (1,'9788804678397'),(2,'9788804678397'),(30,'9788808389770'),(23,'9788811685272'),(24,'9788811685272'),(25,'9788811685272'),(26,'9788811685272'),(27,'9788811685272'),(46,'9788845927034'),(47,'9788845927034'),(48,'9788845927034');
 /*!40000 ALTER TABLE `copy` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -198,7 +198,7 @@ CREATE TABLE `loan` (
   PRIMARY KEY (`idLoan`),
   KEY `fk5` (`idUser`),
   CONSTRAINT `fk5` FOREIGN KEY (`idUser`) REFERENCES `user` (`idUser`) ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -207,7 +207,7 @@ CREATE TABLE `loan` (
 
 LOCK TABLES `loan` WRITE;
 /*!40000 ALTER TABLE `loan` DISABLE KEYS */;
-INSERT INTO `loan` VALUES (1,5,'2021-04-03 22:38:19',4,'2021-05-10 18:51:06'),(4,1,'2021-05-10 21:03:38',10,'2021-05-12 22:59:11'),(10,23,'2021-05-10 22:11:42',33,'2021-05-12 23:03:56'),(15,27,'2021-05-12 23:04:45',3,'2021-05-16 21:01:23'),(17,69,'2021-05-16 21:09:32',30,'2021-05-18 15:52:45'),(18,1,'2021-05-18 15:53:53',30,'2021-05-20 22:24:42'),(19,1,'2021-05-20 22:24:10',30,NULL);
+INSERT INTO `loan` VALUES (1,5,'2021-04-03 22:38:19',4,'2021-05-10 18:51:06'),(4,1,'2021-05-10 21:03:38',10,'2021-05-12 22:59:11'),(10,23,'2021-05-10 22:11:42',33,'2021-05-12 23:03:56'),(15,27,'2021-05-12 23:04:45',3,'2021-05-16 21:01:23'),(17,69,'2021-05-16 21:09:32',30,'2021-05-18 15:52:45'),(18,1,'2021-05-18 15:53:53',30,'2021-05-20 22:24:42'),(19,1,'2021-05-20 22:24:10',30,NULL),(21,27,'2021-05-22 23:16:43',30,NULL);
 /*!40000 ALTER TABLE `loan` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -262,7 +262,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES (1,'Ethan Aldino','Cominelli','toninelli.alessandro02@gmail.com','$2y$10$eAV3IwNjUmCe9q3nayTXPuorlEOh0vWyXck96N5q5qzbxMWOkrXC2','2021-08-20 19:41:23','Via Pisani 11, 25040 Esine (BS)','1.PNG',1),(5,'Gabriele Molto bene Test nome assai prolisso','Baiguini cognome Assai cognomoso maciaone😀','toninelli.alessandro00@gmail.com','$2y$10$kCCidRxchyT87HD8u.XiqOeAVU0pIZWcaArgGJ7iDHRWSEpeU0Of6','2021-07-24 23:23:24',NULL,'5.png',1),(23,'Wade Giovanni Erba','Nepero Baisini','sheduxerr@gmail.com','$2y$10$/.YcPX2op9vWPzArrbaXoeGfMcBzVgjlcIw7Vx56qnevOBkQeNXge','2021-07-26 10:41:04',NULL,'23.PNG',1),(26,'Manuel','Bonù','manuel.bonu02@gmail.com','$2y$10$CngVNb0BVqtVqasHeKwmxOcKJoPAPUhOp/khZpbfkbiEtbeMUdXfO','2021-08-16 09:22:20','Via Porte 12, Angolo Terme','26.jpeg',0),(27,'Simone','Mariolini','simone.mariolini42@gmail.com','$2y$10$A3XX5YS9.n1lHoa3l9fpy.qd33WTky.9GoN/z8vywtcM.wuBOFwcW','2021-08-20 19:00:26','Via Archi 8, 25040 Angolo Terme (BS)','27.PNG',1),(69,'Alberto','Pezzotti','alberto.pezzotti@gmail.com','$2y$10$pKwPIg0oFi4EVYyMWgDB4uipdAZLGiqEpjM1aM.EyC.H/9LB4E5xm','2021-08-24 20:54:48','Via Ravellini 4A, 25040 Angolo Terme (BS)','69.jpg',1);
+INSERT INTO `user` VALUES (1,'Ethan Aldino','Cominelli','toninelli.alessandro02@gmail.com','$2y$10$eAV3IwNjUmCe9q3nayTXPuorlEOh0vWyXck96N5q5qzbxMWOkrXC2','2021-08-20 19:41:23','Via Pisani 11, 25040 Esine (BS)','1.PNG',1),(5,'Gabriele Molto bene Test nome assai prolisso','Baiguini cognome Assai cognomoso maciaone😀','toninelli.alessandro00@gmail.com','$2y$10$kCCidRxchyT87HD8u.XiqOeAVU0pIZWcaArgGJ7iDHRWSEpeU0Of6','2021-07-24 23:23:24',NULL,'5.png',1),(23,'Wade Giovanni Erba','Nepero Baisini','sheduxerr@gmail.com','$2y$10$/.YcPX2op9vWPzArrbaXoeGfMcBzVgjlcIw7Vx56qnevOBkQeNXge','2021-07-26 10:41:04',NULL,'23.PNG',1),(26,'Manuel','Bonù','manuel.bonu02@gmail.com','$2y$10$CngVNb0BVqtVqasHeKwmxOcKJoPAPUhOp/khZpbfkbiEtbeMUdXfO','2021-08-16 09:22:20','Via Porte 12, Angolo Terme','26.jpeg',0),(27,'Simone','Mariolini','simone.mariolini42@gmail.com','$2y$10$oqLgY6iKjHaFslyMS.lhl.fpwP8C7THMSK.KecwWzO9EK0GCBJs7S','2021-08-30 23:19:00','Via Archi 8, 25040 Angolo Terme (BS)','27.PNG',1),(69,'Alberto','Pezzotti','alberto.pezzotti@gmail.com','$2y$10$pKwPIg0oFi4EVYyMWgDB4uipdAZLGiqEpjM1aM.EyC.H/9LB4E5xm','2021-08-24 20:54:48','Via Ravellini 4A, 25040 Angolo Terme (BS)','69.jpg',1);
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -289,6 +289,7 @@ CREATE TABLE `user_session` (
 
 LOCK TABLES `user_session` WRITE;
 /*!40000 ALTER TABLE `user_session` DISABLE KEYS */;
+INSERT INTO `user_session` VALUES ('dadapgnd6cumg392a0vl26v38i',27,'2021-05-23 23:19:14');
 /*!40000 ALTER TABLE `user_session` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -316,7 +317,7 @@ CREATE TABLE `write_book` (
 
 LOCK TABLES `write_book` WRITE;
 /*!40000 ALTER TABLE `write_book` DISABLE KEYS */;
-INSERT INTO `write_book` VALUES ('9788804678397',1,1),('9788808389770',17,0),('9788808389770',18,1),('9788811685272',8,0);
+INSERT INTO `write_book` VALUES ('9788804678397',1,1),('9788808389770',17,0),('9788808389770',18,1),('9788811685272',8,0),('9788845927034',25,0);
 /*!40000 ALTER TABLE `write_book` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -329,4 +330,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-05-22 23:11:54
+-- Dump completed on 2021-05-22 23:24:14
