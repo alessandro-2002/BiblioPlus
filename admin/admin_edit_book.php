@@ -12,8 +12,17 @@
         //conferma cancellazione libro
         function confirmDelete() {
             if (confirm("Vuoi eliminare DEFINITIVAMENTE il libro dal catalogo?")) {
-                if (confirm("Sei sicuro? L'azione è irreversibile e comporta l'eliminazione di tutto lo storico prestiti dell'utente!")) {
-                    window.location = "admin_edit_user.php?ISBN=<?php echo $_GET['ISBN']; ?>&action=delete";
+                if (confirm("Sei sicuro? L'azione è irreversibile e comporta l'eliminazione di tutto lo storico prestiti!")) {
+                    window.location = "admin_edit_book.php?ISBN=<?php echo $_GET['ISBN']; ?>&action=deleteBook";
+                }
+            }
+        }
+
+        //conferma cancellazione copia
+        function confirmDeleteCopy(idCopy) {
+            if (confirm("Vuoi eliminare DEFINITIVAMENTE la copia del libro dal catalogo?")) {
+                if (confirm("Sei sicuro? L'azione è irreversibile e comporta l'eliminazione di tutto lo storico prestiti!")) {
+                    window.location = "admin_edit_book.php?ISBN=<?php echo $_GET['ISBN']; ?>&idCopy=" + idCopy + "&action=deleteCopy";
                 }
             }
         }
@@ -33,19 +42,13 @@
             header('Location: admin_books.php');
         }
 
-        //controllo se bibliotecario ha le ACL per la modifica altrimenti segnalo che può solo visualizzare
-        if (!$adminAccount->getACLcatalogue()) {
-            echo '<br><div class="alert alert-info">
-                    <strong>Info!</strong> Non disponi dell\'autorizzazione per modificare il catalogo, questa scheda è in sola lettura.
-                </div>';
-        }
-
         /* ricerca ISBN e dati libro */
 
         //query di per trovare libro
-        $query = "SELECT book.ISBN AS ISBN, title, subtitle, language, year, idPublisher, cover
-            FROM book
-            WHERE book.ISBN = :ISBN";
+        $query = "SELECT book.ISBN AS ISBN, title, subtitle, language, year, publisher.name AS editore, cover
+            FROM book, publisher
+            WHERE book.idPublisher = publisher.idPublisher
+                AND book.ISBN = :ISBN";
 
 
         //array di valori da passare
@@ -72,6 +75,9 @@
 
         //controllo esistenza di un libro
         if ($res->rowCount() == 1) {
+
+            //salvo libro
+            $book = $res->fetchAll()[0];
 
             //controllo se bibliotecario ha le ACL per la modifica altrimenti segnalo che può solo visualizzare
             if (!$adminAccount->getACLcatalogue()) {
@@ -108,10 +114,10 @@
 
                             //messaggio di conferma
                             echo '<br><div class="alert alert-success">
-                                    <strong>Libroeliminato con successo!</strong> Verrai reindirizzato al catalogo.' .
+                                    <strong>Libro eliminato con successo!</strong> Verrai reindirizzato al catalogo.' .
                                 '</div>';
 
-                            //redirect a pagina prestiti
+                            //redirect a pagina libri
                             header("Refresh:2; URL=admin_books.php");
                             die();
                         } catch (PDOException $e) {
@@ -120,175 +126,216 @@
                             echo "<div class=\"alert alert-danger\">
                                     <strong>Errore!</strong> Errore nell'eliminazione.
                                 </div>";
+                        }
+
+                        //controllo se sta eliminando copia
+                    } else if (isset($_GET['idCopy']) && $_GET['action'] == 'deleteCopy') {
+
+                        /* eliminazione copia */
+
+                        //query di per trovare copia
+                        $query = "DELETE FROM copy
+                                WHERE idCopy = :idCopy";
+
+
+                        //array di valori da passare
+                        $values = array(':idCopy' => $_GET['idCopy']);
+
+                        /* esecuzione query */
+
+                        try {
+
+                            //prepare query
+                            $res = $pdo->prepare($query);
+
+                            //esecuzione con passaggio di valori 
+                            $res->execute($values);
+
+                            //messaggio di conferma
+                            echo '<br><div class="alert alert-success">
+                                    <strong>Copia eliminata con successo!</strong> La pagina verr&agrave; ricaricata.' .
+                                '</div>';
+
+                            //redirect a pagina libri
+                            header("Refresh:2; URL=admin_edit_book.php?ISBN=" . $_GET['ISBN']);
                             die();
+                        } catch (PDOException $e) {
+
+                            //in caso di errore stampo con stile
+                            echo "<div class=\"alert alert-danger\">
+                                    <strong>Errore!</strong> Errore nell'eliminazione.
+                                </div>";
+                        }
+
+                        //controllo se sta aggiungendo una nuova copia
+                    } else if ($_GET['action'] == 'newCopy') {
+
+                        /* aggiunta copia */
+
+                        //query di insert copia
+                        $query = "INSERT INTO copy(ISBN)
+                               VALUES(:ISBN)";
+
+
+                        //array di valori da passare
+                        $values = array(':ISBN' => $_GET['ISBN']);
+
+                        /* esecuzione query */
+
+                        try {
+
+                            //prepare query
+                            $res = $pdo->prepare($query);
+
+                            //esecuzione con passaggio di valori 
+                            $res->execute($values);
+
+                            //messaggio di conferma
+                            echo '<br><div class="alert alert-success">
+                                    <strong>Copia aggiunta con successo!</strong> La pagina verr&agrave; ricaricata.' .
+                                '</div>';
+
+                            //redirect a pagina libri
+                            header("Refresh:2; URL=admin_edit_book.php?ISBN=" . $_GET['ISBN']);
+                            die();
+                        } catch (PDOException $e) {
+
+                            //in caso di errore stampo con stile
+                            echo "<div class=\"alert alert-danger\">
+                                    <strong>Errore!</strong> Errore nell'aggiunta.
+                                </div>" . $e->getMessage();
                         }
                     }
                 }
             }
 
-            /* **********
-
-
-             FATTO FINO A QUI
-
-
-             *********** */
-
-            //in caso ci sia modifica in post edito l'account
-            if (isset($_POST['title']) && isset($_POST['idPublisher']) && isset($_POST['mail'])) {
-
-                //invoco la funzione per l'edit dell'utente
-                try {
-                    //creo array per parametri opzionali indirizzo e enabled
-                    $options = array('address' => $_POST['address']);
-
-                    if (isset($_POST['enabled']) && $_POST['enabled'] == "on") {
-                        $options['enabled'] = 1;
-                    } else {
-                        $options['enabled'] = 0;
-                    }
-
-                    $user->editAccount($user->getId(), $_POST['name'], $_POST['surname'], $_POST['mail'], $options);
-
-                    //stampo successo e ricarico pagina
-                    echo '<br><div class="alert alert-success">
-                        <strong>Modifica effettuata!</strong> Modifiche apportate con successo, la pagina verr&agrave; ricaricata.
-                    </div>';
-
-                    //in caso la modifica sia andata a buon fine la pagina viene ricaricata e poi die()
-                    header('Refresh: 3');
-                    die();
-
-
-                    //in caso di errore, si stampa l'errore e si lascia stampare il resto della pagina
-                } catch (Exception $e) {
-                    echo '<div class="alert alert-danger">
-                        <strong>Errore!</strong> ' . $e->getMessage() . '
-                    </div>';
-                }
-            }
-
-
-
         ?>
 
-            <!-- VISTA USER -->
+            <!-- VISTA LIBRO -->
             <div class="container">
-                <h1>Profilo Utente</h1>
+                <h1>Modifica Libro</h1>
                 <hr>
                 <div class="row">
                     <!-- left column -->
                     <div class="col-md-3">
                         <div class="text-center">
-                            <img src="../avatars/<?php
-                                                    if ($user->getAvatar() != NULL) {
-                                                        echo htmlentities($user->getAvatar());
-                                                    } else {
-                                                        echo "no-avatar.jpg";
-                                                    }
-                                                    ?>" class="avatar img-circle" alt="avatar">
+                            <img src="../images/<?php
+                                                if ($book['cover'] != NULL) {
+                                                    echo $book['cover'];
+                                                } else {
+                                                    echo "no-image.jpg";
+                                                }
+                                                ?>" class="cover img-circle" alt="cover">
                         </div>
                     </div>
 
                     <!-- edit form column -->
                     <div class="col-md-9 personal-info">
-                        <h3>Informazioni personali</h3>
 
                         <form class="form-horizontal" method="POST" action="">
                             <div class="form-group">
-                                <label class="col-lg-3 control-label">Id Utente:</label>
+                                <label class="col-lg-3 control-label">ISBN:</label>
                                 <div class="col-lg-8">
-                                    <input class="form-control" type="text" value="<?php
-                                                                                    echo htmlentities($user->getId());
-                                                                                    ?>" disabled>
+                                    <p class="form-control">
+                                        <?php echo $book['ISBN']; ?>
+                                    </p>
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="col-lg-3 control-label">Nome:</label>
+                                <label class="col-lg-3 control-label">Titolo:</label>
                                 <div class="col-lg-8">
-                                    <input class="form-control" type="text" maxlength="45" name="name" value="<?php
-                                                                                                                echo htmlentities($user->getName());
-                                                                                                                ?>" required<?php
-                                                                                                                                //se non ha autorizzazione metto disabled
-                                                                                                                                if (!$adminAccount->getACLuser()) {
-                                                                                                                                    echo " disabled";
-                                                                                                                                }
-                                                                                                                                ?>>
+                                    <p class="form-control">
+                                        <?php echo $book['title']; ?>
+                                    </p>
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="col-lg-3 control-label">Cognome:</label>
+                                <label class="col-lg-3 control-label">Sottotitolo:</label>
                                 <div class="col-lg-8">
-                                    <input class="form-control" type="text" maxlength="45" name="surname" value="<?php
-                                                                                                                    echo htmlentities($user->getSurname());
-                                                                                                                    ?>" required<?php
-                                                                                                                                    //se non ha autorizzazione metto disabled
-                                                                                                                                    if (!$adminAccount->getACLuser()) {
-                                                                                                                                        echo " disabled";
-                                                                                                                                    }
-                                                                                                                                    ?>>
+                                    <p class="form-control">
+                                        <?php echo htmlentities($book['subtitle']); ?>
+                                    </p>
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="col-lg-3 control-label">Email:</label>
+                                <label class="col-lg-3 control-label">Lingua:</label>
                                 <div class="col-lg-8">
-                                    <input class="form-control" type="email" maxlength="255" name="mail" value="<?php
-                                                                                                                echo htmlentities($user->getMail());
-                                                                                                                ?>" required<?php
-                                                                                                                                //se non ha autorizzazione metto disabled
-                                                                                                                                if (!$adminAccount->getACLuser()) {
-                                                                                                                                    echo " disabled";
-                                                                                                                                }
-                                                                                                                                ?>>
+                                    <p class="form-control">
+                                        <?php echo htmlentities($book['language']); ?>
+                                    </p>
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="col-lg-3 control-label">Indirizzo:</label>
+                                <label class="col-lg-3 control-label">Anno di pubblicazione:</label>
                                 <div class="col-lg-8">
-                                    <input class="form-control" type="text" maxlength="100" name="address" value="<?php
-                                                                                                                    echo htmlentities($user->getAddress());
-                                                                                                                    ?>" <?php
-                                                                                                                            //se non ha autorizzazione metto disabled
-                                                                                                                            if (!$adminAccount->getACLuser()) {
-                                                                                                                                echo " disabled";
-                                                                                                                            }
-                                                                                                                            ?>>
+                                    <p class="form-control">
+                                        <?php echo htmlentities($book['year']); ?>
+                                    </p>
                                 </div>
                             </div>
 
                             <div class="form-group">
-                                <label class="col-lg-3 control-label">Abilitato:</label>
+                                <label class="col-lg-3 control-label">Editore:</label>
                                 <div class="col-lg-8">
-                                    <label class="switch">
-                                        <input type="checkbox" name="enabled" <?php
-                                                                                if ($user->isEnabled()) {
-                                                                                    echo " checked";
-                                                                                }
-                                                                                ?> <?php
-                                                                                        //se non ha autorizzazione metto disabled
-                                                                                        if (!$adminAccount->getACLuser()) {
-                                                                                            echo " disabled";
-                                                                                        }
-                                                                                        ?>>
-                                        <span class="slider round"></span>
-                                    </label>
+                                    <p class="form-control">
+                                        <?php echo htmlentities($book['editore']); ?>
+                                    </p>
                                 </div>
                             </div>
 
                             <?php
-                            //se ha autorizzazione stampo form per modifica utente
-                            if ($adminAccount->getACLuser()) {
+                            //query per trovare autori
+                            $query = "SELECT author.name 
+                                    FROM author, write_book
+                                    WHERE author.idAuthor = write_book.idAuthor
+                                        AND write_book.ISBN = :ISBN";
+
+
+                            //array di valori da passare
+                            $values = array(':ISBN' => $_GET['ISBN']);
+
+                            /* esecuzione query */
+
+                            try {
+
+                                //prepare query
+                                $res = $pdo->prepare($query);
+
+                                //esecuzione con passaggio di valori 
+                                $res->execute($values);
+                            } catch (PDOException $e) {
+                                echo $e->getMessage();
+
+                                //in caso di errore stampo con stile
+                                echo "<div class=\"alert alert-danger\">
+                                        <strong>Errore!</strong> Errore nella ricerca
+                                    </div>";
+                                die();
+                            }
+                            ?>
+
+                            <div class="form-group">
+                                <label class="col-lg-3 control-label">Autori:</label>
+                                <div class="col-lg-8">
+                                    <p class="form-control">
+                                        <?php
+                                        if ($res->rowCount() >= 1) {
+                                            $authors = $res->fetchAll(PDO::FETCH_COLUMN, 0);
+                                            echo implode(", ", $authors);
+                                        }
+                                        ?>
+                                    </p>
+                                </div>
+                            </div>
+
+                            <?php
+                            //se ha autorizzazione stampo form per eliminazione libro
+                            if ($adminAccount->getACLcatalogue()) {
                             ?>
                                 <div class="form-group">
                                     <label class="col-md-3 control-label"></label>
                                     <div class="col-md-8">
-                                        <input type="submit" class="btn btn-primary" value="Salva" style="width: 160px;">
-                                        <span></span>
-                                        <input type="reset" class="btn btn-default" value="Reset" style="width: 160px;">
-
-                                        <button type="button" onclick="confirmResetPassword()" class="btn btn-warning" role="button" style="width: 160px;">Nuova Password</button>
                                         <button type="button" onclick="confirmDelete()" class="btn btn-danger" role="button" style="width: 160px;">ELIMINA</button>
-
                                     </div>
                                 </div>
                             <?php
@@ -301,11 +348,127 @@
 
             <br><br>
 
+            <!-- COPIE -->
 
+            <h1>Copie</h1>
 
+            <?php
+            //controllo se ha acl per aggiunta copie altrimenti non stampo bottone di aggiunta
+            if ($adminAccount->getACLcatalogue()) {
+            ?>
 
+                <!-- button per aggiungere libro -->
+                <a href="admin_edit_book.php?ISBN=<?php echo $_GET['ISBN']; ?>&action=newCopy">
+                    <button type=" button" class="btn btn-lg" aria-label=" Left Align">
+                        <i class="fa fa-plus"></i> Aggiungi copia
+                    </button>
+                </a>
+
+                <br><br>
+            <?php
+            }
+            ?>
+
+            <?php
+            //get copie (idCopia, idPrestito (Se NULL vuol dire che è libera)) 
+            $query = "SELECT copy.idCopy, borrow.idLoan AS stato
+                    FROM copy
+                        LEFT OUTER JOIN borrow ON copy.idCopy = borrow.idCopy AND borrow.idLoan IN (SELECT idLoan
+                                                                                                    FROM loan
+                                                                                                    WHERE returnDate IS NULL)
+                    WHERE copy.ISBN = :ISBN";
+
+            $values = array(':ISBN' => $_GET['ISBN']);
+
+            /* esecuzione query */
+            try {
+                //prepare query
+                $res = $pdo->prepare($query);
+
+                //esecuzione con passaggio di valori
+                $res->execute($values);
+            } catch (PDOException $e) {
+                //in caso di errore stampo con stile
+                echo $e->getMessage();
+                echo "<div class=\"alert alert-danger\">
+                    <strong>Errore!</strong> Errore nella ricerca delle copie.
+                </div>";
+                die();
+            }
+
+            //controllo se ci sono copie
+            if ($res->rowCount() > 0) {
+
+                //fetch
+                $copies = $res->fetchAll();
+
+            ?>
+
+                <!-- Visualizzazione tabellare delle copie -->
+                <div class="loans">
+
+                    <table>
+
+                        <!-- intestazione -->
+                        <tr>
+
+                            <?php
+                            //controllo se ha acl di modifica per poter eliminare la copia o non stampo il bottone
+                            if ($adminAccount->getACLcatalogue()) {
+                            ?>
+                                <th>
+                                    <!-- Colonna per azioni sulle copie -->
+                                </th>
+                            <?php
+                            }
+                            ?>
+
+                            <th>
+                                Id Copia
+                            </th>
+                            <th>
+                                Stato
+                            </th>
+                        </tr>
+
+                        <?php
+
+                        foreach ($copies as $copy) {
+                            echo "<tr>";
+
+                            //elimina copia se ha acl
+                            if ($adminAccount->getACLcatalogue()) {
+                                echo "<td style='max-width:25px'>
+                                    <button type=\"button\" class=\"btn btn-default\" onclick='confirmDeleteCopy(" . $copy['idCopy'] . ")'>
+                                        <i class='fa fa-trash'></i>
+                                    </button>
+                                </td>";
+                            }
+
+                            //id
+                            echo "<td>" . $copy['idCopy'] . "</td>";
+
+                            //stato
+                            echo "<td";
+
+                            //controllo se prestito
+                            if ($copy['stato'] == NULL) {
+                                echo ">Non in prestito";
+                            } else {
+                                echo " class='inLoan'><a href='admin_edit_loan.php?idLoan=" . $copy['stato'] . "'>Prestito " . $copy['stato'] . "</a>";
+                            }
+
+                            echo "</td>";
+
+                            echo "</tr>";
+                        }
+                        ?>
+
+                    </table>
+                </div>
 
         <?php
+            }
         } else {
             echo '<br><div class="alert alert-warning">
                         <strong>Attenzione!</strong> Nessun Libro trovato.
