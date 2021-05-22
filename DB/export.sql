@@ -70,7 +70,7 @@ CREATE TABLE `admin_session` (
 
 LOCK TABLES `admin_session` WRITE;
 /*!40000 ALTER TABLE `admin_session` DISABLE KEYS */;
-INSERT INTO `admin_session` VALUES ('dadapgnd6cumg392a0vl26v38i',1,'2021-05-21 20:57:07');
+INSERT INTO `admin_session` VALUES ('dadapgnd6cumg392a0vl26v38i',1,'2021-05-23 17:16:50');
 /*!40000 ALTER TABLE `admin_session` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -85,7 +85,7 @@ CREATE TABLE `author` (
   `idAuthor` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(45) NOT NULL,
   PRIMARY KEY (`idAuthor`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -94,7 +94,7 @@ CREATE TABLE `author` (
 
 LOCK TABLES `author` WRITE;
 /*!40000 ALTER TABLE `author` DISABLE KEYS */;
-INSERT INTO `author` VALUES (1,'Walter'),(2,'Leonardo'),(8,'Godfrey H. Hardy');
+INSERT INTO `author` VALUES (1,'Walter'),(2,'Leonardo'),(8,'Godfrey H. Hardy'),(17,'Fiorenzo Formichi'),(18,'Giorgio Meini'),(25,'Richard Phillips Feynman');
 /*!40000 ALTER TABLE `author` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -125,7 +125,7 @@ CREATE TABLE `book` (
 
 LOCK TABLES `book` WRITE;
 /*!40000 ALTER TABLE `book` DISABLE KEYS */;
-INSERT INTO `book` VALUES ('8788804678398','Test😀','Un test, un altro test con àò $%','Maroccçò',2020,NULL,2),('9788804678397','Einstein','La sua vita, il suo universo','Italiano',2019,'9788804678397.jpg',1),('9788811685272','Apologia di un matematico',NULL,'it',NULL,NULL,4);
+INSERT INTO `book` VALUES ('9788804678397','Einstein','La sua vita, il suo universo','Italiano',2019,'9788804678397.jpg',1),('9788808389770','Corso di informatica 3','Seconda edizione per Informatica','It',2018,'9788808389770.jpg',10),('9788811685272','Apologia di un matematico',NULL,'It',NULL,'9788811685272.jpg',5);
 /*!40000 ALTER TABLE `book` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -142,7 +142,7 @@ CREATE TABLE `borrow` (
   PRIMARY KEY (`idLoan`,`idCopy`),
   KEY `fk7_idx` (`idCopy`),
   CONSTRAINT `fk6` FOREIGN KEY (`idLoan`) REFERENCES `loan` (`idLoan`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `fk7` FOREIGN KEY (`idCopy`) REFERENCES `copy` (`idCopy`) ON UPDATE CASCADE
+  CONSTRAINT `fk7` FOREIGN KEY (`idCopy`) REFERENCES `copy` (`idCopy`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -152,7 +152,7 @@ CREATE TABLE `borrow` (
 
 LOCK TABLES `borrow` WRITE;
 /*!40000 ALTER TABLE `borrow` DISABLE KEYS */;
-INSERT INTO `borrow` VALUES (1,1),(4,1),(4,2),(10,1),(15,1),(15,2),(17,1),(17,2),(18,1),(19,2),(19,6),(19,8);
+INSERT INTO `borrow` VALUES (1,1),(4,1),(4,2),(10,1),(15,1),(15,2),(17,1),(17,2),(18,1),(19,2);
 /*!40000 ALTER TABLE `borrow` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -169,7 +169,7 @@ CREATE TABLE `copy` (
   PRIMARY KEY (`idCopy`),
   KEY `fk4_idx` (`ISBN`),
   CONSTRAINT `fk4` FOREIGN KEY (`ISBN`) REFERENCES `book` (`ISBN`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=46 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -178,7 +178,7 @@ CREATE TABLE `copy` (
 
 LOCK TABLES `copy` WRITE;
 /*!40000 ALTER TABLE `copy` DISABLE KEYS */;
-INSERT INTO `copy` VALUES (1,'9788804678397'),(2,'9788804678397'),(6,'9788811685272'),(7,'9788811685272'),(8,'9788811685272'),(9,'9788811685272');
+INSERT INTO `copy` VALUES (1,'9788804678397'),(2,'9788804678397'),(30,'9788808389770'),(23,'9788811685272'),(24,'9788811685272'),(25,'9788811685272'),(26,'9788811685272'),(27,'9788811685272');
 /*!40000 ALTER TABLE `copy` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -198,7 +198,7 @@ CREATE TABLE `loan` (
   PRIMARY KEY (`idLoan`),
   KEY `fk5` (`idUser`),
   CONSTRAINT `fk5` FOREIGN KEY (`idUser`) REFERENCES `user` (`idUser`) ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -222,7 +222,7 @@ CREATE TABLE `publisher` (
   `idPublisher` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(45) NOT NULL,
   PRIMARY KEY (`idPublisher`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -231,7 +231,7 @@ CREATE TABLE `publisher` (
 
 LOCK TABLES `publisher` WRITE;
 /*!40000 ALTER TABLE `publisher` DISABLE KEYS */;
-INSERT INTO `publisher` VALUES (1,'Mondadori'),(2,'DeA Scuola'),(4,'Garzanti');
+INSERT INTO `publisher` VALUES (1,'Mondadori'),(2,'DeA Scuola'),(4,'Garzanti'),(5,'Gli Adelphi'),(10,'Zanichelli');
 /*!40000 ALTER TABLE `publisher` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -289,7 +289,6 @@ CREATE TABLE `user_session` (
 
 LOCK TABLES `user_session` WRITE;
 /*!40000 ALTER TABLE `user_session` DISABLE KEYS */;
-INSERT INTO `user_session` VALUES ('dadapgnd6cumg392a0vl26v38i',1,'2021-05-21 22:25:06');
 /*!40000 ALTER TABLE `user_session` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -317,7 +316,7 @@ CREATE TABLE `write_book` (
 
 LOCK TABLES `write_book` WRITE;
 /*!40000 ALTER TABLE `write_book` DISABLE KEYS */;
-INSERT INTO `write_book` VALUES ('8788804678398',1,2),('8788804678398',2,1),('9788804678397',1,1),('9788811685272',8,0);
+INSERT INTO `write_book` VALUES ('9788804678397',1,1),('9788808389770',17,0),('9788808389770',18,1),('9788811685272',8,0);
 /*!40000 ALTER TABLE `write_book` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -330,4 +329,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-05-20 22:28:20
+-- Dump completed on 2021-05-22 23:11:54
