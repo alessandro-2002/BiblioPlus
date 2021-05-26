@@ -264,6 +264,9 @@
             } else if ($_GET['orderBy'] == "title") {
                 $query = $query . ' ORDER BY book.title';
             }
+        } else {
+            //se non specificato ordino rispetto a ISBN
+            $query = $query . ' ORDER BY book.ISBN';
         }
 
 
