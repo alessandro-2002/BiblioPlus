@@ -109,7 +109,7 @@
                     <div class="text-center">
                         <img src="avatars/<?php
                                             if ($account->getAvatar() != NULL) {
-                                                echo htmlentities($account->getAvatar());
+                                                echo $account->getAvatar();
                                             } else {
                                                 echo "no-avatar.jpg";
                                             }
@@ -139,7 +139,7 @@
                             <label class="col-lg-3 control-label">Id Utente:</label>
                             <div class="col-lg-8">
                                 <input class="form-control" type="text" value="<?php
-                                                                                echo htmlentities($account->getId());
+                                                                                echo $account->getId();
                                                                                 ?>" disabled>
                             </div>
                         </div>
@@ -147,7 +147,7 @@
                             <label class="col-lg-3 control-label">Nome:</label>
                             <div class="col-lg-8">
                                 <input class="form-control" type="text" maxlength="45" name="name" value="<?php
-                                                                                                            echo htmlentities($account->getName());
+                                                                                                            echo $account->getName();
                                                                                                             ?>" required>
                             </div>
                         </div>
@@ -155,7 +155,7 @@
                             <label class="col-lg-3 control-label">Cognome:</label>
                             <div class="col-lg-8">
                                 <input class="form-control" type="text" maxlength="45" name="surname" value="<?php
-                                                                                                                echo htmlentities($account->getSurname());
+                                                                                                                echo $account->getSurname();
                                                                                                                 ?>" required>
                             </div>
                         </div>
@@ -163,7 +163,7 @@
                             <label class="col-lg-3 control-label">Email:</label>
                             <div class="col-lg-8">
                                 <input class="form-control" type="email" maxlength="255" name="mail" value="<?php
-                                                                                                            echo htmlentities($account->getMail());
+                                                                                                            echo $account->getMail();
                                                                                                             ?>" required>
                             </div>
                         </div>
@@ -171,7 +171,7 @@
                             <label class="col-lg-3 control-label">Indirizzo:</label>
                             <div class="col-lg-8">
                                 <input class="form-control" type="text" maxlength="100" name="address" value="<?php
-                                                                                                                echo htmlentities($account->getAddress());
+                                                                                                                echo $account->getAddress();
                                                                                                                 ?>">
                             </div>
                         </div>

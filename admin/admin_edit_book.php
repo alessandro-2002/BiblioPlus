@@ -260,7 +260,7 @@
                                 <label class="col-lg-3 control-label">Sottotitolo:</label>
                                 <div class="col-lg-8">
                                     <p class="form-control">
-                                        <?php echo htmlentities($book['subtitle']); ?>
+                                        <?php echo $book['subtitle']; ?>
                                     </p>
                                 </div>
                             </div>
@@ -268,7 +268,7 @@
                                 <label class="col-lg-3 control-label">Lingua:</label>
                                 <div class="col-lg-8">
                                     <p class="form-control">
-                                        <?php echo htmlentities($book['language']); ?>
+                                        <?php echo $book['language']; ?>
                                     </p>
                                 </div>
                             </div>
@@ -276,7 +276,7 @@
                                 <label class="col-lg-3 control-label">Anno di pubblicazione:</label>
                                 <div class="col-lg-8">
                                     <p class="form-control">
-                                        <?php echo htmlentities($book['year']); ?>
+                                        <?php echo $book['year']; ?>
                                     </p>
                                 </div>
                             </div>
@@ -285,7 +285,7 @@
                                 <label class="col-lg-3 control-label">Editore:</label>
                                 <div class="col-lg-8">
                                     <p class="form-control">
-                                        <?php echo htmlentities($book['editore']); ?>
+                                        <?php echo $book['editore']; ?>
                                     </p>
                                 </div>
                             </div>

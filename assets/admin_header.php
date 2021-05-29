@@ -104,8 +104,8 @@ $fileName = basename($_SERVER['PHP_SELF']);
                     <li>
                         <div class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                Bibliotecario <?php echo htmlentities($adminAccount->getName()) . ' ' .
-                                                    htmlentities($adminAccount->getSurname()); ?>
+                                Bibliotecario <?php echo $adminAccount->getName() . ' ' .
+                                                    $adminAccount->getSurname(); ?>
                             </a>
 
                             <div class="dropdown-menu dropdown-menu-right">

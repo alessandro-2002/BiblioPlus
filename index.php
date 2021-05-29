@@ -83,7 +83,7 @@
                     <input type="text" class="form-control" name="ISBN" id="isbn" placeholder="Cerca per ISBN" <?php
                                                                                                                 //controllo se si sta cercando per isbn e lo metto nella textbox
                                                                                                                 if (isset($_GET['ISBN']) && $_GET['ISBN'] != "") {
-                                                                                                                    echo "value='" . htmlentities($_GET['ISBN']) . "'";
+                                                                                                                    echo "value='" . $_GET['ISBN'] . "'";
                                                                                                                 }
                                                                                                                 ?> />
 
@@ -122,7 +122,7 @@
                                             <input type="text" class="form-control" name="title" placeholder="Titolo..." <?php
                                                                                                                             //controllo se si sta cercando per titolo e lo metto nella textbox
                                                                                                                             if (isset($_GET['title']) && $_GET['title'] != "") {
-                                                                                                                                echo "value='" . htmlentities($_GET['title']) . "'";
+                                                                                                                                echo "value='" . $_GET['title'] . "'";
                                                                                                                             }
                                                                                                                             ?> />
                                         </div>
@@ -324,7 +324,7 @@
                                 </a>
                                 <div class="pt-4">
                                     <h5><?php echo htmlentities($book['title']); ?></h5>
-                                    <p class="mb-2 text-muted small"><?php echo htmlentities($book['subtitle']); ?></p>
+                                    <p class="mb-2 text-muted small"><?php echo $book['subtitle']; ?></p>
                                 </div>
                             </div>
                             <!-- Card -->

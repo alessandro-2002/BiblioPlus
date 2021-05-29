@@ -15,12 +15,12 @@
 
         <br>
 
-        <h4>Bibliotecario <?php echo htmlentities($adminAccount->getName()) . ' ' .
-                                htmlentities($adminAccount->getSurname()); ?> </h4>
+        <h4>Bibliotecario <?php echo $adminAccount->getName() . ' ' .
+                                $adminAccount->getSurname(); ?> </h4>
 
         <br>
 
-        Mail di accesso: <?php echo htmlentities($adminAccount->getMail()); ?>
+        Mail di accesso: <?php echo $adminAccount->getMail(); ?>
 
         <br><br>
 

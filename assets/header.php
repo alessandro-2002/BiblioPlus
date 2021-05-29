@@ -78,8 +78,8 @@ $fileName = basename($_SERVER['PHP_SELF']);
 
                                 <div class="dropdown-menu dropdown-menu-right">
                                     <!-- eliminare pagine varie dell'area utente e metterle qui -->
-                                    <h6 class="dropdown-header">Benvenuto <?php echo htmlentities($account->getName()) . ' ' .
-                                                                                htmlentities($account->getSurname()); ?></h6>
+                                    <h6 class="dropdown-header">Benvenuto <?php echo $account->getName() . ' ' .
+                                                                                $account->getSurname(); ?></h6>
                                     <a class="dropdown-item" href="profile.php">Profilo</a>
                                     <a class="dropdown-item" href="change_password.php">Cambio password</a>
                                     <a class="dropdown-item" href="loans.php">Prestiti</a>

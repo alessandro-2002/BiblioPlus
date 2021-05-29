@@ -152,7 +152,7 @@
                         <div class="text-center">
                             <img src="../avatars/<?php
                                                     if ($user->getAvatar() != NULL) {
-                                                        echo htmlentities($user->getAvatar());
+                                                        echo $user->getAvatar();
                                                     } else {
                                                         echo "no-avatar.jpg";
                                                     }
@@ -169,7 +169,7 @@
                                 <label class="col-lg-3 control-label">Id Utente:</label>
                                 <div class="col-lg-8">
                                     <input class="form-control" type="text" value="<?php
-                                                                                    echo htmlentities($user->getId());
+                                                                                    echo $user->getId();
                                                                                     ?>" disabled>
                                 </div>
                             </div>
@@ -177,7 +177,7 @@
                                 <label class="col-lg-3 control-label">Nome:</label>
                                 <div class="col-lg-8">
                                     <input class="form-control" type="text" maxlength="45" name="name" value="<?php
-                                                                                                                echo htmlentities($user->getName());
+                                                                                                                echo $user->getName();
                                                                                                                 ?>" required<?php
                                                                                                                             //se non ha autorizzazione metto disabled
                                                                                                                             if (!$adminAccount->getACLuser()) {
@@ -190,7 +190,7 @@
                                 <label class="col-lg-3 control-label">Cognome:</label>
                                 <div class="col-lg-8">
                                     <input class="form-control" type="text" maxlength="45" name="surname" value="<?php
-                                                                                                                    echo htmlentities($user->getSurname());
+                                                                                                                    echo $user->getSurname();
                                                                                                                     ?>" required<?php
                                                                                                                                 //se non ha autorizzazione metto disabled
                                                                                                                                 if (!$adminAccount->getACLuser()) {
@@ -203,7 +203,7 @@
                                 <label class="col-lg-3 control-label">Email:</label>
                                 <div class="col-lg-8">
                                     <input class="form-control" type="email" maxlength="255" name="mail" value="<?php
-                                                                                                                echo htmlentities($user->getMail());
+                                                                                                                echo $user->getMail();
                                                                                                                 ?>" required<?php
                                                                                                                             //se non ha autorizzazione metto disabled
                                                                                                                             if (!$adminAccount->getACLuser()) {
@@ -216,7 +216,7 @@
                                 <label class="col-lg-3 control-label">Indirizzo:</label>
                                 <div class="col-lg-8">
                                     <input class="form-control" type="text" maxlength="100" name="address" value="<?php
-                                                                                                                    echo htmlentities($user->getAddress());
+                                                                                                                    echo $user->getAddress();
                                                                                                                     ?>" <?php
                                                                                                                         //se non ha autorizzazione metto disabled
                                                                                                                         if (!$adminAccount->getACLuser()) {

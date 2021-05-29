@@ -133,7 +133,7 @@ if (!isset($_GET['ISBN']) || $_GET['ISBN'] == "")
                             </td>
                             <td class="content">
                                 <?php
-                                echo htmlentities($book['title']);
+                                echo $book['title'];
                                 ?>
                             </td>
                         </tr>
@@ -143,7 +143,7 @@ if (!isset($_GET['ISBN']) || $_GET['ISBN'] == "")
                             </td>
                             <td class="content">
                                 <?php
-                                echo htmlentities($book['subtitle']);
+                                echo $book['subtitle'];
                                 ?>
                             </td>
                         </tr>
@@ -171,7 +171,7 @@ if (!isset($_GET['ISBN']) || $_GET['ISBN'] == "")
                             </td>
                             <td class="content">
                                 <?php
-                                echo htmlentities($book['language']);
+                                echo $book['language'];
                                 ?>
                             </td>
                         </tr>
@@ -181,7 +181,7 @@ if (!isset($_GET['ISBN']) || $_GET['ISBN'] == "")
                             </td>
                             <td class="content">
                                 <?php
-                                echo htmlentities($book['year']);
+                                echo $book['year'];
                                 ?>
                             </td>
                         </tr>
@@ -191,7 +191,7 @@ if (!isset($_GET['ISBN']) || $_GET['ISBN'] == "")
                             </td>
                             <td class="content">
                                 <?php
-                                echo "<a href='index.php?publisherId=" . $book['idPublisher'] . "'>" . htmlentities($book['publisher']) . "</a>";
+                                echo "<a href='index.php?publisherId=" . $book['idPublisher'] . "'>" . $book['publisher'] . "</a>";
                                 ?>
                             </td>
                         </tr>
@@ -201,7 +201,7 @@ if (!isset($_GET['ISBN']) || $_GET['ISBN'] == "")
                             </td>
                             <td class="content">
                                 <?php
-                                echo htmlentities($book['copyNumber']);
+                                echo $book['copyNumber'];
                                 ?>
                             </td>
                         </tr>

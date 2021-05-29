@@ -45,7 +45,7 @@ function stampaTitoli($pdo, int $idLoan)
                 //foreach e stampa titoli
                 foreach ($titoli as $titolo) {
 
-                    echo '<a href="admin_edit_book.php?ISBN=' . $titolo['ISBN'] . '" class="list-group-item list-group-item-action">' . htmlentities($titolo['title']) . " (" . $titolo['idCopy'] . ')</a>';
+                    echo '<a href="admin_edit_book.php?ISBN=' . $titolo['ISBN'] . '" class="list-group-item list-group-item-action">' . $titolo['title'] . " (" . $titolo['idCopy'] . ')</a>';
                 }
                 ?>
             </div>

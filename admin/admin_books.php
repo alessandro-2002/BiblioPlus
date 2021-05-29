@@ -92,7 +92,7 @@
                     <input type="text" class="form-control" name="ISBN" id="isbn" placeholder="Cerca per ISBN" <?php
                                                                                                                 //controllo se si sta cercando per isbn e lo metto nella textbox
                                                                                                                 if (isset($_GET['ISBN']) && $_GET['ISBN'] != "") {
-                                                                                                                    echo "value='" . htmlentities($_GET['ISBN']) . "'";
+                                                                                                                    echo "value='" . $_GET['ISBN'] . "'";
                                                                                                                 }
                                                                                                                 ?> />
 
@@ -131,7 +131,7 @@
                                             <input type="text" class="form-control" name="title" placeholder="Titolo..." <?php
                                                                                                                             //controllo se si sta cercando per titolo e lo metto nella textbox
                                                                                                                             if (isset($_GET['title']) && $_GET['title'] != "") {
-                                                                                                                                echo "value='" . htmlentities($_GET['title']) . "'";
+                                                                                                                                echo "value='" . $_GET['title'] . "'";
                                                                                                                             }
                                                                                                                             ?> />
                                         </div>

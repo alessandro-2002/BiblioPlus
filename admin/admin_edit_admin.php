@@ -171,7 +171,7 @@
                         <label class="col-4 col-form-label">Id Bibliotecario</label>
                         <div class="col-8">
                             <input class="form-control" type="text" value="<?php
-                                                                            echo htmlentities($admin->getId());
+                                                                            echo $admin->getId();
                                                                             ?>" disabled>
                         </div>
                     </div>
@@ -179,7 +179,7 @@
                         <label class="col-4 col-form-label">Nome</label>
                         <div class="col-8">
                             <input class="form-control" type="text" maxlength="45" name="name" value="<?php
-                                                                                                        echo htmlentities($admin->getName());
+                                                                                                        echo $admin->getName();
                                                                                                         ?>" required>
                         </div>
                     </div>
@@ -187,7 +187,7 @@
                         <label class="col-4 col-form-label">Cognome</label>
                         <div class="col-8">
                             <input class="form-control" type="text" maxlength="45" name="surname" value="<?php
-                                                                                                            echo htmlentities($admin->getSurname());
+                                                                                                            echo $admin->getSurname();
                                                                                                             ?>" required>
                         </div>
                     </div>
@@ -195,7 +195,7 @@
                         <label class="col-4 col-form-label">Email</label>
                         <div class="col-8">
                             <input class="form-control" type="email" maxlength="255" name="mail" value="<?php
-                                                                                                        echo htmlentities($admin->getMail());
+                                                                                                        echo $admin->getMail();
                                                                                                         ?>" required>
                         </div>
                     </div>
