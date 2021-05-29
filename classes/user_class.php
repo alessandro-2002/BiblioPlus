@@ -313,7 +313,7 @@ class User
         /* aggiunta dell'account nel db */
 
         // query di registrazione
-        $query = 'INSERT INTO user (name, surname, mail, password, address) VALUES (:name, :surname, :mail, :password, :address)';
+        $query = 'INSERT INTO user (name, surname, mail, password, address, expiration) VALUES (:name, :surname, :mail, :password, :address, current_timestamp() + interval 100 day)';
 
         //hash password
         $hash = password_hash($password, PASSWORD_DEFAULT);
@@ -645,7 +645,7 @@ class User
         if (session_status() == PHP_SESSION_ACTIVE) {
             //query per aggiungere la nuova sessione se non esiste, altrimenti faccio replace sul session id già esistente
             //il DBMS con la funzione di default imposta automaticamente l'expiration dopo 24 ore
-            $query = 'REPLACE INTO user_session (idSession, idUser) VALUES (:idSession, :idUser)';
+            $query = 'REPLACE INTO user_session (idSession, idUser, expiration) VALUES (:idSession, :idUser, current_timestamp() + interval 1 day)';
 
             //array di valori
             $values = array(':idSession' => session_id(), ':idUser' => $this->id);

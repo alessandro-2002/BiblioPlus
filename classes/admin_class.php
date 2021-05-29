@@ -349,7 +349,7 @@ class Admin
         // query di registrazione
         // obbligherò l'admin a resettare la password al primo accesso
         $query = 'INSERT INTO admin (name, surname, mail, password, ACLcatalogue, ACLloan, ACLuser, ACLadmin, expiration) 
-                VALUES (:name, :surname, :mail, :password, :ACLcatalogue, :ACLloan, :ACLuser, :ACLadmin, NOW())';
+                VALUES (:name, :surname, :mail, :password, :ACLcatalogue, :ACLloan, :ACLuser, :ACLadmin, current_timestamp() + interval 1 day)';
 
         //hash password
         $hash = password_hash($password, PASSWORD_DEFAULT);
@@ -582,7 +582,7 @@ class Admin
         if (session_status() == PHP_SESSION_ACTIVE) {
             //query per aggiungere la nuova sessione se non esiste, altrimenti faccio replace sul session id già esistente
             //il DBMS con la funzione di default imposta automaticamente l'expiration dopo 24 ore
-            $query = 'REPLACE INTO admin_session (idSession, idAdmin) VALUES (:idSession, :idAdmin)';
+            $query = 'REPLACE INTO admin_session (idSession, idAdmin, expiration) VALUES (:idSession, :idAdmin, current_timestamp() + interval 1 day)';
 
             //array di valori
             $values = array(':idSession' => session_id(), ':idAdmin' => $this->id);
